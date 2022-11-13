@@ -24,6 +24,10 @@
 .navbar .list .tab .btn:hover {
   background-color: rgb(148, 167, 186);
 }
+.navbar .list .tab .active {
+  color: white;
+  background-color: rgb(14, 40, 119);
+}
 
 .view {
   display: flex;
