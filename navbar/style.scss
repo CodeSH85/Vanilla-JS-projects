@@ -3,26 +3,35 @@
   margin: 0;
   padding: 0;
 }
+body {
+  // background-color: rgb(184, 109, 109);
+}
+.navbar {
+  background-color: rgb(33, 42, 92);
 
-body{
-  background-color: rgb(4, 142, 163);
-}
-.first-nav{
-  height: 5rem;
-  background-color: #fff;
-  ul{
+  .list {
     display: flex;
-  }
-  button{
-    margin: 3rem 1rem 0rem 1rem;
-    padding: 5px;
-    background-color: rgb(154, 202, 253);
-    border: none;
-  }
-  button:hover{
-    background-color: rgb(11, 68, 130);    
-  }
-  button::after{
-    content: "/";
+    
+    .tab {
+      list-style-type: none;
+      // margin: 0 20px;
+      color: rgb(54, 74, 154);
+      .btn {
+        cursor: pointer;
+        color: #101010;
+        background-color: rgb(208, 216, 235);
+        border: none;
+        padding: 12px;
+        &:hover {
+          // color: red;
+          background-color: rgb(148, 167, 186);
+        }
+      }
+    }
   }
 }
+.view {
+  display: flex;
+  justify-content: center;
+}
+
