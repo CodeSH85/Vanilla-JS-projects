@@ -31,3 +31,4 @@ function changeView(file, index) {
   console.log(index);
   view.innerHTML = file[index].content;
 }
+
