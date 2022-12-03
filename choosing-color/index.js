@@ -12,6 +12,7 @@ function generateRandomColor() {
 
   let colorSets = [];
   
+  // generate three random color and store them into colorSets
   for(let i = 0; i < 3; i++){
     for(let x = 0; x < 6; x++){
       color += hex[getRandomNum(hex)];
@@ -20,15 +21,15 @@ function generateRandomColor() {
     color = '#';
   }
   
-  const picked = getRandomNum(colorSets)
-
-  console.log(picked);
-  console.log(colorSets[picked]);
+  // Picked a color from colorSets as answer
+  const picked = getRandomNum(colorSets);
 
   const colorBox = document.querySelector('#colorBox');
   const btnContainer = document.querySelector('#btnContainer');
+
   colorBox.style.backgroundColor = colorSets[picked];
 
+  // display options buttons
   const button = colorSets.map( color =>{
     return `<button id="btn" value="${color}">${color}</button>`;
   });
@@ -37,16 +38,23 @@ function generateRandomColor() {
 
 }
 
-function options () {
+function options() {
+
   const rgbToHex = (rgb) => `#${rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/).slice(1).map(n => parseInt(n, 10).toString(16).padStart(2, '0')).join('')}`
-  const result = rgbToHex(colorBox.style.backgroundColor)
-  const msg = document.querySelector('#msg')
+  // trans background color from rgb to hex in order to match
+  // the values of the buttons
+  const result = rgbToHex(colorBox.style.backgroundColor);
+
+  const msg = document.querySelector('#msg');
+
   document.addEventListener('click', (e)=>{
+
+    // set events on all buttons
     if(e.target.id === 'btn') {
-      if(result !== e.target.value){
-        msg.textContent = `Wrong!`
+      if(result !== e.target.value) {
+        msg.textContent = `Wrong!`;
       } else {
-        msg.textContent = `Correct!`
+        msg.textContent = `Correct!`;
         setTimeout(() => {
           correctAns();
         }, 1000);
@@ -56,7 +64,10 @@ function options () {
 }
 
 function correctAns() {
+  // clear msg area
   msg.innerHTML = '&nbsp';
+
+  // rerun the program
   generateRandomColor();
   options();
 }

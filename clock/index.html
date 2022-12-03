@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clock</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="card" id="card">
+      <h1 `class="display" id="display"></h1>
+    </div>
+  </div>
+  <div class="test" id="test"></div>
+</body>
+<script>
+
+const display = document.querySelector('#display')
+setInterval(()=>{
+  const hour = new Date().getHours();
+  const minute = new Date().getMinutes();
+  const second = new Date().getSeconds();
+  const day = new Date().getDay();
+  const date = new Date().getDate();
+  const month = new Date().getMonth();
+  const year = new Date().getFullYear();
+  let now = `${year} ${month+1} / ${date} / ${hour} : ${minute} : ${second}`
+  display.innerHTML = now;
+},1000)
+
+const card = document.querySelector('#card');
+const test = document.querySelector('#test');
+
+
+for(let i = 0; i < 7; i++){
+  const btn = document.createElement('button')
+  btn.innerHTML = `${i}`
+  btn.setAttribute('class', 'test')
+  card.appendChild(btn);
+  console.log(btn)
+}
+
+
+
+
+</script>
+</html>

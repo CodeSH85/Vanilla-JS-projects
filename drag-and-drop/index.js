@@ -40,7 +40,7 @@ const eventHandler = {
   handleEvent(evt) {
     switch (evt.type) {
       case "dragstart":
-        this.handlers.dragstart~(evt);
+        this.handlers.dragstart(evt);
         break;
       case "dragend":
         this.handlers.dragend(evt);

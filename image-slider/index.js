@@ -3,16 +3,12 @@ const pics = [
 ]
 
 const displayArea = document.querySelector('#display');
+const show = document.createElement('div');
+show.style.backgroundImage = '';
 
 let counter = 0;
-// setInterval(()=>{
-  for(let i = 0; i < pics.length; i++) {
-    console.log(pics[getRandomNum(pics)])
-  }
-// }, 3000)
-
-function getRandomNum(arr) {
-  return Math.floor(Math.random() * arr.length);
+for(let i = 0; i < pics.length; i++) {
+  setInterval(()=>{
+    // console.log(pics[getRandomNum(pics)])
+  }, 3000)
 }
-
-let num = getRandomNum(pics)
