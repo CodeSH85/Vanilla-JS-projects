@@ -1,39 +1,32 @@
-const VNode = (target, value) => {
-  console.log(target);
+'use strict';
 
-  if(target == HTMLElement){
-    console.log(target);
-  }
+const ReactiveNode = (div, value) => {
 
-  return new Proxy(target, {
-    get: (target, key)=> {
-      console.log(`Accessed: ${key}`);
-      return Reflect.get(target, key);
+  return new Proxy( { value: '' }, {
+
+    get: (target, prop) => {
+      return target[prop];
     },
-    set: (target, key, value, self)=> {
-      console.log(`updated key: ${key} to ${value}`);
-      Reflect.set(target, key, value);
-    }
+    set: (target, prop, value, self) => {
+      
+      target[prop] = value;
+
+      document.querySelectorAll(div).forEach(item => {
+        let el = document.createElement('div');
+        el.innerHTML = value;
+        item.innerText = el.innerHTML
+      });
+
+      return true;
+    },
   })
-
 }
 
-const test = {
-  name: 'Saul'
+const textDisplay = '#textDisplay';
+const textInput = document.querySelector('#textInput');
+
+textInput.addEventListener('input', accessProxy)
+
+function accessProxy(e) {
+  ReactiveNode(textDisplay).value = e.target.value
 }
-
-const PTest = VNode(test);
-
-PTest.name;
-PTest.name = 'Mike';
-
-
-const testBtn = document.querySelector('#test');
-// console.log(typeof(document.querySelector('#test')));
-
-const btn = VNode(testBtn);
-
-
-
-
-
