@@ -8,25 +8,41 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container" id="container">
-    <div class="main-grid">
-      <textarea 
-      type="text"
-      class="display"
-      id="display"
-      >
-      </textarea>
-      <div class="">
-        <button class="ac-btn" id="acBtn">AC</button>
-        <button class="del-btn" id="delBtn">DEL</button>
-      </div>
-      <div class="num-btn-container" id="numBtnContainer">
-      </div>
-      <div class="operate-btn-container" id="operateBtnContainer">
-      </div>
+  <div class="wrapper">
+
+    <div class="display" id="display"></div>
+
+    <div class="btn-row" id="btnRow">
+      <button class="btn" id="btn">AC</button>
+      <button class="btn" id="btn">&larr;</button>
+      <button class="btn" id="btn">&percnt;</button>
+      <button class="btn" id="btn">&divide;</button>
     </div>
-    <div class="test" data-test="value"></div>
+    <div class="btn-row" id="btnRow">
+      <button class="btn" id="btn">7</button>
+      <button class="btn" id="btn">8</button>
+      <button class="btn" id="btn">9</button>
+      <button class="btn" id="btn">&times;</button>
+    </div>
+    <div class="btn-row" id="btnRow">
+      <button class="btn" id="btn">4</button>
+      <button class="btn" id="btn">5</button>
+      <button class="btn" id="btn">6</button>
+      <button class="btn" id="btn">&minus;</button>
+    </div>
+    <div class="btn-row" id="btnRow">
+      <button class="btn" id="btn">1</button>
+      <button class="btn" id="btn">2</button>
+      <button class="btn" id="btn">3</button>
+      <button class="btn" id="btn">&plus;</button>
+    </div>
+    <div class="operate-btn-container" id="operateBtnContainer">
+      <button class="btn" id="btn">0</button>
+      <button class="btn" id="btn">.</button>
+      <button class="btn" id="btn">&equals;</button>
+      
+    </div>
   </div>
 </body>
-<script src="./index.js"></script>
+<script src="./script.js"></script>
 </html>
