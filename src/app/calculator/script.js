@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 const display = document.querySelector('#display');
 let text = '';
 let preNum = '0';
+let currentNum = '0';
 let operator = null;
 let res = null;
 const buttons = document.querySelectorAll('#btn');
@@ -37,28 +38,34 @@ function operate(val) {
         text = '0';
       }
       break;
+    case '.':
+      if(text.includes('.'))return;
+      text = text + '.';
+      break;
     case '+':
     case '-':
     case '×':
     case '÷':
     case '%':
+
       preNum = text;
+      text = '0';
       operator = val;
+
       break;
     case '=':
       console.log(preNum + operator + text);
       break;
     default:
-      console.log(val);
       break;
   }
 }
 
 function input(number) {
-  if ( operator != null ) {
-    display.innerText = '';
-    text = text + number;
-  } else if(display.innerText === '0') {
+  if(operate != null) {
+    text = currentNum;
+  }
+  if(display.innerText === '0') {
     text = number;
   } else {
     text = text + number;

@@ -65,3 +65,24 @@ function debounce(func, delay) {
     }, delay)
   }
 };
+
+function throttle(func, delay){
+  let inThrottle;
+  let timeout = null;
+  return function(){
+    let context = this;
+    let args = arguments;
+    if(!inThrottle){
+      // 輸入之後兩秒內都不回進入這邊
+      func.apply(context, args)
+      inThrottle = true;
+      clearTimeout(timeout);
+      timeout = setTimeout(function(){
+        inThrottle = false
+      }, delay)
+    }
+  }
+}
+throttle(function(e){
+        console.log(e.target.value);
+}, 2000)
