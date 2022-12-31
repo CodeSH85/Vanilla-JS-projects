@@ -1,24 +1,101 @@
 
-html,
-body {
-  box-sizing: border-box;  
-  margin: 0;
-  padding: 0;
-  background-color: rgb(218, 242, 245);
-  width: 100%;
+html {
+  box-sizing: border-box;
   height: 100%;
 }
 
-.container {
-  height: 100%;
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
   display: flex;
   justify-content: center;
   align-items: center;
+  height: inherit;
+  font-family:Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-display: swap;
+  background: linear-gradient(90deg, #a45f21, #f21f89 );
 }
 
-.main-grid {
-  display: grid;
-  border: 2px solid rgb(19, 19, 29);
-  width: 400px;
-  height: 580px;
+.wrapper {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  flex-basis: 400px;
+  height: 540px;
+  padding: 20px 35px;
+}
+
+.display {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 30px;
+  overflow: auto;
+  padding: 20px;
+  color: #232323;
+  text-align: right;
+  width: inherit;
+
+}
+
+.btn-row {
+  display: flex;
+  justify-content: space-between;
+  margin: 5% 0;
+}
+.btn {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  font-size: 30px;
+  flex-basis: 20%;
+  font-family: inherit;
+  height: 65px;
+}
+
+.btn:last-child {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5.5px);
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 30px rgba(35, 35, 35, 0.1);
+  color: #232323;
+  background: #a1a9b3;
+}
+
+.btn:last-child:hover{
+  /* background-color: inherit; */
+  color: inherit;
+}
+
+.btn:hover {
+  background-color: inherit;
+}
+
+.btn:active {
+  background-color: #f5d936;
+}
+
+.double {
+  flex-basis: 47%;
+}
+
+.triple {
+  flex-basis: 73%;
 }
