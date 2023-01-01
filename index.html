@@ -5,18 +5,43 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanilla JS Vault</title>
-  <link href="/dist/output.css" rel="stylesheet">
+  <link href="/dist/style.css" rel="stylesheet">
 </head>
 <body>
-  <header>
-    
-  </header>
-  <main>
-    test
-  </main>
-  <footer>
+  <nav class="w-full py-2 px-3 bg-slate-400">
+    <ul class="flex felx-row mr-auto ml-auto">
+      <li class="mx-2 px-2 text-center">
+        <img src="" alt="logo">
+      </li>
+      <li class="grow">
 
-  </footer>
-  <script src="script.js"></script>
+      </li>
+      <li class="mx-2 px-2 text-center hover:bg-red-100">
+        About
+      </li>
+      <li class="mx-2 px-2 text-center">
+        Menu
+      </li>
+    </ul>
+  </nav>
+  <main class="w-full h-full p-4 bg-blue-200">
+    <section class="mb-auto ">
+      <h1 class="text-3xl font-bold">Vanilla Javascript Vault</h1>
+      <div class="mb-1 mt-2">
+        This is the content area.
+      </div>
+    </section>
+    <section class="mb-auto ">
+      <h1 class="text-3xl font-bold">Content</h1>
+      <div class="mb-1 mt-2">
+        <img src="" alt="clock">
+        <a href="/src/app/clock/index.html">Clock</a>
+        <img src="" alt="calc">
+        <a href="/src/app/calculator/index.html">calc</a>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/src/main.js"></script>
 </body>
 </html>

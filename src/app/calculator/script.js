@@ -43,7 +43,7 @@ function operate(val) {
       text = text + '.';
       break;
     case '+':
-    case '-':
+    case '−':
     case '×':
     case '÷':
     case '%':
@@ -54,7 +54,15 @@ function operate(val) {
 
       break;
     case '=':
-      console.log(preNum + operator + text);
+      let final = preNum + operator + text
+      console.log(final);
+      const compute = (final) => {
+        let re = '/+|−|×|÷|%/';
+        let test = final.match(re);
+        console.log(test);
+      }
+      compute(final)
+      final = '';
       break;
     default:
       break;
@@ -62,9 +70,9 @@ function operate(val) {
 }
 
 function input(number) {
-  if(operate != null) {
-    text = currentNum;
-  }
+  // if(operate != null) {
+  //   text = currentNum;
+  // }
   if(display.innerText === '0') {
     text = number;
   } else {
