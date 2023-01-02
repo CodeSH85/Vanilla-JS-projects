@@ -13,8 +13,8 @@ for(let i = 0; i <= 360; i++) {
 module.exports = {
   // content: ["./src/**/*.{html,js}"],
   content: [
-    "./src/**/*.{html,js}",
-    "./*.{html,js}",
+    "./src/app/**/*.{html,js}",
+    "./index.html",
   ],
   theme: {
     // colors: {
@@ -41,5 +41,10 @@ module.exports = {
       }
     },
   },
+  safelists: [
+    {
+      pattern: /rotate-(\d)/,
+    }
+  ],
   plugins: [],
 }
