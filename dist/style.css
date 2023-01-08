@@ -568,14 +568,6 @@ video {
   margin-right: 0.5rem;
 }
 
-.mr-auto {
-  margin-right: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
 .mb-auto {
   margin-bottom: auto;
 }
@@ -586,6 +578,14 @@ video {
 
 .mt-2 {
   margin-top: 0.5rem;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 
 .flex {
@@ -614,6 +614,10 @@ video {
 
 .h-48 {
   height: 12rem;
+}
+
+.h-56 {
+  height: 14rem;
 }
 
 .w-full {
@@ -674,11 +678,6 @@ video {
   border-color: rgb(107 114 128 / var(--tw-border-opacity));
 }
 
-.bg-slate-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
-}
-
 .bg-blue-200 {
   --tw-bg-opacity: 1;
   background-color: rgb(191 219 254 / var(--tw-bg-opacity));
@@ -694,8 +693,27 @@ video {
   background-color: rgb(34 197 94 / var(--tw-bg-opacity));
 }
 
+.bg-blue-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(96 165 250 / var(--tw-bg-opacity));
+}
+
+.bg-red-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 165 165 / var(--tw-bg-opacity));
+}
+
+.bg-slate-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(148 163 184 / var(--tw-bg-opacity));
+}
+
 .p-4 {
   padding: 1rem;
+}
+
+.p-2 {
+  padding: 0.5rem;
 }
 
 .py-2 {
@@ -711,6 +729,11 @@ video {
 .px-2 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
+}
+
+.py-3 {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 .text-center {
@@ -756,11 +779,6 @@ html {
 body {
   height: inherit;
   font-display: swap;
-}
-
-.hover\:bg-red-100:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(254 226 226 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-red-300:hover {
