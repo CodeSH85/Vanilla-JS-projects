@@ -1,0 +1,57 @@
+html {
+  box-sizing: border-box;
+  height: 100%;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  height: inherit;
+  font-display: swap;
+}
+
+ul {
+  list-style: none;
+}
+
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  max-width: 600px;
+  min-height: 150px;
+  background: rgb(187, 187, 187);
+  padding: 6px;
+}
+.box {
+  border: 2px solid red;
+  margin: 3px;
+  text-align: center;
+  min-height: 100%;
+  background-color: rgb(230, 171, 171);
+}
+
+.box1 {
+  flex-grow: 1;
+}
+.box2 {
+  flex-grow: 1;
+}
+
+
+.box > button {
+  padding: 3px;
+  background-color: rgb(114, 175, 246);
+  cursor: pointer;
+}
