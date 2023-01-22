@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accordion</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      line-height: 1.5;
+      font-size: 16px;
+      /* border: 1px solid red; */
+    }
+    .trigger {
+    }
+    .title {
+      display: block;
+      cursor: pointer;
+      padding: .8em .8em;
+      background-color: rgb(25, 66, 100);
+      color: white;
+    }
+    .title:hover {
+      transition: .4s;
+      background-color: rgb(62, 138, 214);
+    }
+    .active {
+      background-color: rgb(62, 138, 214);
+    }
+    .item {
+      color: black;
+      padding: .5em .8em;
+      background-color: rgb(186, 209, 244);
+    }
+    .item::before {
+      content: "*";
+    }
+    .hide {
+      display: none;
+      transition: 4s;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="container">
+
+      <div class="trigger" id="trigger">
+        <span class="title">Question 1?</span>
+        <div class="item hide" id="item">test</div>
+      </div>
+      <div class="trigger" id="trigger">
+        <span class="title">Question 2?</span>
+        <div class="item hide" id="item">test</div>
+      </div>
+      <div class="trigger" id="trigger">
+        <span class="title">Question 3?</span>
+        <div class="item hide" id="item">test</div>
+      </div>
+
+    </div>
+  </main>
+  <script>
+    const triggers = document.querySelectorAll('#trigger');
+  
+    triggers.forEach((item, i) => {
+      item.addEventListener('click', function(e) {
+        e.preventDefault();
+        const children = Array.from(item.children);
+        children.forEach(child => {
+          if (child.className.includes('title')) {
+            child.classList.toggle('active');
+          }
+          if (child.id.includes('item')) {
+            child.classList.toggle('hide');
+          }
+        })
+      })
+    })
+  
+    function toggleDisplay(e) {
+      e.preventDefault();
+
+    }
+
+  </script>
+</body>
+</html>
