@@ -10,15 +10,26 @@
 <body>
   <main class="flex h-screen">
     <nav class="flex-none h-full">
-      <ul>
-        <li class="py-3 px-3 hover:cursor-pointer">Background Color</li>
-        <li class="py-3 px-3 hover:cursor-pointer">Fill</li>
-        <li class="py-3 px-3 hover:cursor-pointer">Brush</li>
-        <li class="py-3 px-3 hover:cursor-pointer">Color</li>
+      <ul class="">
+        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
+          <label for="brushSize">Brush Size</label>
+          <input type="number" id="brushSize" placeholder="brush size">
+        </li>
+        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
+          <label for="colorPicker">Brush Color</label>
+          <input type="color" id="colorPicker">
+        </li>
+        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
+          <label for="colorPicker">Background Color</label>
+          <input type="color" id="bgColorPicker">
+        </li>
+        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
+          <button id="clearCanvas">Clear Canvas</button>
+        </li>
       </ul>
     </nav>
-    <section class="flex-1 h-full bg-cyan-800">
-      <canvas id="canvas"></canvas>
+    <section class="flex-1 h-full">
+      <canvas class="border-2 border-black" id="canvas" width="500" height="800"></canvas>
     </section>
   </main>
   <script src="script.js"></script>
