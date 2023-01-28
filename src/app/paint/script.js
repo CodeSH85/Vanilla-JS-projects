@@ -1,24 +1,41 @@
+const canvas = document.querySelector('#canvas');
+let canvasWidth = canvas.width;
+let canvasHeight = canvas.height;
+let mainColor = '#f00000';
+let secondColor = '#000000';
+let brushSize = 3;
 
 document.addEventListener('DOMContentLoaded', () => {
   handleDraw();
+  mainColorPicker.value = mainColor;
+  secondColorPicker.value = secondColor;
+  canvasWidthInput.value = canvas.width;
+  canvasHeightInput.value = canvas.height;
+  brushSizeInput.value = ctx.lineWidth = brushSize;
 })
 
-const canvas = document.querySelector('#canvas');
 let isMouseDown = false;
 
-canvas.width = 800;
-let brush = 1;
-let brushColor = null;
-
-const ctx = canvas.getContext('2d');
-const brushSize = document.querySelector('#brushSize');
-const colorPicker = document.querySelector('#colorPicker');
-const bgColorPicker = document.querySelector('#bgColorPicker');
+const layers = [];
+const brushSizeInput = document.querySelector('#brushSize');
+const mainColorPicker = document.querySelector('#mainColorPicker');
+const secondColorPicker = document.querySelector('#secondColorPicker');
 const clearBtn = document.querySelector('#clearCanvas');
+const canvasWidthInput = document.querySelector('#canvasWidth');
+const canvasHeightInput = document.querySelector('#canvasHeight');
 let canvasX;
 let canvasY;
 
+const ctx = canvas.getContext('2d');
+
 function handleDraw() {
+  // return new Promise((resolve, reject) => {
+  //   resolve();
+    
+  //   if(!canvas) {
+  //     reject(new Error('Canvas not supported!'));
+  //   }
+  // })
   if(!canvas) {
     throw new Error('Canvas not supported!');
   }
@@ -38,7 +55,7 @@ function handleDraw() {
     canvasX = e.clientX - canvas.offsetLeft;
     canvasY = e.clientY - canvas.offsetTop;
     ctx.lineTo(canvasX, canvasY);
-    ctx.strokeStyle = brushColor;
+    ctx.strokeStyle = mainColor;
     ctx.stroke();
   });
 
@@ -48,28 +65,68 @@ function handleDraw() {
   });
 }
 
-brushSize.addEventListener('input', handleBrushSize);
+brushSizeInput.addEventListener('input', handleBrushSize);
 
 function handleBrushSize(event) {
-  brush = event.target.value;
-  ctx.lineWidth = brush;
+  brushSize = ctx.lineWidth = event.target.value;
 }
 
-colorPicker.addEventListener('input', handleColor);
+mainColorPicker.addEventListener('input', handleMainColor);
 
-function handleColor(event) {
-  brushColor = event.target.value;
-  ctx.strokeStyle = brushColor;
+function handleMainColor(event) {
+  mainColor = ctx.strokeStyle = event.target.value;
 }
 
-bgColorPicker.addEventListener('input', handleBgColor);
+secondColorPicker.addEventListener('input', handleSecondColor);
 
-function handleBgColor(event) {
-  ctx.fillStyle = event.target.value;
+function handleSecondColor(event) {
+  secondColor = event.target.value;
 }
 
 clearBtn.addEventListener('click', (e) => {
-  canvasX = e.clientX - canvas.offsetLeft;
-  canvasY = e.clientY - canvas.offsetTop;
-  ctx.clearRect(0, 0, canvasX, canvasY);
+  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 })
+
+canvasWidthInput.addEventListener('input', (e) => {
+  canvasWidth = canvas.width = e.target.value;
+})
+
+canvasHeightInput.addEventListener('input', (e) => {
+  canvasHeight = canvas.height = e.target.value;
+})
+
+function fillArea() {
+  ctx.fillRect();
+}
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'x') {
+    console.log('x is pressed');
+    [ mainColor, secondColor ] = [ secondColor, mainColor];
+    console.log(mainColor + '/' + secondColor);
+  }
+})
+
+let colorProxy = new Proxy(mainColorPicker, {
+  get: (value) => {
+    console.log(value);
+    return 'test';
+  },
+  set: () => {
+    
+  }
+});
+
+const newLayerBtn = document.querySelector('#newLayer');
+
+newLayerBtn.addEventListener('click', e => {
+  layers.push(
+    {
+      order: 1,
+    }
+  )
+})
+
+function biggest(x, y) {
+  return y ? biggest(y, x%y) : x;
+} 

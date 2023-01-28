@@ -12,24 +12,41 @@
     <nav class="flex-none h-full">
       <ul class="">
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <label for="brushSize">Brush Size</label>
+          <label for="brushSize">
+            Brush Size
+          </label>
           <input type="number" id="brushSize" placeholder="brush size">
         </li>
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <label for="colorPicker">Brush Color</label>
-          <input type="color" id="colorPicker">
+          <label for="colorPicker">
+            Main Color
+          </label>
+          <input type="color" id="mainColorPicker">
         </li>
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <label for="colorPicker">Background Color</label>
-          <input type="color" id="bgColorPicker">
+          <label for="colorPicker">
+            Second Color
+          </label>
+          <input type="color" id="secondColorPicker">
         </li>
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <button id="clearCanvas">Clear Canvas</button>
+          <input class="w-20" type="number" id="canvasWidth" placeholder="canvas width">
+          <input class="w-20" type="number" id="canvasHeight" placeholder="canvas height">
+        </li>
+        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
+          <button id="newLayer">
+            New Layers
+          </button>
+        </li>
+        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
+          <button id="clearCanvas">
+            Clear Canvas
+          </button>
         </li>
       </ul>
     </nav>
     <section class="flex-1 h-full">
-      <canvas class="border-2 border-black" id="canvas" width="500" height="800"></canvas>
+      <canvas class="border-2 border-black" id="canvas" width="500" height="500"></canvas>
     </section>
   </main>
   <script src="script.js"></script>
