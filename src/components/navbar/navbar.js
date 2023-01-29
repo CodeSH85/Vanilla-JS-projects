@@ -19,10 +19,6 @@ template.innerHTML = `
     </ul>
   </nav>
 `
-// const sheet = new CSSStyleSheet();
-// sheet.replaceSync(
-//   ``
-// )
 
 export default class NavBar extends HTMLElement {
   constructor() {

@@ -3,25 +3,34 @@ let total;
 let buttons = document.querySelectorAll('button');
 const deno = document.querySelector('#deno');
 const num = document.querySelector('#num');
-const box2 = document.querySelector('#box2');
+const boxes = document.querySelectorAll('#box');
+let nextSibling = buttons.nextElementSibling;
 
-buttons.forEach(btn => {
-  btn.onclick = function() {
-    console.log(this.parentElement);
-    total ++;
-    if( btn.dataset.edit === 'plus' ) {
-      num.dataset.value ++;
-      deno.dataset.value ++;
-    } else {
-      num.dataset.value --;
-      deno.dataset.value --;
+boxes.forEach(box => {
+  box.childNodes.forEach(node => {
+    // console.log(node);
+    if(node.dataset) {
+      console.log(node);
     }
-    num.textContent = num.dataset.value;
-    deno.textContent = deno.dataset.value;
-    box2.style = `
-      flex-grow: ${num.dataset.value}
-    `;
-  }
+    if(node.tagName === 'BUTTON') {
+      node.addEventListener('click', (e) => {
+        console.log(e.target);
+      })
+    }
+  })
 });
 
+let getSibling = function(e) {
+  let siblings = [];
+  if(!e.parentNode) {
+    return siblings;
+  }
+  let sibling = e.parentNode.firstChild;
 
+  while(sibling) {
+    if(sibling.nodeType === 1 && sibling !== e) {
+      siblings.push(sibling);
+    }
+    sibling = sibling.nextSibling;
+  }
+}

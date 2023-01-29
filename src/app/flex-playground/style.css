@@ -13,6 +13,7 @@ html {
 
 body {
   height: inherit;
+  line-height: 1.15;
   font-display: swap;
 }
 

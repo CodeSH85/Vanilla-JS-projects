@@ -34,15 +34,21 @@
           <input class="w-20" type="number" id="canvasHeight" placeholder="canvas height">
         </li>
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <button id="newLayer">
-            New Layers
-          </button>
-        </li>
-        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
           <button id="clearCanvas">
             Clear Canvas
           </button>
         </li>
+      </ul>
+      <div class="py-3 px-3">
+        <span>layers</span>
+        <button id="addLayerBtn">add layer</button>
+      </div>
+      <ul id="layerContainer">
+        <!-- <li class="py-1 px-3 border-2 border-black">
+          <span>layer name 1</span>
+          <button>clean layer</button>
+          <button>delete layer</button>
+        </li> -->
       </ul>
     </nav>
     <section class="flex-1 h-full">

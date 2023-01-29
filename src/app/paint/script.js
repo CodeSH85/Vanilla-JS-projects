@@ -16,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 let isMouseDown = false;
 
-const layers = [];
 const brushSizeInput = document.querySelector('#brushSize');
 const mainColorPicker = document.querySelector('#mainColorPicker');
 const secondColorPicker = document.querySelector('#secondColorPicker');
@@ -107,26 +106,63 @@ document.addEventListener('keydown', e => {
   }
 })
 
-let colorProxy = new Proxy(mainColorPicker, {
-  get: (value) => {
-    console.log(value);
-    return 'test';
-  },
-  set: () => {
-    
-  }
-});
+const layers = [];
+const addLayerBtn = document.querySelector('#addLayerBtn');
+const layerContainer = document.querySelector('#layerContainer');
 
-const newLayerBtn = document.querySelector('#newLayer');
+// const layersProxy = new Proxy(layers, {
+//   set: (target, index, value) => {
+//     const li = document.createElement('li');
+//     li.classList = ['py-1 px-3 border-2 border-red']
+//     target[index] = value;
+//     li.textContent = value.order;
+//     layerContainer.appendChild(li);
+//     return true;
+//   },
+//   get: (target, index) => {
+//     return target[index];
+//   }
+// })
 
-newLayerBtn.addEventListener('click', e => {
-  layers.push(
-    {
-      order: 1,
-    }
-  )
+// function updateLayer() {
+//   layersProxy.splice(0, layersProxy.length);
+//   for (const li of layerContainer.children) {
+//     layersProxy.push(li.textContent);
+//   }
+// }
+
+// addLayerBtn.addEventListener('click', createNewLayer);
+// function createNewLayer() {
+//   const layer = {
+//     order: 1,
+//   };
+//   layersProxy.push(layer);
+// }
+
+addLayerBtn.addEventListener('click', createNewLayer);
+function createNewLayer() {
+  const layer = {
+    order: 1,
+  };
+  const list = document.createElement('li');
+  const delBtn = document.createElement('button');
+  const cleanBtn = document.createElement('button');
+  delBtn.innerText = 'delete layer';
+  delBtn.id = 'delLayer'
+  cleanBtn.innerText = 'clean layer';
+  list.innerHTML = layer.order;
+  list.appendChild(delBtn);
+  list.appendChild(cleanBtn);
+  layerContainer.appendChild(list);
+  layers.push(layer);
+  console.log(layerContainer.children);
+  console.log(layerContainer.childNodes);
+}
+
+const delBtn = document.querySelectorAll('#delLayer');
+delBtn.forEach( btn => {
+  btn.addEventListener('click', e => {
+    console.log(this);
+  }) 
 })
-
-function biggest(x, y) {
-  return y ? biggest(y, x%y) : x;
-} 
+console.log(delBtn);
