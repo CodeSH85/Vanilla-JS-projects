@@ -18,7 +18,12 @@ const dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday
 
 const date = new Date();
 let year = date.getFullYear();
+let currentYear = date.getFullYear();
+let currentMonth = date.getMonth()+1;
 let month = date.getMonth()+1;
+let today = date.getDate();
+
+console.log(today);
 
 function renderCalender() {
 
@@ -30,15 +35,15 @@ function renderCalender() {
     return date.getDate();
   }
 
-  let dateBuffer = getMonthDays(year, month);
-  // let dayCounter = 1;
+  let monthTotalDays = getMonthDays(year, month);
   headerContainer.innerHTML = ``;
   bodyContainer.innerHTML = ``;
-  dayCounter = 1;
-  let start = new Date(year, month-1, 1).getDay();
-  console.log(start);
+  let dayCounter = 1;
+  let startAtDay = new Date(year, month - 1, 1).getDay();
   yearInfo.textContent = year;
   monthInfo.textContent = month;
+
+  let rowsCount = Math.ceil((monthTotalDays + startAtDay) / COLUMNS_COUNT);
 
   for (let n = 0; n < COLUMNS_COUNT; n++) {
     const headerCell = document.createElement('div');
@@ -47,17 +52,20 @@ function renderCalender() {
     headerCell.innerHTML = `<span>${dayList[n]}</span>`;
   }
 
-  for (let row = 0; row < ROWS_COUNT; row++) {
+  for (let row = 0; row < rowsCount; row++) {
     const rowContainer = document.createElement('div');
     rowContainer.classList.add('row-container');
     bodyContainer.append(rowContainer);
     for (let col = 0; col < COLUMNS_COUNT; col++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
-      if (row === 0 && col < start) {
+      if (row === 0 && col < startAtDay) {
         cell.innerHTML = ``;
-      } else if (dayCounter <= dateBuffer) {
+      } else if (dayCounter <= monthTotalDays) {
         cell.innerHTML = `${dayCounter}`;
+        if(dayCounter === today && month === currentMonth && year === currentYear) {
+          cell.style.color = 'red';
+        }
         dayCounter++;
       } else {
         cell.innerHTML = ``;

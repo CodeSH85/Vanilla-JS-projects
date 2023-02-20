@@ -10,11 +10,29 @@ html {
   padding: 0;
 }
 body {
+  display: grid;
+  place-items: center;
+  background: #d3cce3; /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #d3cce3, #e9e4f0); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #d3cce3, #e9e4f0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: inherit;
   font-display: swap;
 }
 .container {
   width: 800px;
+}
+.option-container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  background-color: #d7d7d7;
+}
+.next-month-btn {
+
+}
+.current-date-wrapper span {
+  font-size: 1.2rem;
+  color: #262525;
 }
 .header-container {
   display: flex;
@@ -41,7 +59,7 @@ body {
 .row-container:last-child .cell {
   border-bottom: 1px solid red;
 }
-.row-container:last-child .cell:last-child {
+.row-container .cell:last-child {
   border-right: 1px solid red;
 }
 .cell {
