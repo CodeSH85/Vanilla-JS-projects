@@ -3,7 +3,6 @@ const COLUMNS_COUNT = 7;
 
 document.addEventListener('DOMContentLoaded', () => {
   renderCalender();
-  console.log(month);
 })
 
 const calenderContainer = document.querySelector('#calenderContainer');
@@ -22,8 +21,6 @@ let currentYear = date.getFullYear();
 let currentMonth = date.getMonth()+1;
 let month = date.getMonth()+1;
 let today = date.getDate();
-
-console.log(today);
 
 function renderCalender() {
 
@@ -59,10 +56,11 @@ function renderCalender() {
     for (let col = 0; col < COLUMNS_COUNT; col++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
+      cell.id = 'cell';
       if (row === 0 && col < startAtDay) {
         cell.innerHTML = ``;
       } else if (dayCounter <= monthTotalDays) {
-        cell.innerHTML = `${dayCounter}`;
+        cell.innerHTML = `<span>${dayCounter}</span>`;
         if(dayCounter === today && month === currentMonth && year === currentYear) {
           cell.style.color = 'red';
         }
@@ -73,6 +71,12 @@ function renderCalender() {
       rowContainer.appendChild(cell);
     }
   }
+  const cellArr = document.querySelectorAll('#cell');
+  cellArr.forEach( cell => {
+    cell.addEventListener('click', e => {
+      console.log(e.target);
+    })
+  });
 }
 
 const prevBtn = document.querySelector('#prevMonth');
@@ -87,7 +91,6 @@ prevBtn.addEventListener('click', () => {
     month = 1;
     year++;
   }
-  console.log(month);
   renderCalender();
 })
 
@@ -100,6 +103,5 @@ nextBtn.addEventListener('click', () => {
     month = 1;
     year++;
   }
-  console.log(month);
   renderCalender();
 })

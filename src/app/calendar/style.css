@@ -28,7 +28,16 @@ body {
   background-color: #d7d7d7;
 }
 .next-month-btn {
-
+  padding: 1em 1.5em;
+}
+.prev-month-btn {
+  padding: 1em 1.5em;
+}
+.cell {
+  
+}
+.cell > span:hover {
+  cursor: pointer;
 }
 .current-date-wrapper span {
   font-size: 1.2rem;
