@@ -19,35 +19,34 @@ function createBoard(cols, rows, mines) {
   if (mines >= cols * rows) {
     throw new Error('mines out number the cells!');
   }
-  let total = cols * rows;
-  let counter = 0;
+  let totalCells = cols * rows;
   let minesArr = [];
   while (minesArr.length < mines) {
-    let res = Math.floor(Math.random() * total);
-    if (!minesArr.includes(res)) {
-      minesArr.push(res);
+    let mineIndex = Math.floor(Math.random() * totalCells);
+    if (!minesArr.includes(mineIndex)) {
+      minesArr.push(mineIndex);
     }
   }
-  for (let col = 0; col < cols; col++) {
-    for (let row = 0; row < rows; row++) {
-      const cell = document.createElement('div');
-      cell.id = 'cell';
-      if (minesArr.includes(counter)) {
-        cell.classList.add('mine');
-      }
-      cell.classList.add('cell');
-      board.appendChild(cell);
-      counter++;
+  for (let i = 0; i < totalCells; i++) {
+    const cell = document.createElement('div');
+    cell.classList.add('cell');
+    cell.id = 'cell-' + i;
+    cell.dataset.num = i;
+    if (minesArr.includes(i)) {
+      cell.classList.add('mine');
     }
+    board.appendChild(cell);
   }
+
 }
 
 createBoard(10, 10, 10);
 
-const cellArr = document.querySelectorAll('#cell');
+const cellArr = document.querySelectorAll('.cell');
 cellArr.forEach( cell => {
   cell.addEventListener('click', e => {
     cell.classList.add('pressed');
-    // render();
+    console.log(e.target.dataset.num);
+    console.log(e.target);
   })
 })

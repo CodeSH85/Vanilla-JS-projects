@@ -20,19 +20,16 @@ body {
   flex: 10% 1 0;
   height: 30px;
   background-color: #e7e7e7;
-  border: 1px solid rgb(49, 49, 49);
+  border: 1px solid rgb(82, 82, 82);
 }
 .cell:hover {
   cursor: pointer;
   background-color: #acacac;
 }
-/* .pressed {
-  background-color: #9554c7;
-} */
-.cell + .pressed {
-  cursor: auto;
-  background-color: #b8b7b7;
-}
 .mine {
   background-color: #ef0909;
+}
+.pressed {
+  cursor: auto;
+  background-color: #b8b7b7;
 }
