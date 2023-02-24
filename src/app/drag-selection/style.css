@@ -25,11 +25,13 @@ h1 {
   height: inherit;
 }
 .select-area {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   background-color: #fff;
+  max-width: 90%;
   min-width: 50em;
   min-height: 40em;
 }
