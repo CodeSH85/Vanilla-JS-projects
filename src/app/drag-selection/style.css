@@ -26,10 +26,10 @@ h1 {
 }
 .select-area {
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* flex-wrap: wrap; */
+  /* justify-content: center; */
+  /* align-items: center; */
   background-color: #fff;
   max-width: 90%;
   min-width: 50em;
@@ -41,4 +41,12 @@ h1 {
   height: 50px;
   background-color: #e7e7e7;
   /* aspect-ratio: 1; */
+}
+.card {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background-color: #d87a7a;
+  top: 50px;
+  left: 20px;
 }
