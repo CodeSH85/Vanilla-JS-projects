@@ -1,4 +1,5 @@
 const selectArea = document.querySelector('#selectArea');
+const test = document.querySelector('#target');
 
 selectArea.addEventListener('mousedown', e => {
   let startX = e.clientX - e.target.offsetLeft;
@@ -33,26 +34,47 @@ selectArea.addEventListener('mousedown', e => {
       div2.style.top = `${startY}px`
       div2.style.height = `${curY}px`
     }
-    // console.log('X: ' + curX);
-    // console.log('Y: ' + curY);
     div2.style.width = curX + 'px';
     div2.style.height = curY + 'px';
   }
 
   selectArea.addEventListener('mouseup', e => {
+
     if(e.target.id === 'start') {
       return;
     }
+
+    function isInRange(area, target) {
+      let selectionArea = area.getBoundingClientRect();
+      let targetElement = target.getBoundingClientRect();
+  
+      return ((
+        selectionArea.left <= targetElement.left &&
+        selectionArea.right >= targetElement.right &&
+        selectionArea.top <= targetElement.top &&
+        selectionArea.bottom >= targetElement.bottom
+      ));
+    }
+
+    if (isInRange(div2, test)) {
+      test.textContent = 'Selected'
+      test.classList.add('selected');
+    } else {
+      test.textContent = 'Unselected'
+      test.classList.remove('selected');
+    }
+
     const end = document.createElement('div');
     let endX = e.clientX - e.target.offsetLeft;
     let endY = e.clientY - e.target.offsetTop;
-    end.style = `position: absolute; height: 10px; width: 10px; background: blue; top: ${endY - 5}px; left: ${endX - 5}px;`;
+    end.style = `
+      position: absolute; height: 10px; width: 10px;
+      background: blue; top: ${endY - 5}px; left: ${endX - 5}px;
+    `;
     // selectArea.appendChild(end);
-    // selectArea.removeEventListener('mousemove');
     if (selectArea.contains(div2)) {
       selectArea.removeChild(div2);
     }
-    // console.log('up');
   })
 })
 
