@@ -25,31 +25,36 @@ h1 {
   height: inherit;
 }
 .select-area {
+  width: 100%;
   position: relative;
   display: flex;
-  /* flex-wrap: wrap; */
-  /* justify-content: center; */
-  /* align-items: center; */
+  flex-wrap: wrap;
+  justify-content: center;
   background-color: #fff;
   max-width: 90%;
   min-width: 50em;
   min-height: 40em;
 }
 .card {
-  pointer-events: none;
+  /* pointer-events: none; */
   border-radius: .8em;
   line-height: 1.5;
-  /* position: absolute; */
-  width: fit-content;
-  height:fit-content ;
-  margin: 1em;
+  position: absolute;
+  width: 3em;
+  height: 3em;
+  /* margin: 1em; */
   padding: 1em;
-  background-color: #d3d9e3;
+  background-color: #bbcfed;
   /* top: 50%; */
   /* left: 50%; */
 }
 .selected {
   /* color: white; */
-  border: 3px solid blue;
-  /* background-color: rgb(38, 52, 112); */
+  border: 1px solid blue;
+  background-color: rgba(19, 63, 241, 0.427);
+}
+.drag {
+  background-color: #ca7c7c;
+  padding: 1em;
+  position: absolute;
 }

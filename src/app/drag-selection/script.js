@@ -3,20 +3,70 @@ const selectArea = document.querySelector('#selectArea');
 let startX;
 let startY;
 let dragRect = document.createElement('div');
+let currentMode = '';
 
-// const test = document.querySelector('#target');
-
-for(let i = 0; i < 10; i++) {
+for (let i = 0; i < 50; i++) {
   const item = document.createElement('div');
-  item.textContent = 'item';
   item.id = 'target';
+  item.draggable = true;
   item.classList.add('card');
   selectArea.appendChild(item);
-}
+};
 
 const items = document.querySelectorAll('#target');
+let currentItem = null;
+
+items.forEach((item, i) => {
+  item.addEventListener('dragstart', e => {
+    currentItem = e.target;
+    currentMode = 'drag';
+  })
+  item.addEventListener('drag', e => {
+    const x = e.clientX;
+    const y = e.clientY;
+    e.target.style.left = x + 'px';
+    e.target.style.top = y + 'px';
+  })
+  item.addEventListener('dragend', e => {
+    const x = e.clientX - selectArea.offsetLeft;
+    const y = e.clientY - selectArea.offsetTop;
+    e.target.style.left = x + 'px';
+    e.target.style.top = y + 'px';
+    e.target.style.backgroundColor = 'green';
+    currentItem = null;
+  })
+})
+
+selectArea.addEventListener('dragenter', e => {
+  e.preventDefault();
+})
+selectArea.addEventListener('dragover', e => {
+  e.preventDefault();
+})
+selectArea.addEventListener('drop', e => {
+  e.preventDefault();
+  if (currentItem !== null) {
+    currentItem.style.left = e.clientX - selectArea.offsetLeft + 'px';
+    currentItem.style.top = e.clientY - selectArea.offsetTop + 'px';
+  }
+})
+
+selectArea.addEventListener('mouseenter', e => {
+  if (currentMode != 'select') {
+    return;
+  };
+  if (selectArea.contains(dragRect)) {
+    selectArea.removeChild(dragRect);
+  };
+})
 
 selectArea.addEventListener('mousedown', e => {
+  if (currentMode != 'select') {
+    return;
+  };
+  if (selectArea.contains(dragRect)) {
+    selectArea.removeChild(dragRect);
+  };
   startX = e.clientX - e.target.offsetLeft;
   startY = e.clientY - e.target.offsetTop;
   dragRect = document.createElement('div');
@@ -30,28 +80,31 @@ selectArea.addEventListener('mousedown', e => {
 selectArea.addEventListener('mousemove', handleMouseMove);
 
 function handleMouseMove(e) {
-  let curX = e.clientX - selectArea.offsetLeft - startX;
-  let curY = e.clientY - selectArea.offsetTop - startY;
-  if (curX < 0) {
-    dragRect.style.left = `${startX + curX}px`
-    dragRect.style.width = `${-curX}px`
+  if (currentMode != 'select') {
+    return;
+  };
+  let currentX = e.clientX - selectArea.offsetLeft - startX;
+  let currentY = e.clientY - selectArea.offsetTop - startY;
+  if (currentX < 0) {
+    dragRect.style.left = `${startX + currentX}px`;
+    dragRect.style.width = `${-currentX}px`;
   } else {
-    dragRect.style.left = `${startX}px`
-    dragRect.style.width = `${curX}px`
-  }
-  if (curY < 0) {
-    dragRect.style.top = `${startY + curY}px`
-    dragRect.style.height = `${-curY}px`
+    dragRect.style.left = `${startX}px`;
+    dragRect.style.width = `${currentX}px`;
+  };
+  if (currentY < 0) {
+    dragRect.style.top = `${startY + currentY}px`;
+    dragRect.style.height = `${-currentY}px`;
   } else {
-    dragRect.style.top = `${startY}px`
-    dragRect.style.height = `${curY}px`
-  }
-  dragRect.style.width = curX + 'px';
-  dragRect.style.height = curY + 'px';
+    dragRect.style.top = `${startY}px`;
+    dragRect.style.height = `${currentY}px`;
+  };
 }
 
 selectArea.addEventListener('mouseup', e => {
-
+  if (currentMode != 'select') {
+    return;
+  };
   const selectionArea = dragRect.getBoundingClientRect();
 
   // loop through all the items and check if their boundaries intersect with the drag rectangle
@@ -66,12 +119,13 @@ selectArea.addEventListener('mouseup', e => {
       item.classList.add('selected');
     } else {
       item.classList.remove('selected');
-    }
+    };
   });
 
   // remove the drag rectangle from the DOM
   if (selectArea.contains(dragRect)) {
     selectArea.removeChild(dragRect);
-  }
+  };
 })
+
 
