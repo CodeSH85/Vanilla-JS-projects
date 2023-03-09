@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  line-height: 1.5;
+}
+table {
+  border-collapse: collapse;
+}
+thead {
+  background-color: #3b3939;
+  color: #fff;
+}
+tbody > tr {
+  border: 1px solid black;
+}
