@@ -1,40 +1,32 @@
-const selectArea = document.querySelector('#selectArea');
+
+let currentMode = '';
 
 let startX;
 let startY;
+
 let dragRect = document.createElement('div');
-let currentMode = '';
+const selectArea = document.querySelector('#selectArea');
+const item = document.querySelector('#target');
 
-for (let i = 0; i < 50; i++) {
-  const item = document.createElement('div');
-  item.id = 'target';
-  item.draggable = true;
-  item.classList.add('card');
-  selectArea.appendChild(item);
-};
-
-const items = document.querySelectorAll('#target');
 let currentItem = null;
 
-items.forEach((item, i) => {
-  item.addEventListener('dragstart', e => {
-    currentItem = e.target;
-    currentMode = 'drag';
-  })
-  item.addEventListener('drag', e => {
-    const x = e.clientX;
-    const y = e.clientY;
-    e.target.style.left = x + 'px';
-    e.target.style.top = y + 'px';
-  })
-  item.addEventListener('dragend', e => {
-    const x = e.clientX - selectArea.offsetLeft;
-    const y = e.clientY - selectArea.offsetTop;
-    e.target.style.left = x + 'px';
-    e.target.style.top = y + 'px';
-    e.target.style.backgroundColor = 'green';
-    currentItem = null;
-  })
+item.addEventListener('dragstart', e => {
+  currentItem = e.target;
+  currentMode = 'drag';
+})
+item.addEventListener('drag', e => {
+  const x = e.clientX;
+  const y = e.clientY;
+  e.target.style.left = x + 'px';
+  e.target.style.top = y + 'px';
+})
+item.addEventListener('dragend', e => {
+  const x = e.clientX - selectArea.offsetLeft;
+  const y = e.clientY - selectArea.offsetTop;
+  e.target.style.left = x + 'px';
+  e.target.style.top = y + 'px';
+  // e.target.style.backgroundColor = 'green';
+  currentItem = null;
 })
 
 selectArea.addEventListener('dragenter', e => {
@@ -52,7 +44,7 @@ selectArea.addEventListener('drop', e => {
 })
 
 selectArea.addEventListener('mouseenter', e => {
-  if (currentMode != 'select') {
+  if (currentMode !== 'select') {
     return;
   };
   if (selectArea.contains(dragRect)) {
@@ -61,7 +53,12 @@ selectArea.addEventListener('mouseenter', e => {
 })
 
 selectArea.addEventListener('mousedown', e => {
-  if (currentMode != 'select') {
+  if(e.target.id === 'target') {
+    currentMode = 'drag';
+    return;
+  }
+  currentMode = 'select';
+  if (currentMode !== 'select') {
     return;
   };
   if (selectArea.contains(dragRect)) {
@@ -75,14 +72,17 @@ selectArea.addEventListener('mousedown', e => {
       background-color: rgba(123, 123, 123, 0.5); top: ${startY}px; left: ${startX}px;
     `;
   selectArea.appendChild(dragRect);
+  selectArea.addEventListener('mousemove', handleMouseMove);
+  selectArea.addEventListener('mouseup', handleMouseUp)
 })
 
-selectArea.addEventListener('mousemove', handleMouseMove);
+function cancelDefault(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}
 
 function handleMouseMove(e) {
-  if (currentMode != 'select') {
-    return;
-  };
   let currentX = e.clientX - selectArea.offsetLeft - startX;
   let currentY = e.clientY - selectArea.offsetTop - startY;
   if (currentX < 0) {
@@ -101,31 +101,24 @@ function handleMouseMove(e) {
   };
 }
 
-selectArea.addEventListener('mouseup', e => {
-  if (currentMode != 'select') {
-    return;
-  };
+function handleMouseUp(e) {
   const selectionArea = dragRect.getBoundingClientRect();
-
-  // loop through all the items and check if their boundaries intersect with the drag rectangle
-  items.forEach(item => {
-    const targetElement = item.getBoundingClientRect();
-    if (
-      selectionArea.left <= targetElement.right &&
-      selectionArea.right >= targetElement.left &&
-      selectionArea.top <= targetElement.bottom &&
-      selectionArea.bottom >= targetElement.top
-    ) {
-      item.classList.add('selected');
-    } else {
-      item.classList.remove('selected');
-    };
-  });
+  const targetElement = item.getBoundingClientRect();
+  if (
+    selectionArea.left <= targetElement.right &&
+    selectionArea.right >= targetElement.left &&
+    selectionArea.top <= targetElement.bottom &&
+    selectionArea.bottom >= targetElement.top
+  ) {
+    item.classList.add('selected');
+  } else {
+    item.classList.remove('selected');
+  };
 
   // remove the drag rectangle from the DOM
   if (selectArea.contains(dragRect)) {
     selectArea.removeChild(dragRect);
   };
-})
-
-
+  selectArea.removeEventListener('mousemove', handleMouseMove);
+  selectArea.removeEventListener('mouseup', handleMouseUp);
+}

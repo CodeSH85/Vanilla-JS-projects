@@ -31,22 +31,24 @@ h1 {
   flex-wrap: wrap;
   justify-content: center;
   background-color: #fff;
-  max-width: 90%;
-  min-width: 50em;
+  max-width: 90vw;
+  min-width: 20vw;
   min-height: 40em;
 }
+[draggable='true'] {
+  user-select: none;
+}
 .card {
-  /* pointer-events: none; */
+  --card-size: 5em;
   border-radius: .8em;
   line-height: 1.5;
   position: absolute;
-  width: 3em;
-  height: 3em;
-  /* margin: 1em; */
+  width: var(--card-size);
+  height: var(--card-size);
   padding: 1em;
   background-color: #bbcfed;
-  /* top: 50%; */
-  /* left: 50%; */
+  top: calc(50% - (var(--card-size)/2));
+  left: calc(50% - (var(--card-size)/2));
 }
 .selected {
   /* color: white; */
