@@ -1,4 +1,7 @@
 
+import enableDrag from './drag.js';
+
+
 let currentMode = '';
 
 let startX;
@@ -7,6 +10,8 @@ let startY;
 let dragRect = document.createElement('div');
 const selectArea = document.querySelector('#selectArea');
 const item = document.querySelector('#target');
+
+enableDrag('#target', '#selectArea');
 
 let currentItem = null;
 
