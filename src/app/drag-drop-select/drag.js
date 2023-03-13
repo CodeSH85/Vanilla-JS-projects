@@ -2,86 +2,64 @@
 function enableDrag(dragClass, dropSection) {
   let done = false;
   const dragItems = document.querySelectorAll(dragClass);
-  const dropArea = document.querySelectorAll(dropSection);
+  const dropArea = document.querySelector(dropSection);
+
+  let currentItem = null;
 
   (function setDraggable(target) {
-    if (target.length) {
-      for (let i = 0; i < target.length; i++) {
-        if (!target[i].draggable) {
-          target[i].draggable = true;
-        }
-        if (target[i].childElementCount === 0) {
-          continue;
-        }
-        for(let j = 0; j < target[i].childElementCount; j++) {
-          if (!target[i].children[j].draggable) {
-            target[i].children[j].draggable = true;
-          }
-          if (target[i].children[j].childElementCount === 0) {
-            continue;
-          } else {
-            setDraggable(target[i].children[j]);
-          }
-        }
-        target[i].addEventListener('dragstart', handleDragStart);
+    for (let i = 0; i < target.length; i++) {
+      const element = target[i];
+      if (!element.draggable) {
+        element.draggable = true;
+        element.style.position = 'absolute';
       }
-    } else {
-      for (let i = 0; i < target.childElementCount; i++) {
-        if (!target.children[i].draggable) {
-          target.children[i].draggable = true;
-        }
-        if (target.children[i].childElementCount === 0) {
-          continue;
-        }
-        for(let j = 0; j < target.children[i].childElementCount; j++) {
-          if (!target.children[i].children[j].draggable) {
-            target.children[i].children[j].draggable = true;
-          }
-          if (target.children[i].children[j].childElementCount === 0) {
-            continue;
-          } else {
-            setDraggable(target.children[i].children[j]);
-          }
-        }
-        target.children[i].addEventListener('dragstart', handleDragStart);
+      if (element.children.length) {
+        setDraggable(element.children);
       }
+      element.addEventListener('dragstart', handleDragStart);
     }
   })(dragItems);
 
-
-  // dragItems.addEventListener('dragstart', e => {
-  //   currentItem = e.target;
-  //   currentMode = 'drag';
-  // })
-  // dragItems.addEventListener('drag', e => {
-  //   const x = e.clientX;
-  //   const y = e.clientY;
-  //   e.target.style.left = x + 'px';
-  //   e.target.style.top = y + 'px';
-  // })
-  // dragItems.addEventListener('dragend', e => {
-  //   const x = e.clientX - selectArea.offsetLeft;
-  //   const y = e.clientY - selectArea.offsetTop;
-  //   e.target.style.left = x + 'px';
-  //   e.target.style.top = y + 'px';
-  //   currentItem = null;
-  // })
-  
-  // dropArea.addEventListener('dragenter', e => {
-  //   e.preventDefault();
-  // })
-  // dropArea.addEventListener('dragover', e => {
-  //   e.preventDefault();
-  // })
-  // dropArea.addEventListener('drop', e => {
-  //   e.preventDefault();
-  //   if (currentItem !== null) {
-  //     currentItem.style.left = e.clientX - selectArea.offsetLeft + 'px';
-  //     currentItem.style.top = e.clientY - selectArea.offsetTop + 'px';
-  //   }
-  // })
   function handleDragStart(e) {
+    currentItem = e.target;
+    currentItem.addEventListener('drag', handleDrag);
+    currentItem.addEventListener('dragend', handleDragEnd);
+  }
 
+  function handleDrag(e) {
+    disableDefault(e);
+    const x = e.clientX;
+    const y = e.clientY;
+    currentItem.style.left = x + 'px';
+    currentItem.style.top = y + 'px';
+  }
+
+  function handleDragEnd(e) {
+    disableDefault(e);
+    currentItem.removeEventListener('dragstart', handleDrag);
+    currentItem.removeEventListener('drag', handleDragEnd);
+  }
+
+  dropArea.addEventListener('drop', handleDrop);
+  dropArea.style.position = 'relative';
+
+  dropArea.addEventListener('dragenter', e => {
+    disableDefault(e);
+  })
+  dropArea.addEventListener('dragover', e => {
+    disableDefault(e);
+  })
+
+  function handleDrop(e) {
+    disableDefault(e);
+    if (currentItem !== null) {
+      currentItem.style.left = e.clientX - selectArea.offsetLeft + 'px';
+      currentItem.style.top = e.clientY - selectArea.offsetTop + 'px';
+    }
+  }
+
+  function disableDefault(e) {
+    e.preventDefault();
   }
 }
 

@@ -1,7 +1,6 @@
 
 import enableDrag from './drag.js';
 
-
 let currentMode = '';
 
 let startX;
@@ -9,44 +8,13 @@ let startY;
 
 let dragRect = document.createElement('div');
 const selectArea = document.querySelector('#selectArea');
-const item = document.querySelector('#target');
-
-enableDrag('#target', '#selectArea');
+const item = document.querySelector('.drag');
 
 let currentItem = null;
 
-item.addEventListener('dragstart', e => {
-  currentItem = e.target;
-  currentMode = 'drag';
-})
-item.addEventListener('drag', e => {
-  const x = e.clientX;
-  const y = e.clientY;
-  e.target.style.left = x + 'px';
-  e.target.style.top = y + 'px';
-})
-item.addEventListener('dragend', e => {
-  const x = e.clientX - selectArea.offsetLeft;
-  const y = e.clientY - selectArea.offsetTop;
-  e.target.style.left = x + 'px';
-  e.target.style.top = y + 'px';
-  // e.target.style.backgroundColor = 'green';
-  currentItem = null;
-})
-
-selectArea.addEventListener('dragenter', e => {
-  e.preventDefault();
-})
-selectArea.addEventListener('dragover', e => {
-  e.preventDefault();
-})
-selectArea.addEventListener('drop', e => {
-  e.preventDefault();
-  if (currentItem !== null) {
-    currentItem.style.left = e.clientX - selectArea.offsetLeft + 'px';
-    currentItem.style.top = e.clientY - selectArea.offsetTop + 'px';
-  }
-})
+if (currentMode == 'drag') {
+  enableDrag('.drag', '#selectArea');
+}
 
 selectArea.addEventListener('mouseenter', e => {
   if (currentMode !== 'select') {
