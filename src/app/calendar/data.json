@@ -1,5 +1,79 @@
-{
-  "date": {
-    
+[
+  {
+    "date": "2023/04/13",
+    "type": "work",
+    "title": "Business at LA",
+    "desc": "LA meeting with client.",
+    "active": "true"
+  },
+  {
+    "date": "2023/04/23",
+    "type": "bday",
+    "title": "Bob's birthday",
+    "desc": "It's Bob's birthday!",
+    "active": "true"
+  },
+  {
+    "date": "2023/05/10",
+    "type": "spec",
+    "title": "Japan Trip",
+    "desc": "Tokyo",
+    "active": "true"
+  },
+  {
+    "date": "2023/05/11",
+    "type": "spec",
+    "title": "Japan Trip",
+    "desc": "Tokyo",
+    "active": "true"
+  },
+  {
+    "date": "2023/05/12",
+    "type": "spec",
+    "title": "Japan Trip",
+    "desc": "Osaka",
+    "active": "true"
+  },
+  {
+    "date": "2023/05/13",
+    "type": "spec",
+    "title": "Japan Trip",
+    "desc": "Osaka",
+    "active": "true"
+  },
+  {
+    "date": "2023/05/14",
+    "type": "spec",
+    "title": "Japan Trip",
+    "desc": "Tokyo",
+    "active": "true"
+  },
+  {
+    "date": "2023/05/23",
+    "type": "spec",
+    "title": "Dentist",
+    "desc": "Dentist at 6PM.",
+    "active": "true"
+  },
+  {
+    "date": "2023/06/02",
+    "type": "bday",
+    "title": "Ann's birthday",
+    "desc": "It's Ann's birthday!",
+    "active": "true"
+  },
+  {
+    "date": "2023/06/11",
+    "type": "bday",
+    "title": "Jimmy's birthday",
+    "desc": "It's Jimmy's birthday!",
+    "active": "true"
+  },
+  {
+    "date": "2023/07/01",
+    "type": "work",
+    "title": "Business at LA",
+    "desc": "LA meeting with client.",
+    "active": "true"
   }
-}
+]

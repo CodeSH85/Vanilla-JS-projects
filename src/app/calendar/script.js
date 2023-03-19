@@ -1,4 +1,7 @@
+import mock_data from './data.json' assert {type: "json"};
+
 const ROWS_COUNT = 5;
+// 7 = 7 days a week
 const COLUMNS_COUNT = 7;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -23,7 +26,6 @@ let month = date.getMonth()+1;
 let today = date.getDate();
 
 function renderCalender() {
-
   const yearInfo = document.querySelector('#yearInfo');
   const monthInfo = document.querySelector('#monthInfo');
 
@@ -33,9 +35,13 @@ function renderCalender() {
   }
 
   let monthTotalDays = getMonthDays(year, month);
+
   headerContainer.innerHTML = ``;
   bodyContainer.innerHTML = ``;
+
+  // 1 = 1st date, start of each month
   let dayCounter = 1;
+
   let startAtDay = new Date(year, month - 1, 1).getDay();
   yearInfo.textContent = year;
   monthInfo.textContent = month;
@@ -56,27 +62,40 @@ function renderCalender() {
     for (let col = 0; col < COLUMNS_COUNT; col++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
-      cell.id = 'cell';
       if (row === 0 && col < startAtDay) {
+        // cells before start day of the month.
         cell.innerHTML = ``;
       } else if (dayCounter <= monthTotalDays) {
-        cell.innerHTML = `<span>${dayCounter}</span>`;
-        if(dayCounter === today && month === currentMonth && year === currentYear) {
+        cell.innerHTML = `<span>${ dayCounter }</span>`;
+        if (dayCounter === today && month === currentMonth && year === currentYear) {
           cell.style.color = 'red';
         }
         dayCounter++;
       } else {
+        // cells after last day of the month.
         cell.innerHTML = ``;
       }
+      mock_data.forEach(data => {
+        const dataYear = parseInt(data.date.slice(0, 4));
+        const dataMonth = parseInt(data.date.slice(5, 7));
+        const dataDate = parseInt(data.date.slice(8, 10));
+        if (dataDate === dayCounter && dataMonth === month && dataYear === year ) {
+          cell.style.backgroundColor = 'blue';
+        }
+      })
       rowContainer.appendChild(cell);
     }
   }
+
+
+
   const cellArr = document.querySelectorAll('#cell');
   cellArr.forEach( cell => {
     cell.addEventListener('click', e => {
       console.log(e.target);
     })
   });
+
 }
 
 const prevBtn = document.querySelector('#prevMonth');
