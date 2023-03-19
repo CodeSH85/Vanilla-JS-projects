@@ -80,23 +80,21 @@ function renderCalender() {
         const dataMonth = parseInt(data.date.slice(5, 7));
         const dataDate = parseInt(data.date.slice(8, 10));
         if (dataDate === dayCounter && dataMonth === month && dataYear === year ) {
-          cell.style.backgroundColor = 'blue';
+          cell.style.backgroundColor = '#a1a1a1';
+          cell.addEventListener('click', (e)=>{
+            showDateDetail(e, data)
+          });
         }
       })
       rowContainer.appendChild(cell);
     }
   }
-
-
-
-  const cellArr = document.querySelectorAll('#cell');
-  cellArr.forEach( cell => {
-    cell.addEventListener('click', e => {
-      console.log(e.target);
-    })
-  });
-
 }
+
+function showDateDetail(e, dateData) {
+  alert(dateData.title);
+}
+
 
 const prevBtn = document.querySelector('#prevMonth');
 const nextBtn = document.querySelector('#nextMonth');
