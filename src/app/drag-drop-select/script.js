@@ -1,20 +1,24 @@
-
 import enableDrag from './drag.js';
 
-let currentMode = '';
+let currentMode = 'select';
 
-let startX;
-let startY;
+const handler = {
+  get: () => {
+
+  },
+  set: () => {
+    
+  } 
+}
+
+let mode = new Proxy([], handler);
+
+let startX = 0;
+let startY = 0;
 
 let dragRect = document.createElement('div');
 const selectArea = document.querySelector('#selectArea');
 const item = document.querySelector('.drag');
-
-let currentItem = null;
-
-if (currentMode == 'drag') {
-  enableDrag('.drag', '#selectArea');
-}
 
 selectArea.addEventListener('mouseenter', e => {
   if (currentMode !== 'select') {
@@ -26,52 +30,37 @@ selectArea.addEventListener('mouseenter', e => {
 })
 
 selectArea.addEventListener('mousedown', e => {
-  if(e.target.id === 'target') {
+  if (e.target.classList.contains('drag')) {
     currentMode = 'drag';
+    enableDrag('.drag', '#selectArea');
     return;
   }
   currentMode = 'select';
-  if (currentMode !== 'select') {
-    return;
-  };
   if (selectArea.contains(dragRect)) {
     selectArea.removeChild(dragRect);
   };
+
   startX = e.clientX - e.target.offsetLeft;
   startY = e.clientY - e.target.offsetTop;
+
   dragRect = document.createElement('div');
-  dragRect.style =
-    `position: absolute; height: 0px; width: 0px; z-index: 999; pointer-events: none;
-      background-color: rgba(123, 123, 123, 0.5); top: ${startY}px; left: ${startX}px;
-    `;
+  dragRect.classList.add('drag-rect');
+  dragRect.style.left = `${startX}px`;
+  dragRect.style.top = `${startY}px`;
   selectArea.appendChild(dragRect);
   selectArea.addEventListener('mousemove', handleMouseMove);
   selectArea.addEventListener('mouseup', handleMouseUp)
 })
 
-function cancelDefault(e) {
-  e.preventDefault();
-  e.stopPropagation();
-  return false;
-}
-
 function handleMouseMove(e) {
+
   let currentX = e.clientX - selectArea.offsetLeft - startX;
   let currentY = e.clientY - selectArea.offsetTop - startY;
-  if (currentX < 0) {
-    dragRect.style.left = `${startX + currentX}px`;
-    dragRect.style.width = `${-currentX}px`;
-  } else {
-    dragRect.style.left = `${startX}px`;
-    dragRect.style.width = `${currentX}px`;
-  };
-  if (currentY < 0) {
-    dragRect.style.top = `${startY + currentY}px`;
-    dragRect.style.height = `${-currentY}px`;
-  } else {
-    dragRect.style.top = `${startY}px`;
-    dragRect.style.height = `${currentY}px`;
-  };
+
+  dragRect.style.left = `${Math.min(startX + currentX, startX)}px`;
+  dragRect.style.top = `${Math.min(startY + currentY, startY)}px`;
+  dragRect.style.width = `${Math.abs(currentX)}px`;
+  dragRect.style.height = `${Math.abs(currentY)}px`;
 }
 
 function handleMouseUp(e) {
@@ -94,4 +83,10 @@ function handleMouseUp(e) {
   };
   selectArea.removeEventListener('mousemove', handleMouseMove);
   selectArea.removeEventListener('mouseup', handleMouseUp);
+}
+
+function cancelDefault(e) {
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
 }

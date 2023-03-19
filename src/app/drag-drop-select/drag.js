@@ -1,8 +1,10 @@
-
 function enableDrag(dragClass, dropSection) {
-  let done = false;
   const dragItems = document.querySelectorAll(dragClass);
   const dropArea = document.querySelector(dropSection);
+
+  if (!dragItems || !dropArea) {
+    throw new Error('Invalid CSS');
+  }
 
   let currentItem = null;
 

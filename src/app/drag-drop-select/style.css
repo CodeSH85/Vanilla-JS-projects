@@ -52,11 +52,19 @@ h1 {
 }
 .selected {
   /* color: white; */
-  border: 1px solid blue;
+  border: 2px solid blue;
   background-color: rgba(19, 63, 241, 0.427);
 }
 .drag {
-  background-color: #ca7c7c;
+  color: white;
+  background-color: #a7c7f1;
   padding: 1em;
   position: absolute;
+}
+.drag-rect {
+  position: absolute;
+  background-color: rgba(116, 141, 244, 0.427);
+  z-index: 1;
+  pointer-events: none;
+  border: 2px solid rgba(116, 142, 244, 0.252);
 }
