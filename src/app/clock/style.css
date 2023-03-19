@@ -19,25 +19,48 @@ body {
 }
 .clock-body {
   --size: 20em;
+  /* display: flex; */
   position: relative;
-  justify-content: center;
-  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
   width: var(--size);
   height: var(--size) ;
   border-radius: 50%;
   background-color: #1a1a1a;
 }
-.second-hand {
+.text-container {
+  position: absolute;
+  left: 0em;
+  width: inherit;
+  height: inherit;
+  border-radius: inherit;
+}
+.clock-hand {
+  left: 10em;
   position: absolute;
   width: 2px;
-  height: calc(var(--size)/2);
+  height: calc(var(--size)/10);
   background-color: #fff;
   transform-origin: bottom;
+}
+.second-hand {
+  height: calc(var(--size)/2);
+}
+.min-hand {
+  top: 50%;
+  height: calc(var(--size)/4);
+}
+.hour-hand {
+  /* top: calc(50% - calc(var(--size)/6)); */
+  top: 50%;
+  left: 9em;
+  height: calc(var(--size)/6);
 }
 .clock-text {
   position: absolute;
   width: 2px;
   height: 5px;
+  left: 50%;
   border: none;
   border-top: 12px solid rgb(172, 172, 172);
   transform-origin: 0em 10em;
