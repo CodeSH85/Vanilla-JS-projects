@@ -1,7 +1,7 @@
-const display = document.querySelector('#display');
+const textDisplay = document.querySelector('#display');
 const card = document.querySelector('#card');
 const clock = document.querySelector('#clock');
-const pointer = document.querySelector('#pointer');
+const secondHand = document.querySelector('#secondHand');
 
 setInterval(()=>{
   const hour = new Date().getHours();
@@ -12,31 +12,27 @@ setInterval(()=>{
   const month = new Date().getMonth();
   const year = new Date().getFullYear();
   let now = `${year} ${month+1} / ${date} / ${hour} : ${minute} : ${second}`;
-  display.innerHTML = now;
+  textDisplay.innerHTML = now;
   
-  second = second + 360/60;
+  second = second * 360/60;
 
-  pointer.style.transform = `rotate(${second}deg)`;
+  secondHand.style.transform = `rotate(${second}deg)`;
 
 },1000)
 
-
-let classes = ['border-t-8', 'border-black', 'w-2', 'h-48', 'origin-bottom', 'fixed'];
-let secClasses = ['border-t-6', 'border-gray-500', 'w-2', 'h-48', 'origin-bottom', 'fixed'];
-
 for(let i = 0; i <= 360; i++) {
 
-  let test = document.createElement('div');
-  let sec = document.createElement('div');
-  test.classList.add(...classes);
-  sec.classList.add(...secClasses);
-  if(i % 30 === 0 && i != 0) {
-    test.classList.add(`rotate-${i}`);
-    clock.appendChild(test);
+  if (i % 30 === 0 && i != 0) {
+    let min = document.createElement('div');
+    min.classList.add('clock-text');
+    min.style.transform = `rotate(${i}deg)`;
+    clock.appendChild(min);
   }
-  if(i%6===0 && i!==0) {
-    test.classList.add(`rotate-${i}`);
-
+  if (i%6===0 && i!==0) {
+    let sec = document.createElement('div');
+    sec.classList.add('clock-text');
+    sec.classList.add('sec-text');
+    sec.style.transform = `rotate(${i}deg)`;
     clock.appendChild(sec);
   }
 }
