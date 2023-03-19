@@ -19,10 +19,7 @@ body {
 }
 .clock-body {
   --size: 20em;
-  /* display: flex; */
   position: relative;
-  /* justify-content: center; */
-  /* align-items: center; */
   width: var(--size);
   height: var(--size) ;
   border-radius: 50%;
@@ -30,13 +27,12 @@ body {
 }
 .text-container {
   position: absolute;
-  left: 0em;
   width: inherit;
   height: inherit;
   border-radius: inherit;
 }
 .clock-hand {
-  left: 10em;
+  left: 50%;
   position: absolute;
   width: 2px;
   height: calc(var(--size)/10);
@@ -47,14 +43,12 @@ body {
   height: calc(var(--size)/2);
 }
 .min-hand {
-  top: 50%;
-  height: calc(var(--size)/4);
+  height: calc(var(--size)/3.5);
+  top: calc(50% - calc(var(--size)/3.5));
 }
 .hour-hand {
-  /* top: calc(50% - calc(var(--size)/6)); */
-  top: 50%;
-  left: 9em;
   height: calc(var(--size)/6);
+  top: calc(50% - calc(var(--size)/6));
 }
 .clock-text {
   position: absolute;
