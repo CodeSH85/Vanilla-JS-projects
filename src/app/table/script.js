@@ -1,7 +1,9 @@
 import table_data from './data.json' assert {type: "json"};
+import cellSelectBox from './selection.js'
 
 const header = document.querySelector('#header');
 const tableBody = document.querySelector('#tableBody');
+cellSelectBox(tableBody);
 
 const headerTemplate = `
   <tr>
@@ -29,3 +31,4 @@ table_data.forEach((data) => {
 
 header.innerHTML = headerTemplate;
 tableBody.appendChild(rowsFragment);
+

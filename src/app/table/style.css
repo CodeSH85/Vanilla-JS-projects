@@ -4,6 +4,12 @@
   padding: 0;
   line-height: 1.5;
 }
+.table-wrapper {
+  margin: 1.2em;
+  overflow: scroll;
+  max-height: 80vh;
+  width: fit-content;
+}
 table {
   border-collapse: collapse;
 }
@@ -11,6 +17,14 @@ thead {
   background-color: #3b3939;
   color: #fff;
 }
+tbody {
+  position: relative;
+}
 tbody > tr {
   border: 1px solid black;
+}
+.select-box {
+  position: absolute;
+  border: 2px solid red;
+  background-color: rgba(255, 255, 255, .2);
 }
