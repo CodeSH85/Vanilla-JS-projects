@@ -14,7 +14,7 @@ setInterval(()=>{
   const date = new Date().getDate();
   const month = new Date().getMonth();
   const year = new Date().getFullYear();
-  let now = `${year} ${month+1} / ${date} / ${hour} : ${minute} : ${second}`;
+  let now = `${year} / ${month+1} / ${date} / ${hour} : ${minute} : ${second}`;
   textDisplay.innerHTML = now;
 
   let totalSeconds = (hour * 60 + minute) * 60 + second;
