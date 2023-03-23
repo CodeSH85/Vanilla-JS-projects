@@ -11,19 +11,22 @@ function cellSelectBox(tableEle) {
   tableEle.addEventListener('mousedown', mouseDown);
 
   function mouseDown(e) {
-    console.log(e.target.nodeName);
     if (e.target.nodeName === 'TD') {
       startCell = e.target;
     }
-    let startCellStyle = startCell.getBoundingClientRect();
-    console.log(startCellStyle);
+    // let cellStyle = startCell.getBoundingClientRect();
+    let cellStyle = getComputedStyle(startCell);
 
-    selectBox.style.height = `${startCellStyle.height}px`;
-    selectBox.style.width = `${startCellStyle.width}px`;
-    selectBox.style.left = `${startCellStyle.x}px`;
-    selectBox.style.top = `${startCellStyle.y}px`;
+    const cellWidth = parseFloat(cellStyle.width, 10);
+    const cellHeight = parseFloat(cellStyle.height, 10);
+
+    selectBox.style.height = `${cellHeight}px`;
+    selectBox.style.width = `${cellWidth}px`;
+    selectBox.style.left = `${e.offsetX}px`;
+    selectBox.style.top = `${e.offsetY}px`;
 
     tableEle.append(selectBox);
+
     tableEle.addEventListener('mousemove', mouseMove);
     tableEle.addEventListener('mouseup', mouseUp);
   };

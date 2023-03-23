@@ -21,7 +21,11 @@ tbody {
   position: relative;
 }
 tbody > tr {
+  position: relative;
   border: 1px solid black;
+}
+tbody > td {
+  position: absolute;
 }
 .select-box {
   position: absolute;
