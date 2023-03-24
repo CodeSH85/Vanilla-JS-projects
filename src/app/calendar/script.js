@@ -62,6 +62,20 @@ function renderCalender() {
     for (let col = 0; col < COLUMNS_COUNT; col++) {
       const cell = document.createElement('div');
       cell.classList.add('cell');
+
+      mock_data.forEach(data => {
+        const dataYear = parseInt(data.date.slice(0, 4));
+        const dataMonth = parseInt(data.date.slice(5, 7));
+        // TODO: parseInt turn date "01" to 1, cause rendering issue.
+        const dataDate = parseInt(data.date.slice(8, 10));
+        if ( dataDate === dayCounter && dataMonth === month && dataYear === year ) {
+          cell.style.backgroundColor = '#a1a1a1';
+          cell.addEventListener('click', (e)=>{
+            showDateDetail(e, data)
+          });
+        }
+      })
+
       if (row === 0 && col < startAtDay) {
         // cells before start day of the month.
         cell.innerHTML = ``;
@@ -75,17 +89,7 @@ function renderCalender() {
         // cells after last day of the month.
         cell.innerHTML = ``;
       }
-      mock_data.forEach(data => {
-        const dataYear = parseInt(data.date.slice(0, 4));
-        const dataMonth = parseInt(data.date.slice(5, 7));
-        const dataDate = parseInt(data.date.slice(8, 10));
-        if (dataDate === dayCounter && dataMonth === month && dataYear === year ) {
-          cell.style.backgroundColor = '#a1a1a1';
-          cell.addEventListener('click', (e)=>{
-            showDateDetail(e, data)
-          });
-        }
-      })
+
       rowContainer.appendChild(cell);
     }
   }
@@ -94,7 +98,6 @@ function renderCalender() {
 function showDateDetail(e, dateData) {
   alert(dateData.title);
 }
-
 
 const prevBtn = document.querySelector('#prevMonth');
 const nextBtn = document.querySelector('#nextMonth');
