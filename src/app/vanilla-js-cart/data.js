@@ -1,26 +1,26 @@
 const item_data = 
 [
   {
-    "id": 1,
-    "title": "product one",
+    "id": "A1",
+    "title": "Product One",
     "price": 1000,
     "desc": "This is product one"
   },
   {
-    "id": 2,
-    "title": "product two",
+    "id": "B1",
+    "title": "Product Two",
     "price": 2000,
     "desc": "This is product two"
   },
   {
-    "id": 3,
-    "title": "product three",
+    "id": "B2",
+    "title": "Product Three",
     "price": 3000,
     "desc": "This is product three"
   },
   {
-    "id": 4,
-    "title": "product four",
+    "id": "B4",
+    "title": "Product Four",
     "price": 4000,
     "desc": "This is product four"
   }
