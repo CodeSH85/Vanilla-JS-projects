@@ -7,14 +7,13 @@
 body {
   background-color: rgb(241, 244, 247);
 }
-
-nav {
+header {
   height: 80px;
   width: 100%;
   padding: 20px 0px 20px 20px;
   background-color: #a7cef6;
 }
-nav h1 {
+header h1 {
   color: #0c2766;
 }
 
