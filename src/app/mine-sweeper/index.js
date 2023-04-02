@@ -1,6 +1,10 @@
 const BOARD_SIZE = 10;
 let NUMBER_OF_MINES = 2;
 
+document.addEventListener('DOMContentLoaded', () => {
+  // createBoard(10, 10, 10);
+})
+
 const board = document.querySelector('#board');
 
 // Fisher-Yates
@@ -20,18 +24,20 @@ function createBoard(cols, rows, mines) {
   let totalCells = cols * rows;
   let counter = 0
   let minesArr = [];
+  // set mines
   while (minesArr.length < mines) {
     let mineIndex = Math.floor(Math.random() * totalCells);
     if (!minesArr.includes(mineIndex)) {
       minesArr.push(mineIndex);
     }
   }
+
   for (let col = 0; col < cols; col++) {
     for (let row = 0; row < rows; row++) {
       const cell = document.createElement('div');
       cell.dataset.col = row;
-      cell.classList.add('cell');
       cell.dataset.row = col;
+      cell.classList.add('cell');
       counter ++;
       cell.id = 'cell-' + counter;
       cell.dataset.index = counter;
@@ -49,21 +55,23 @@ const cellArr = document.querySelectorAll('.cell');
 cellArr.forEach( cell => {
   cell.addEventListener('click', e => {
     cell.classList.add('pressed');
-    console.log(e.target.dataset.index);
-    console.log(e.target);
     let count = nextToMine(e.target);
-    if(count>0) {
-      console.log(`There are ${count} mines near this cell.`);
-    } else {
-      console.log(`There are no mine near this cell.`);
+    if (count > 0) {
+      cell.textContent = `${count}`;
     }
+    if (count == 0) {
+      cell.previousElementSibling.click();
+      cell.nextElementSibling.click();
+    }
+
   })
 })
+
 
 function nextToMine(cell) {
   let row = Number(cell.dataset.row);
   let col = Number(cell.dataset.col);
-  console.log(row, col);
+  console.log(`row: ${row}, col: ${col}`);
   let counter = 0
   for(let i = row-1; i <= row+1; i++) {
     for (let n = col-1; n <= col+1; n++) {
