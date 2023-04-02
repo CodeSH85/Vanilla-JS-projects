@@ -1,8 +1,16 @@
-import itemData from "./data.js";
+// import itemData from "./data.js";
+
+let itemData;
 
 document.addEventListener('DOMContentLoaded', () => {
-  productDisplay();
-  cartDisplay();
+  fetch('https://dummyjson.com/products')
+  .then(res => res.json())
+  .then(json => {
+    console.log(json);
+    itemData = json.products;
+    productDisplay();
+    cartDisplay();
+  });
   if (localStorage.getItem('cart')) {
     const itemFromLocal = JSON.parse(localStorage.getItem('cart'));
     itemFromLocal.forEach(item => {
@@ -13,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const productSec = document.querySelector('#productSec');
 function productDisplay () {
+  console.log(itemData);
   const product = itemData.map( product => {
     return `
     <div class="card" id="card" data-product-id=${product.id}>
@@ -20,7 +29,7 @@ function productDisplay () {
       <div class="card-body">
         <div class="price">${product.price}</div>
         <div class="desc">
-          ${product.desc}
+          ${product.description}
         </div>
       </div>
       <button class="addToCartBtn" id="addToCartBtn">
