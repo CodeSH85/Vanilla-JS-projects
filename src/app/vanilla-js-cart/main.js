@@ -1,5 +1,3 @@
-// import itemData from "./data.js";
-
 let itemData;
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,16 +23,19 @@ function productDisplay () {
   const product = itemData.map( product => {
     return `
     <div class="card" id="card" data-product-id=${product.id}>
-      <h3 class="card-title">${product.title}</h3>
+      <div class="card-image-container">
+        <img class="card-image" src="${product.images[0]}" alt="image">
+      </div>
       <div class="card-body">
-        <div class="price">${product.price}</div>
-        <div class="desc">
+        <h3 class="card-title">${product.title}</h3>
+        <div class="price">${product.price}$</div>
+        <div class="card-desc">
           ${product.description}
         </div>
+        <button class="add-to-cart-btn">
+          Add to cart
+        </button>
       </div>
-      <button class="addToCartBtn" id="addToCartBtn">
-        Add to cart
-      </button>
     </div>
     `
   });
@@ -47,19 +48,20 @@ let cart = [];
 
 // 對JS動態生成物件增加事件的方法：
 document.addEventListener('click', (e) => {
-  if (e.target.id === 'addToCartBtn') {
-    const product = itemData.find(({id})=>{
-      return id === e.target.parentNode.dataset.productId;
+  if (e.target.classList.contains('add-to-cart-btn')) {
+    const product = itemData.find(({id}) => {
+      return id == e.target.parentNode.parentNode.dataset.productId;
     });
     if (product) {
+      console.log('test');
       cart.push(product);
       localStorage.setItem('cart', JSON.stringify(cart));
       cartDisplay();
     }
   }
   if (e.target.classList.contains('remove-btn')) {
-    const productId = e.target.parentNode.dataset.productId;
-    const itemIndex = cart.findIndex(item => item.id === productId);
+    const productId = e.target.parentNode.parentNode.dataset.productId;
+    const itemIndex = cart.findIndex(item => item.id == productId);
     if (itemIndex !== -1) {
       cart.splice(itemIndex, 1);
       localStorage.setItem('cart', JSON.stringify(cart));
@@ -77,9 +79,9 @@ function cartDisplay() {
       <div class="card" id="card" data-product-id=${product.id}>
         <h3 class="card-title">${product.title}</h3>
         <div class="card-body">
-          <div class="price">${product.price}</div>
+          <div class="price">${product.price}$</div>
           <div class="desc">
-          ${product.desc}
+            ${product.desc}
           </div>
         </div>
         <button class="remove-btn">
