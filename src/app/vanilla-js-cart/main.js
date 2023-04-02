@@ -1,4 +1,4 @@
-import item_data from "./data.js";
+import itemData from "./data.js";
 
 document.addEventListener('DOMContentLoaded', () => {
   productDisplay();
@@ -13,9 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const productSec = document.querySelector('#productSec');
 function productDisplay () {
-  const product = item_data.map( product => {
+  const product = itemData.map( product => {
     return `
-    <div class="card" id="card">
+    <div class="card" id="card" data-product-id=${product.id}>
       <h3 class="card-title">${product.title}</h3>
       <div class="card-body">
         <div class="price">${product.price}</div>
@@ -23,7 +23,7 @@ function productDisplay () {
           ${product.desc}
         </div>
       </div>
-      <button class="addToCartBtn" id="addToCartBtn" value="${product.id}">
+      <button class="addToCartBtn" id="addToCartBtn">
         Add to cart
       </button>
     </div>
@@ -34,19 +34,28 @@ function productDisplay () {
 };
 
 const cartSection = document.querySelector('#cartSec');
-const cart = [];
+let cart = [];
 
 // 對JS動態生成物件增加事件的方法：
 document.addEventListener('click', (e) => {
   if (e.target.id === 'addToCartBtn') {
-    console.log(e.target);
-    item_data.forEach((product, index) => {
-      if (item_data[index].id == e.target.value) {
-        cart.push(product);
-        localStorage.setItem('cart', JSON.stringify(cart));
-        cartDisplay();
-      };
+    const product = itemData.find(({id})=>{
+      return id === e.target.parentNode.dataset.productId;
     });
+    if (product) {
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      cartDisplay();
+    }
+  }
+  if (e.target.classList.contains('remove-btn')) {
+    const productId = e.target.parentNode.dataset.productId;
+    const itemIndex = cart.findIndex(item => item.id === productId);
+    if (itemIndex !== -1) {
+      cart.splice(itemIndex, 1);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      cartDisplay();
+    }
   }
 });
 
@@ -56,34 +65,33 @@ function cartDisplay() {
     const itemFromLocal = JSON.parse(localStorage.getItem('cart'));
     const cartList = itemFromLocal.map( product => {
       return `
-      <div class="card" id="card">
+      <div class="card" id="card" data-product-id=${product.id}>
         <h3 class="card-title">${product.title}</h3>
         <div class="card-body">
-          <button class="remove-btn">
-            remove
-          </button>
           <div class="price">${product.price}</div>
           <div class="desc">
-            ${product.desc}
+          ${product.desc}
           </div>
         </div>
+        <button class="remove-btn">
+          remove
+        </button>
       </div>
       `
     });
-    const delItemBtn = document.createElement('button');
-
     cartSection.innerHTML = cartList.join(' ');
   } else {
-    const emptyCart = `
-    <h2>No Product in cart yet</h2>
-    `
-    cartSection.innerHTML = emptyCart;
+    const emptyCart = document.createElement('h2');
+    emptyCart.textContent = 'No Product in cart yet';
+    cartSection.innerHTML = '';
+    cartSection.appendChild(emptyCart);
   };
 };
 
 const clearCartBtn = document.querySelector('#clearCart');
 clearCartBtn.addEventListener('click', clearCart);
 function clearCart(e) {
+  cart = [];
   localStorage.clear();
   cartDisplay();
 }
