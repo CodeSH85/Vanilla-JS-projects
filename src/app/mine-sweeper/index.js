@@ -54,19 +54,41 @@ createBoard(10, 10, 10);
 const cellArr = document.querySelectorAll('.cell');
 cellArr.forEach( cell => {
   cell.addEventListener('click', e => {
-    cell.classList.add('pressed');
-    let count = nextToMine(e.target);
-    if (count > 0) {
-      cell.textContent = `${count}`;
-    }
-    if (count == 0) {
-      cell.previousElementSibling.click();
-      cell.nextElementSibling.click();
-    }
-
+    clickCell(e.target);
   })
 })
 
+function clickCell(cell) {
+  cell.classList.add('pressed');
+  let count = nextToMine(cell);
+  if (count == 0) {
+    let neighbors = getNonMineNeighbors(cell);
+    for (let neighbor of neighbors) {
+      if (!neighbor.classList.contains('pressed') && nextToMine(neighbor)=== 0) {
+        clickCell(neighbor);
+      }
+    }
+  }
+}
+
+function getNonMineNeighbors(cell) {
+  let row = Number(cell.dataset.row);
+  let col = Number(cell.dataset.col);
+  let neighbors = [];
+  for(let i = row-1; i <= row+1; i++) {
+    for (let n = col-1; n <= col+1; n++) {
+      if(i === row && n === col) {
+        continue;
+      }
+      const targetCell = 
+      document.querySelector(`[data-col='${n}'][data-row='${i}']`);
+      if (targetCell && !targetCell.classList.contains('mine')) {
+        neighbors.push(targetCell);
+      }
+    }
+  }
+  return neighbors;
+}
 
 function nextToMine(cell) {
   let row = Number(cell.dataset.row);
