@@ -4,7 +4,7 @@ import cellSelectBox from './selection.js'
 const HEADER_HEIGHT = 24;
 let START_INDEX = 0;
 const ROW_HEIGHT = 24;
-const DISPLAY_ROWS = 25;
+const DISPLAY_ROWS = 30;
 const CONTAINER_HEIGHT = ROW_HEIGHT * 15;
 
 const header = document.querySelector('#header');
@@ -21,33 +21,43 @@ const headerTemplate = `
   </tr>
 `;
 
-const rowsFragment = document.createDocumentFragment();
-
-table_data.forEach((data) => {
-  const rowElement = document.createElement('tr');
-  rowElement.innerHTML = `
-    <td>${data.id}</td>
-    <td>${data.first_name}</td>
-    <td>${data.last_name}</td>
-    <td>${data.email}</td>
-    <td>${data.job_title}</td>
-  `;
-  rowsFragment.appendChild(rowElement);
-});
-
-function displayData() {
-  let res = table_data.slice(START_INDEX, START_INDEX + DISPLAY_ROWS);
-  return res;
+function displayData(start, count) {
+  return table_data.slice(start, start + count);
 }
-console.log(displayData());
 
+function renderRows(start, count) {
+  const rowsFragment = document.createDocumentFragment();
+  
+  displayData(start, count).forEach((row, i) => {
+    const rowElement = document.createElement('tr');
+    rowElement.innerHTML = `
+      <td>${row.id}</td>
+      <td>${row.first_name}</td>
+      <td>${row.last_name}</td>
+      <td>${row.email}</td>
+      <td>${row.job_title}</td>
+    `;
+    rowsFragment.appendChild(rowElement);
+  })
+  tableBody.innerHTML = '';
+  tableBody.appendChild(rowsFragment);
+}
 
 header.innerHTML = headerTemplate;
-tableBody.appendChild(rowsFragment);
+renderRows(START_INDEX, DISPLAY_ROWS);
 
-const tableWrapper = document.querySelector('#tableWrapper')
+const tableWrapper = document.querySelector('#tableWrapper');
+const container = document.querySelector('#container');
+
 tableWrapper.addEventListener('scroll', handleScroll);
+tableBody.style.height = `${table_data.length * ROW_HEIGHT}px`;
+// tableWrapper.style.overflow = 'auto';
+container.style.height = `${table_data.length * ROW_HEIGHT + HEADER_HEIGHT}px`;
 
 function handleScroll(e) {
-  console.log(e);
+  const { scrollTop } = e.target;
+  let startNode = Math.floor(scrollTop / ROW_HEIGHT);
+
+  START_INDEX = startNode;
+  renderRows(startNode, DISPLAY_ROWS);
 };
