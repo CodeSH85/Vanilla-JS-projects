@@ -1,9 +1,9 @@
 import table_data from './data.json' assert {type: "json"};
 import cellSelectBox from './selection.js'
 
-const HEADER_HEIGHT = 24;
+const HEADER_HEIGHT = 24.5;
 let START_INDEX = 0;
-const ROW_HEIGHT = 24;
+const ROW_HEIGHT = 25;
 const DISPLAY_ROWS = 30;
 const CONTAINER_HEIGHT = ROW_HEIGHT * 15;
 
@@ -48,16 +48,19 @@ renderRows(START_INDEX, DISPLAY_ROWS);
 
 const tableWrapper = document.querySelector('#tableWrapper');
 const container = document.querySelector('#container');
+const table = document.querySelector('table');
+const section = document.querySelector('section');
 
 tableWrapper.addEventListener('scroll', handleScroll);
-tableBody.style.height = `${table_data.length * ROW_HEIGHT}px`;
-// tableWrapper.style.overflow = 'auto';
-container.style.height = `${table_data.length * ROW_HEIGHT + HEADER_HEIGHT}px`;
+table.style.height = `${displayData(START_INDEX, DISPLAY_ROWS).length * ROW_HEIGHT}px`;
+container.style.height = `${table_data.length * ROW_HEIGHT}px`;
 
 function handleScroll(e) {
   const { scrollTop } = e.target;
   let startNode = Math.floor(scrollTop / ROW_HEIGHT);
-
+  
   START_INDEX = startNode;
+  section.style.top = `${startNode * ROW_HEIGHT + HEADER_HEIGHT}px`
   renderRows(startNode, DISPLAY_ROWS);
 };
+
