@@ -10,13 +10,16 @@ html {
   padding: 0;
 }
 body {
-  display: grid;
-  place-items: center;
   background: #d3cce3; /* fallback for old browsers */
   background: -webkit-linear-gradient(to right, #7c92a4, #e9e4f0); /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to right, #95b5bb, #99a3bd); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   height: inherit;
   font-display: swap;
+}
+main {
+  padding: 1em;
+  display: flex;
+  height: inherit;
 }
 .container {
   --main-color: #80bfe4;
@@ -31,18 +34,23 @@ body {
   align-items: center;
   width: 100%;
   background-color: #f4f4f4;
+  padding: .6em;
 }
 .option-btn {
   text-transform: uppercase;
   border: none;
   color: rgb(255, 255, 255);
-  background-color: #3660e0;
+  background: rgb(118,149,191);
+  background: linear-gradient(355deg, rgba(118,149,191,1) 0%, rgba(103,169,214,1) 100%);
+  border-radius: .3em;
   cursor: pointer;
   padding: 1em 1.5em;
+  box-shadow: 1px 2px 3px rgba(130, 130, 130, .4);
 }
 .option-btn:hover {
   color: white;
-  background-color: #0b72c6;
+  background: rgb(118,149,191);
+  background: linear-gradient(355deg, rgb(78, 103, 138) 0%, rgb(53, 104, 138) 100%);
 }
 .cell {
   
@@ -56,12 +64,8 @@ body {
 }
 .header-container {
   display: flex;
-  border: var(--border-style);
-}
-.body-container {
-  width: 100%;
-  background-color: #f5f5f5;
-  border: 1px solid #4678a1;
+  border-left: var(--border-style);
+  border-right: var(--border-style);
 }
 .header {
   flex: 1 1 0;
@@ -72,6 +76,11 @@ body {
   align-items: center;
   justify-content: center;
   background-color: #fff;
+}
+.body-container {
+  width: 100%;
+  background-color: #f5f5f5;
+  border: 1px solid #4678a1;
 }
 .row-container {
   border-bottom: none;
@@ -94,4 +103,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.cell:hover {
+  background-color: #c3feff;
+}
+.cell-current-day {
+  color: red;
+}
+.cell-empty:hover {
+  background-color: #f5f5f5;
+}
+.calendar-section {
+  flex: 1 0 2;
+}
+.event-section {
+  flex: 1 0 0;
 }

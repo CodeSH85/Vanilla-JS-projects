@@ -11,17 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
 const calenderContainer = document.querySelector('#calenderContainer');
 const headerContainer = document.createElement('div');
 const bodyContainer = document.createElement('div');
+headerContainer.classList.add('header-container');
 bodyContainer.classList.add('body-container');
 calenderContainer.appendChild(headerContainer);
-headerContainer.classList.add('header-container');
 calenderContainer.appendChild(bodyContainer);
 
-const dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+const dayList = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const date = new Date();
-let year = date.getFullYear();
 let currentYear = date.getFullYear();
 let currentMonth = date.getMonth()+1;
+let year = date.getFullYear();
 let month = date.getMonth()+1;
 let today = date.getDate();
 
@@ -29,25 +29,27 @@ function renderCalender() {
   const yearInfo = document.querySelector('#yearInfo');
   const monthInfo = document.querySelector('#monthInfo');
 
-  function getMonthDays(year, month) {
+  function getMonthDates(year, month) {
     const date = new Date(year, month, 0);
     return date.getDate();
   }
 
-  let monthTotalDays = getMonthDays(year, month);
+  let monthTotalDays = getMonthDates(year, month);
 
   headerContainer.innerHTML = ``;
   bodyContainer.innerHTML = ``;
+  yearInfo.textContent = year;
+  monthInfo.textContent = month;
 
   // 1 = 1st date, start of each month
   let dayCounter = 1;
 
+  // get the month's starting day, e,g: sunday...
   let startAtDay = new Date(year, month - 1, 1).getDay();
-  yearInfo.textContent = year;
-  monthInfo.textContent = month;
 
   let rowsCount = Math.ceil((monthTotalDays + startAtDay) / COLUMNS_COUNT);
 
+  // render header
   for (let n = 0; n < COLUMNS_COUNT; n++) {
     const headerCell = document.createElement('div');
     headerCell.classList.add('header');
@@ -55,6 +57,7 @@ function renderCalender() {
     headerCell.innerHTML = `<span>${dayList[n]}</span>`;
   }
 
+  // render row cells
   for (let row = 0; row < rowsCount; row++) {
     const rowContainer = document.createElement('div');
     rowContainer.classList.add('row-container');
@@ -75,21 +78,21 @@ function renderCalender() {
           });
         }
       })
-
+      // set cell's text content
       if (row === 0 && col < startAtDay) {
-        // cells before start day of the month.
-        cell.innerHTML = ``;
+        // cells before start day of the month should be null.
+        cell.classList.add('cell-empty');
       } else if (dayCounter <= monthTotalDays) {
         cell.innerHTML = `<span>${ dayCounter }</span>`;
+        // today's cell.
         if (dayCounter === today && month === currentMonth && year === currentYear) {
-          cell.style.color = 'red';
+          cell.classList.add('cell-current-day');
         }
         dayCounter++;
       } else {
-        // cells after last day of the month.
-        cell.innerHTML = ``;
+        // cells after last day of the month should be null.
+        cell.classList.add('cell-empty');
       }
-
       rowContainer.appendChild(cell);
     }
   }
@@ -107,7 +110,7 @@ prevBtn.addEventListener('click', () => {
   if (month < 1) {
     month = 12;
     year--;
-  } else if (month>12) {
+  } else if (month > 12) {
     month = 1;
     year++;
   }
@@ -119,7 +122,7 @@ nextBtn.addEventListener('click', () => {
   if (month < 1) {
     month = 12;
     year--;
-  } else if (month>12) {
+  } else if (month > 12) {
     month = 1;
     year++;
   }
