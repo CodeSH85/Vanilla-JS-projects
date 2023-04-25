@@ -1,3 +1,4 @@
+
 const canvas = document.querySelector('#canvas');
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
@@ -28,14 +29,7 @@ let canvasY;
 const ctx = canvas.getContext('2d');
 
 function handleDraw() {
-  // return new Promise((resolve, reject) => {
-  //   resolve();
-    
-  //   if(!canvas) {
-  //     reject(new Error('Canvas not supported!'));
-  //   }
-  // })
-  if(!canvas) {
+  if (!canvas) {
     throw new Error('Canvas not supported!');
   }
   canvas.addEventListener('mousedown', (e) => {
@@ -66,20 +60,20 @@ function handleDraw() {
 
 brushSizeInput.addEventListener('input', handleBrushSize);
 
-function handleBrushSize(event) {
-  brushSize = ctx.lineWidth = event.target.value;
+function handleBrushSize(e) {
+  brushSize = ctx.lineWidth = e.target.value;
 }
 
 mainColorPicker.addEventListener('input', handleMainColor);
 
-function handleMainColor(event) {
-  mainColor = ctx.strokeStyle = event.target.value;
+function handleMainColor(e) {
+  mainColor = ctx.strokeStyle = e.target.value;
 }
 
 secondColorPicker.addEventListener('input', handleSecondColor);
 
-function handleSecondColor(event) {
-  secondColor = event.target.value;
+function handleSecondColor(e) {
+  secondColor = e.target.value;
 }
 
 clearBtn.addEventListener('click', (e) => {
@@ -99,30 +93,33 @@ function fillArea() {
 }
 
 document.addEventListener('keydown', e => {
-  if(e.key === 'x') {
-    console.log('x is pressed');
-    [ mainColor, secondColor ] = [ secondColor, mainColor];
-    console.log(mainColor + '/' + secondColor);
+  if (e.key === 'x') {
+    switchColor();
   }
 })
 
-const layers = [];
+function switchColor(e) {
+  [ mainColor, secondColor ] = [ secondColor, mainColor];
+  mainColorPicker.value = mainColor;
+  secondColorPicker.value = secondColor;
+}
+
 const addLayerBtn = document.querySelector('#addLayerBtn');
 const layerContainer = document.querySelector('#layerContainer');
 
-// const layersProxy = new Proxy(layers, {
-//   set: (target, index, value) => {
-//     const li = document.createElement('li');
-//     li.classList = ['py-1 px-3 border-2 border-red']
-//     target[index] = value;
-//     li.textContent = value.order;
-//     layerContainer.appendChild(li);
-//     return true;
-//   },
-//   get: (target, index) => {
-//     return target[index];
-//   }
-// })
+const layers = new Proxy([], {
+  get: (target, index) => {
+    return target[index];
+  },
+  set: (target, index, value) => {
+    const li = document.createElement('li');
+    li.classList = ['py-1 px-3 border-2 border-red']
+    target[index] = value;
+    li.textContent = value.order;
+    layerContainer.appendChild(li);
+    return true;
+  }
+})
 
 // function updateLayer() {
 //   layersProxy.splice(0, layersProxy.length);
@@ -138,6 +135,21 @@ const layerContainer = document.querySelector('#layerContainer');
 //   };
 //   layersProxy.push(layer);
 // }
+
+function render(element, data) {
+  if (typeof value === 'string') {
+    element.innerHTML = value;
+  };
+  if (typeof value === 'number') {
+    element.innerHTML = value.toString();
+  }
+  if (Array.isArray(value)) {
+    element.innerHTML = '';
+    value.forEach( data => {
+      const itemElement = document.createElement('li');
+    })
+  }
+}
 
 addLayerBtn.addEventListener('click', createNewLayer);
 function createNewLayer() {
@@ -155,14 +167,15 @@ function createNewLayer() {
   list.appendChild(cleanBtn);
   layerContainer.appendChild(list);
   layers.push(layer);
-  console.log(layerContainer.children);
-  console.log(layerContainer.childNodes);
+
+  const delBtnArray = document.querySelectorAll('#delLayer');
+  delBtnArray.forEach( btn => {
+    btn.addEventListener('click', e => {
+      console.log(e.target);
+      layerContainer.forEach(layer => {
+
+      })
+    }) 
+  })
 }
 
-const delBtn = document.querySelectorAll('#delLayer');
-delBtn.forEach( btn => {
-  btn.addEventListener('click', e => {
-    console.log(this);
-  }) 
-})
-console.log(delBtn);

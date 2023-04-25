@@ -5,12 +5,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paint Board</title>
-  <link rel="stylesheet" href="../../../dist/style.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main class="flex h-screen">
-    <nav class="flex-none h-full">
-      <ul class="">
+  <main>
+    <nav class="toolbar-container">
+      <ul class="toolbar">
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
           <label for="brushSize">
             Brush Size
@@ -39,20 +39,17 @@
           </button>
         </li>
       </ul>
-      <div class="py-3 px-3">
+    </nav>
+    <nav class="layer-section">
+      <div>
         <span>layers</span>
         <button id="addLayerBtn">add layer</button>
       </div>
       <ul id="layerContainer">
-        <!-- <li class="py-1 px-3 border-2 border-black">
-          <span>layer name 1</span>
-          <button>clean layer</button>
-          <button>delete layer</button>
-        </li> -->
       </ul>
     </nav>
-    <section class="flex-1 h-full">
-      <canvas class="border-2 border-black" id="canvas" width="500" height="500"></canvas>
+    <section class="canvas-container">
+      <canvas id="canvas" width="500" height="500"></canvas>
     </section>
   </main>
   <script src="script.js"></script>
