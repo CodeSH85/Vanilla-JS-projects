@@ -1,45 +1,46 @@
 const mainView = document.querySelector('#mainView');
-const startBtn = document.querySelector('#startBtn');
 
-const templateOne = `<h1>Hello World! One</h1>`;
-const templateTwo = `
-  <h1>
-    Hello World! Three
-  </h1>
-  <button id="toTwo">To Two</button>
-`;
-const templateThree = `<h1>Hello World! Two</h1>`;
-
-const templates = {
-  one: templateOne,
-  two: templateTwo,
-  three: templateThree
-};
-
-const toTwo = querySelector()
-
-startBtn.addEventListener('click', e => {
-  history.pushState(null, ",", "one");
-  mainView.innerHTML = templateOne;
+document.addEventListener('click', e => {
+  const { target } = e;
+  if (!target.matches('nav a')) {
+    return;
+  }
+  e.preventDefault();
+  urlRoute();
 })
 
-const render = (url) => {
-  mainView.innerHTML = templates[url];
-}
-
-const init = () => {
-  if (window.location.pathname.includes('one')) {
-    render('one');
-  }
-  if (window.location.pathname.includes('two')) {
-    render('two');
-  }
-  if (window.location.pathname.includes('three')) {
-    render('three');
+const routes = {
+  "404": {
+    title: "404 Not Found",
+    template: "/templates/404.html",
+    description: "",
+  },
+  "/": {    
+    title: "Home",
+    template: "/templates/index.html",
+    description: "",
+  },
+  "about": {    
+    title: "About",
+    template: "/templates/about.html",
+    description: "",
+  },
+  "/": {    
+    title: "service",
+    template: "/templates/service.html",
+    description: "",
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  history.pushState(null, "", 'one');
-  init();
-})
+const urlRoute = (event) => {
+  event = event || window.event;
+  event.preventDefault();
+  window.history.pushState(null, "", event.target.href);
+  urlLocationHandler();
+}
+
+const urlLocationHandler = async() => {
+
+}
+
+const useHash = false;
