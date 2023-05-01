@@ -1,12 +1,26 @@
-
+// DOM
 const canvas = document.querySelector('#canvas');
+const canvasContainer = document.querySelector('.canvas-container');
+const brushSizeInput = document.querySelector('#brushSize');
+const mainColorPicker = document.querySelector('#mainColorPicker');
+const secondColorPicker = document.querySelector('#secondColorPicker');
+const clearBtn = document.querySelector('#clearCanvas');
+const canvasWidthInput = document.querySelector('#canvasWidth');
+const canvasHeightInput = document.querySelector('#canvasHeight');
+
+// setting
 let canvasWidth = canvas.width;
 let canvasHeight = canvas.height;
 let mainColor = '#f00000';
 let secondColor = '#000000';
 let brushSize = 3;
 
+// flag
+let currentMode = 'draw';
+let isMouseDown = false;
+
 document.addEventListener('DOMContentLoaded', () => {
+  fillArea('canvas');
   handleDraw();
   mainColorPicker.value = mainColor;
   secondColorPicker.value = secondColor;
@@ -15,16 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
   brushSizeInput.value = ctx.lineWidth = brushSize;
 })
 
-let isMouseDown = false;
-
-const brushSizeInput = document.querySelector('#brushSize');
-const mainColorPicker = document.querySelector('#mainColorPicker');
-const secondColorPicker = document.querySelector('#secondColorPicker');
-const clearBtn = document.querySelector('#clearCanvas');
-const canvasWidthInput = document.querySelector('#canvasWidth');
-const canvasHeightInput = document.querySelector('#canvasHeight');
 let canvasX;
 let canvasY;
+let canvasTop = canvasContainer.offsetTop;
+let canvasLeft = canvasContainer.offsetLeft;
 
 const ctx = canvas.getContext('2d');
 
@@ -35,8 +43,9 @@ function handleDraw() {
   canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
     ctx.beginPath();
-    canvasX = e.clientX - canvas.offsetLeft;
-    canvasY = e.clientY - canvas.offsetTop;
+    console.log(canvas.offsetTop);
+    canvasX = e.clientX - canvasLeft;
+    canvasY = e.clientY - canvasTop;
     ctx.moveTo(canvasX, canvasY);
   });
 
@@ -45,8 +54,8 @@ function handleDraw() {
       e.preventDefault();
       return;
     }
-    canvasX = e.clientX - canvas.offsetLeft;
-    canvasY = e.clientY - canvas.offsetTop;
+    canvasX = e.clientX - canvasLeft;
+    canvasY = e.clientY - canvasTop;
     ctx.lineTo(canvasX, canvasY);
     ctx.strokeStyle = mainColor;
     ctx.stroke();
@@ -60,6 +69,10 @@ function handleDraw() {
 
 brushSizeInput.addEventListener('input', handleBrushSize);
 
+function changeMode(mode) {
+  return currentMode = mode;
+}
+
 function handleBrushSize(e) {
   brushSize = ctx.lineWidth = e.target.value;
 }
@@ -71,30 +84,37 @@ function handleMainColor(e) {
 }
 
 secondColorPicker.addEventListener('input', handleSecondColor);
-
 function handleSecondColor(e) {
   secondColor = e.target.value;
 }
 
 clearBtn.addEventListener('click', (e) => {
   ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+  fillArea('canvas');
 })
-
 canvasWidthInput.addEventListener('input', (e) => {
   canvasWidth = canvas.width = e.target.value;
 })
-
 canvasHeightInput.addEventListener('input', (e) => {
   canvasHeight = canvas.height = e.target.value;
 })
 
-function fillArea() {
-  ctx.fillRect();
+function fillArea(element) {
+  if (element === 'canvas') {
+    ctx.fillStyle = "#f2f2f2";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  } else {
+    return;
+  }
 }
 
 document.addEventListener('keydown', e => {
   if (e.key === 'x') {
     switchColor();
+  }
+  if (e.key === 'g') {
+    console.log('g');
+    changeMode('fill');
   }
 })
 
@@ -105,7 +125,7 @@ function switchColor(e) {
 }
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
-const layerContainer = document.querySelector('#layerContainer');
+const layerWrapper = document.querySelector('#layerWrapper');
 
 const layers = new Proxy([], {
   get: (target, index) => {
@@ -113,10 +133,9 @@ const layers = new Proxy([], {
   },
   set: (target, index, value) => {
     const li = document.createElement('li');
-    li.classList = ['py-1 px-3 border-2 border-red']
     target[index] = value;
     li.textContent = value.order;
-    layerContainer.appendChild(li);
+    layerWrapper.appendChild(li);
     return true;
   }
 })
@@ -165,7 +184,7 @@ function createNewLayer() {
   list.innerHTML = layer.order;
   list.appendChild(delBtn);
   list.appendChild(cleanBtn);
-  layerContainer.appendChild(list);
+  layerWrapper.appendChild(list);
   layers.push(layer);
 
   const delBtnArray = document.querySelectorAll('#delLayer');

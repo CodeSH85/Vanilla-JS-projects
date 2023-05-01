@@ -8,25 +8,43 @@ html {
   width: 100%;
   height: 100%;
 }
-main {
-  width: inherit;
-  height: inherit;
-  display: grid;
+ul {
+  list-style: none;
 }
-.canvas-container {
-  border: 1px solid black;
-  position: relative;  
+main {
+  width: 100vw;
+  height: 100vh;
+  background-color: #d3d3d3;
+  padding: .8em;
+  display: grid;
+  grid-template-areas:
+  'header header header header header header'
+  'main main main main right right';
+  grid-template-rows: [header] 100px;
 }
 .toolbar-container {
-
+  grid-area: header;
 }
 .toolbar {
-
+  display: flex;
 }
-
-.canvas-container canvas {
+.toolbar > * {
+  margin: 0  1em;
+}
+.canvas-container {
+  grid-area: main;
+  position: relative;
+}
+canvas {
   position: absolute;
   top: 0;
   left: 0;
   z-index: 0;
+}
+.layer-container {
+  grid-area: right;
+}
+.layer-wrapper {
+  display: flex;
+  flex-direction: column;
 }

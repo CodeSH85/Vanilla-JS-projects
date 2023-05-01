@@ -9,7 +9,7 @@
 </head>
 <body>
   <main>
-    <nav class="toolbar-container">
+    <nav class="section toolbar-container">
       <ul class="toolbar">
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
           <label for="brushSize">
@@ -40,15 +40,15 @@
         </li>
       </ul>
     </nav>
-    <nav class="layer-section">
+    <nav class="section layer-container">
       <div>
         <span>layers</span>
         <button id="addLayerBtn">add layer</button>
       </div>
-      <ul id="layerContainer">
+      <ul class="layer-wrapper" id="layerWrapper">
       </ul>
     </nav>
-    <section class="canvas-container">
+    <section class="section canvas-container">
       <canvas id="canvas" width="500" height="500"></canvas>
     </section>
   </main>
