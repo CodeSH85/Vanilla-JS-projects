@@ -1,4 +1,4 @@
-// DOM
+// DOM Elements
 const canvas = document.querySelector('#canvas');
 const canvasContainer = document.querySelector('.canvas-container');
 const brushSizeInput = document.querySelector('#brushSize');
@@ -8,25 +8,34 @@ const clearBtn = document.querySelector('#clearCanvas');
 const canvasWidthInput = document.querySelector('#canvasWidth');
 const canvasHeightInput = document.querySelector('#canvasHeight');
 
-// setting
-let canvasWidth = canvas.width;
-let canvasHeight = canvas.height;
-let mainColor = '#f00000';
-let secondColor = '#000000';
-let brushSize = 3;
+// Tool Settings
+let Canvas_Width = canvas.width;
+let Canvas_Height = canvas.height;
+let Main_Color = '#ff0000';
+let Second_Color = '#00ffff';
+let Brush_Size = 3;
 
 // flag
 let currentMode = 'draw';
 let isMouseDown = false;
 
+// init
 document.addEventListener('DOMContentLoaded', () => {
   fillArea('canvas');
   handleDraw();
-  mainColorPicker.value = mainColor;
-  secondColorPicker.value = secondColor;
+  mainColorPicker.value = Main_Color;
+  secondColorPicker.value = Second_Color;
   canvasWidthInput.value = canvas.width;
   canvasHeightInput.value = canvas.height;
-  brushSizeInput.value = ctx.lineWidth = brushSize;
+  brushSizeInput.value = ctx.lineWidth = Brush_Size;
+})
+
+document.addEventListener('mouseover', e => {
+  if (e.target.id === 'canvas') {
+    document.body.style.cursor = 'crosshair';
+  } else {
+    document.body.style.cursor = 'arrow';
+  }
 })
 
 let canvasX;
@@ -43,7 +52,6 @@ function handleDraw() {
   canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
     ctx.beginPath();
-    console.log(canvas.offsetTop);
     canvasX = e.clientX - canvasLeft;
     canvasY = e.clientY - canvasTop;
     ctx.moveTo(canvasX, canvasY);
@@ -57,7 +65,7 @@ function handleDraw() {
     canvasX = e.clientX - canvasLeft;
     canvasY = e.clientY - canvasTop;
     ctx.lineTo(canvasX, canvasY);
-    ctx.strokeStyle = mainColor;
+    ctx.strokeStyle = Main_Color;
     ctx.stroke();
   });
 
@@ -67,6 +75,7 @@ function handleDraw() {
   });
 }
 
+// brushSizeInput.addEventListener('input', handleBrushSize);
 brushSizeInput.addEventListener('input', handleBrushSize);
 
 function changeMode(mode) {
@@ -74,29 +83,30 @@ function changeMode(mode) {
 }
 
 function handleBrushSize(e) {
-  brushSize = ctx.lineWidth = e.target.value;
+  let val = e.target.value
+  changeBrushSize(val);
 }
 
 mainColorPicker.addEventListener('input', handleMainColor);
 
 function handleMainColor(e) {
-  mainColor = ctx.strokeStyle = e.target.value;
+  Main_Color = ctx.strokeStyle = e.target.value;
 }
 
 secondColorPicker.addEventListener('input', handleSecondColor);
 function handleSecondColor(e) {
-  secondColor = e.target.value;
+  Second_Color = e.target.value;
 }
 
 clearBtn.addEventListener('click', (e) => {
-  ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+  ctx.clearRect(0, 0, Canvas_Width, Canvas_Height);
   fillArea('canvas');
 })
 canvasWidthInput.addEventListener('input', (e) => {
-  canvasWidth = canvas.width = e.target.value;
+  Canvas_Width = canvas.width = e.target.value;
 })
 canvasHeightInput.addEventListener('input', (e) => {
-  canvasHeight = canvas.height = e.target.value;
+  Canvas_Height = canvas.height = e.target.value;
 })
 
 function fillArea(element) {
@@ -113,88 +123,35 @@ document.addEventListener('keydown', e => {
     switchColor();
   }
   if (e.key === 'g') {
-    console.log('g');
     changeMode('fill');
+  }
+  if (e.key === 'a') {
+    Brush_Size --;
+    changeBrushSize(Brush_Size);
+  }
+  if (e.key === 's') {
+    Brush_Size ++;
+    changeBrushSize(Brush_Size);
   }
 })
 
 function switchColor(e) {
-  [ mainColor, secondColor ] = [ secondColor, mainColor];
-  mainColorPicker.value = mainColor;
-  secondColorPicker.value = secondColor;
+  [ Main_Color, Second_Color ] = [ Second_Color, Main_Color];
+  mainColorPicker.value = Main_Color;
+  secondColorPicker.value = Second_Color;
 }
+
+function changeBrushSize(val) {
+  Brush_Size = ctx.lineWidth = val;
+  brushSizeInput.value = Brush_Size;
+}
+
+// Layer
+
+const layer_proto = {
+  layerData: '',
+};
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
 const layerWrapper = document.querySelector('#layerWrapper');
-
-const layers = new Proxy([], {
-  get: (target, index) => {
-    return target[index];
-  },
-  set: (target, index, value) => {
-    const li = document.createElement('li');
-    target[index] = value;
-    li.textContent = value.order;
-    layerWrapper.appendChild(li);
-    return true;
-  }
-})
-
-// function updateLayer() {
-//   layersProxy.splice(0, layersProxy.length);
-//   for (const li of layerContainer.children) {
-//     layersProxy.push(li.textContent);
-//   }
-// }
-
-// addLayerBtn.addEventListener('click', createNewLayer);
-// function createNewLayer() {
-//   const layer = {
-//     order: 1,
-//   };
-//   layersProxy.push(layer);
-// }
-
-function render(element, data) {
-  if (typeof value === 'string') {
-    element.innerHTML = value;
-  };
-  if (typeof value === 'number') {
-    element.innerHTML = value.toString();
-  }
-  if (Array.isArray(value)) {
-    element.innerHTML = '';
-    value.forEach( data => {
-      const itemElement = document.createElement('li');
-    })
-  }
-}
-
-addLayerBtn.addEventListener('click', createNewLayer);
-function createNewLayer() {
-  const layer = {
-    order: 1,
-  };
-  const list = document.createElement('li');
-  const delBtn = document.createElement('button');
-  const cleanBtn = document.createElement('button');
-  delBtn.innerText = 'delete layer';
-  delBtn.id = 'delLayer'
-  cleanBtn.innerText = 'clean layer';
-  list.innerHTML = layer.order;
-  list.appendChild(delBtn);
-  list.appendChild(cleanBtn);
-  layerWrapper.appendChild(list);
-  layers.push(layer);
-
-  const delBtnArray = document.querySelectorAll('#delLayer');
-  delBtnArray.forEach( btn => {
-    btn.addEventListener('click', e => {
-      console.log(e.target);
-      layerContainer.forEach(layer => {
-
-      })
-    }) 
-  })
-}
 

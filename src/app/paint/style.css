@@ -34,6 +34,7 @@ main {
 .canvas-container {
   grid-area: main;
   position: relative;
+  cursor: none;
 }
 canvas {
   position: absolute;
@@ -47,4 +48,10 @@ canvas {
 .layer-wrapper {
   display: flex;
   flex-direction: column;
+}
+.cursor {
+  width: 6px;
+  height: 6px;
+  border: 2px solid #fff;
+  border-radius: 50%;
 }
