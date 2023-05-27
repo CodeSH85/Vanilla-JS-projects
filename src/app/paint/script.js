@@ -1,3 +1,6 @@
+
+import layer from './layer.js';
+
 // DOM Elements
 const canvas = document.querySelector('#canvas');
 const canvasContainer = document.querySelector('.canvas-container');
@@ -147,11 +150,21 @@ function changeBrushSize(val) {
 }
 
 // Layer
+const layerContainer = [];
+const newLayer = new layer('');
+layerContainer.push(newLayer);
 
-const layer_proto = {
-  layerData: '',
-};
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
 const layerWrapper = document.querySelector('#layerWrapper');
 
+layerWrapper.innerHTML = ''
+
+addLayerBtn.addEventListener('click', e => {
+  const test = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
+  console.log(test);
+  let imageData = new ImageData(200, 100, { colorSpace: "display-p3" })
+  const newLayer = new layer(imageData);
+  console.log(newLayer.image_data);
+  layerContainer.push(newLayer);
+})
