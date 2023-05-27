@@ -5,8 +5,10 @@
   approach: Class?
 */
 class layer {
-  constructor(image_data) {
-    this.image_data = image_data;
+  constructor(imageData, layerName) {
+    this.image_data = imageData;
+    this.layer_name = layerName;
+    this.is_Active = true;
   }
   clearLayer() {
     this.image_data = null;

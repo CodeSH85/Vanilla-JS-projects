@@ -26,6 +26,7 @@ let isMouseDown = false;
 document.addEventListener('DOMContentLoaded', () => {
   fillArea('canvas');
   handleDraw();
+  updateLayerContainer();
   mainColorPicker.value = Main_Color;
   secondColorPicker.value = Second_Color;
   canvasWidthInput.value = canvas.width;
@@ -150,21 +151,33 @@ function changeBrushSize(val) {
 }
 
 // Layer
+let currentLayer = ''
 const layerContainer = [];
-const newLayer = new layer('');
+const newLayer = new layer('', 'new layer');
 layerContainer.push(newLayer);
 
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
 const layerWrapper = document.querySelector('#layerWrapper');
 
-layerWrapper.innerHTML = ''
+layerWrapper.innerHTML = '';
+function updateLayerContainer() {
+  layerWrapper.innerHTML = ``;
+  if (!layerContainer.length) return;
+  layerContainer.forEach( layer => {
+    const template = `<span>${layer.layer_name}<span>`;
+    const child = document.createElement('div');
+    child.innerHTML = template;
+    layerWrapper.appendChild(child);
+  })
+}
 
 addLayerBtn.addEventListener('click', e => {
   const test = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
-  console.log(test);
   let imageData = new ImageData(200, 100, { colorSpace: "display-p3" })
-  const newLayer = new layer(imageData);
+  const newLayer = new layer(imageData, 'new layer');
   console.log(newLayer.image_data);
   layerContainer.push(newLayer);
+  console.log(layerContainer);
+  updateLayerContainer();
 })
