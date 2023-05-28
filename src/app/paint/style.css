@@ -34,7 +34,7 @@ main {
 .canvas-container {
   grid-area: main;
   position: relative;
-  cursor: none;
+  /* cursor: none; */
 }
 canvas {
   position: absolute;
@@ -48,6 +48,12 @@ canvas {
 .layer-wrapper {
   display: flex;
   flex-direction: column;
+}
+.layer-span {
+  border: 1px solid red;
+}
+.active-layer {
+  background-color: bisque;
 }
 .cursor {
   width: 6px;

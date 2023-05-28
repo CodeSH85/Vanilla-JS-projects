@@ -9,10 +9,11 @@ class layer {
     this.image_data = imageData;
     this.layer_name = layerName;
     this.is_Active = true;
+    this.is_display = true;
   }
   clearLayer() {
     this.image_data = null;
   }
 }
 
-export default layer
+export default layer;

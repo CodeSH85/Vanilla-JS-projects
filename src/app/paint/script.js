@@ -21,12 +21,15 @@ let Brush_Size = 3;
 // flag
 let currentMode = 'draw';
 let isMouseDown = false;
+let currentLayer = '';
 
 // init
 document.addEventListener('DOMContentLoaded', () => {
+
   fillArea('canvas');
   handleDraw();
-  updateLayerContainer();
+  addNewLayer();
+
   mainColorPicker.value = Main_Color;
   secondColorPicker.value = Second_Color;
   canvasWidthInput.value = canvas.width;
@@ -42,16 +45,22 @@ document.addEventListener('mouseover', e => {
   }
 })
 
+function changeMode(mode) {
+  return currentMode = mode;
+}
+
 let canvasX;
 let canvasY;
 let canvasTop = canvasContainer.offsetTop;
 let canvasLeft = canvasContainer.offsetLeft;
-
-const ctx = canvas.getContext('2d');
+const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
 function handleDraw() {
   if (!canvas) {
     throw new Error('Canvas not supported!');
+  }
+  if (!layer) {
+    console.log('No, layer module');
   }
   canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
@@ -76,15 +85,36 @@ function handleDraw() {
   canvas.addEventListener('mouseup', (e) => {
     isMouseDown = false;
     ctx.closePath();
+    
+    layerContainer.forEach( layer => {
+      if (layer.layer_name === currentLayer) {
+        layer.image_data = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
+        console.log(layer.layer_name);
+      }
+    })
+    console.log(layerContainer);
   });
 }
 
-// brushSizeInput.addEventListener('input', handleBrushSize);
-brushSizeInput.addEventListener('input', handleBrushSize);
+// Key functions
+document.addEventListener('keydown', e => {
+  if (e.key === 'x') {
+    switchColor();
+  }
+  if (e.key === 'g') {
+    changeMode('fill');
+  }
+  if (e.key === 'a') {
+    Brush_Size --;
+    changeBrushSize(Brush_Size);
+  }
+  if (e.key === 's') {
+    Brush_Size ++;
+    changeBrushSize(Brush_Size);
+  }
+})
 
-function changeMode(mode) {
-  return currentMode = mode;
-}
+brushSizeInput.addEventListener('input', handleBrushSize);
 
 function handleBrushSize(e) {
   let val = e.target.value
@@ -92,14 +122,19 @@ function handleBrushSize(e) {
 }
 
 mainColorPicker.addEventListener('input', handleMainColor);
+secondColorPicker.addEventListener('input', handleSecondColor);
 
 function handleMainColor(e) {
   Main_Color = ctx.strokeStyle = e.target.value;
 }
-
-secondColorPicker.addEventListener('input', handleSecondColor);
 function handleSecondColor(e) {
   Second_Color = e.target.value;
+}
+
+function switchColor(e) {
+  [ Main_Color, Second_Color ] = [ Second_Color, Main_Color];
+  mainColorPicker.value = Main_Color;
+  secondColorPicker.value = Second_Color;
 }
 
 clearBtn.addEventListener('click', (e) => {
@@ -122,62 +157,76 @@ function fillArea(element) {
   }
 }
 
-document.addEventListener('keydown', e => {
-  if (e.key === 'x') {
-    switchColor();
-  }
-  if (e.key === 'g') {
-    changeMode('fill');
-  }
-  if (e.key === 'a') {
-    Brush_Size --;
-    changeBrushSize(Brush_Size);
-  }
-  if (e.key === 's') {
-    Brush_Size ++;
-    changeBrushSize(Brush_Size);
-  }
-})
-
-function switchColor(e) {
-  [ Main_Color, Second_Color ] = [ Second_Color, Main_Color];
-  mainColorPicker.value = Main_Color;
-  secondColorPicker.value = Second_Color;
-}
-
 function changeBrushSize(val) {
   Brush_Size = ctx.lineWidth = val;
   brushSizeInput.value = Brush_Size;
 }
 
-// Layer
-let currentLayer = ''
+// Layer Module
+let layerCount = 1;
 const layerContainer = [];
-const newLayer = new layer('', 'new layer');
-layerContainer.push(newLayer);
-
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
 const layerWrapper = document.querySelector('#layerWrapper');
+const currentLayerText = document.querySelector('#currentLayerText');
 
-layerWrapper.innerHTML = '';
+addLayerBtn.addEventListener('click', e => {
+  addNewLayer();
+})
+
+function setCurrentLayer(layer) {
+  currentLayer = layer.layer_name;
+  currentLayerText.textContent = currentLayer;
+  updateLayerContainer();
+}
+
+function addNewLayer() {
+  let imageData = new ImageData(200, 100, { colorSpace: "display-p3" })
+  const newLayer = new layer(imageData, `layer ${layerCount}`);
+  layerCount ++;
+  layerContainer.push(newLayer);
+  setCurrentLayer(newLayer);
+  updateLayerContainer();
+}
+
 function updateLayerContainer() {
   layerWrapper.innerHTML = ``;
   if (!layerContainer.length) return;
   layerContainer.forEach( layer => {
-    const template = `<span>${layer.layer_name}<span>`;
+    const template = `
+      <div id="layerSpan">
+        <button id="displayLayerBtn">eye</button>
+        <span>${layer.layer_name}</span>
+        <button id="deleteLayerBtn">X</button>
+      <div>
+      `;
     const child = document.createElement('div');
     child.innerHTML = template;
+    child.classList.add('layer-span');
+    child.addEventListener('click', e => {
+      setCurrentLayer(layer);
+    })
+    if (layer.layer_name === currentLayer) {
+      child.classList.add('active-layer');
+    }
     layerWrapper.appendChild(child);
+
+    const deleteLayerBtn = child.querySelector('#deleteLayerBtn');
+    deleteLayerBtn.addEventListener('click', e => {
+      deleteLayer(layer);
+    });
+    const displayLayerBtn = child.querySelector('#displayLayerBtn');
+    displayLayerBtn.addEventListener('click', e => {
+      toggleLayerDisplay(layer);
+    });
   })
 }
 
-addLayerBtn.addEventListener('click', e => {
-  const test = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
-  let imageData = new ImageData(200, 100, { colorSpace: "display-p3" })
-  const newLayer = new layer(imageData, 'new layer');
-  console.log(newLayer.image_data);
-  layerContainer.push(newLayer);
-  console.log(layerContainer);
-  updateLayerContainer();
-})
+function deleteLayer(layer) {
+  // layer.is_display = layer.is_display;
+}
+
+function toggleLayerDisplay(layer) {
+  layer.is_display = !layer.is_display;
+  console.log(layer);
+}
