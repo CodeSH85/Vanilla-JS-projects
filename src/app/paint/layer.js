@@ -4,10 +4,11 @@
   allow main function to construct a new layer
   approach: Class?
 */
-class layer {
-  constructor(imageData, layerName) {
+class Layer {
+  constructor(imageData, layerName, id) {
     this.image_data = imageData;
     this.layer_name = layerName;
+    this.layer_id = id;
     this.is_Active = true;
     this.is_display = true;
   }
@@ -16,4 +17,4 @@ class layer {
   }
 }
 
-export default layer;
+export default Layer;

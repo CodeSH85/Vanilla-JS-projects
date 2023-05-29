@@ -1,8 +1,8 @@
 
-import layer from './layer.js';
+import Layer from './layer.js';
 
 // DOM Elements
-const canvas = document.querySelector('#canvas');
+// const canvas = document.querySelector('#canvas');
 const canvasContainer = document.querySelector('.canvas-container');
 const brushSizeInput = document.querySelector('#brushSize');
 const mainColorPicker = document.querySelector('#mainColorPicker');
@@ -12,8 +12,8 @@ const canvasWidthInput = document.querySelector('#canvasWidth');
 const canvasHeightInput = document.querySelector('#canvasHeight');
 
 // Tool Settings
-let Canvas_Width = canvas.width;
-let Canvas_Height = canvas.height;
+let Canvas_Width = 500;
+let Canvas_Height = 500;
 let Main_Color = '#ff0000';
 let Second_Color = '#00ffff';
 let Brush_Size = 3;
@@ -27,13 +27,12 @@ let currentLayer = '';
 document.addEventListener('DOMContentLoaded', () => {
 
   fillArea('canvas');
-  handleDraw();
   addNewLayer();
 
   mainColorPicker.value = Main_Color;
   secondColorPicker.value = Second_Color;
-  canvasWidthInput.value = canvas.width;
-  canvasHeightInput.value = canvas.height;
+  canvasWidthInput.value = Canvas_Width;
+  canvasHeightInput.value = Canvas_Height;
   brushSizeInput.value = ctx.lineWidth = Brush_Size;
 })
 
@@ -53,13 +52,14 @@ let canvasX;
 let canvasY;
 let canvasTop = canvasContainer.offsetTop;
 let canvasLeft = canvasContainer.offsetLeft;
-const ctx = canvas.getContext('2d', { willReadFrequently: true });
+let ctx;
+// let ctx = canvas.getContext('2d', { willReadFrequently: true });
 
-function handleDraw() {
+function handleDraw(canvas) {
   if (!canvas) {
     throw new Error('Canvas not supported!');
   }
-  if (!layer) {
+  if (!Layer) {
     console.log('No, layer module');
   }
   canvas.addEventListener('mousedown', (e) => {
@@ -85,11 +85,9 @@ function handleDraw() {
   canvas.addEventListener('mouseup', (e) => {
     isMouseDown = false;
     ctx.closePath();
-    
     layerContainer.forEach( layer => {
       if (layer.layer_name === currentLayer) {
         layer.image_data = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
-        console.log(layer.layer_name);
       }
     })
     console.log(layerContainer);
@@ -142,16 +140,16 @@ clearBtn.addEventListener('click', (e) => {
   fillArea('canvas');
 })
 canvasWidthInput.addEventListener('input', (e) => {
-  Canvas_Width = canvas.width = e.target.value;
+  // Canvas_Width = canvas.width = e.target.value;
 })
 canvasHeightInput.addEventListener('input', (e) => {
-  Canvas_Height = canvas.height = e.target.value;
+  // Canvas_Height = canvas.height = e.target.value;
 })
 
 function fillArea(element) {
   if (element === 'canvas') {
-    ctx.fillStyle = "#f2f2f2";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = "#f2f2f2";
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
   } else {
     return;
   }
@@ -174,18 +172,32 @@ addLayerBtn.addEventListener('click', e => {
   addNewLayer();
 })
 
-function setCurrentLayer(layer) {
-  currentLayer = layer.layer_name;
-  currentLayerText.textContent = currentLayer;
-  updateLayerContainer();
-}
-
 function addNewLayer() {
-  let imageData = new ImageData(200, 100, { colorSpace: "display-p3" })
-  const newLayer = new layer(imageData, `layer ${layerCount}`);
+  const canvasElement = document.createElement('canvas');
+  canvasElement.width = Canvas_Width;
+  canvasElement.height = Canvas_Height;
+  canvasElement.classList.add('canvas-element');
+  canvasElement.style.position = 'absolute';
+  canvasElement.style.zIndex = layerCount;
+  canvasElement.dataset.seq = layerCount;
+
+  // canvasElement. = 'canvas';
+
+  handleDraw(canvasElement);
+  const newLayer = new Layer(canvasElement.getContext('2d'), `layer ${layerCount}`, layerCount);
   layerCount ++;
   layerContainer.push(newLayer);
   setCurrentLayer(newLayer);
+  canvasContainer.appendChild(canvasElement);
+  ctx = canvasElement.getContext('2d', { willReadFrequently: true });
+  // ctx.fillStyle = "#f2f2f2";
+  // ctx.fillRect(0, 0, Canvas_Width, Canvas_Height);
+  updateLayerContainer();
+}
+
+function setCurrentLayer(layer) {
+  currentLayer = layer.layer_name;
+  currentLayerText.textContent = currentLayer;
   updateLayerContainer();
 }
 
@@ -198,6 +210,7 @@ function updateLayerContainer() {
         <button id="displayLayerBtn">eye</button>
         <span>${layer.layer_name}</span>
         <button id="deleteLayerBtn">X</button>
+        <button id="clearLayerBtn">c</button>
       <div>
       `;
     const child = document.createElement('div');
@@ -219,14 +232,23 @@ function updateLayerContainer() {
     displayLayerBtn.addEventListener('click', e => {
       toggleLayerDisplay(layer);
     });
+    const clearLayerBtn = child.querySelector('#clearLayerBtn');
+    displayLayerBtn.addEventListener('click', e => {
+      layer.clearLayer();
+    });
   })
 }
 
 function deleteLayer(layer) {
-  // layer.is_display = layer.is_display;
+  layer.is_display = layer.is_display;
 }
 
-function toggleLayerDisplay(layer) {
-  layer.is_display = !layer.is_display;
-  console.log(layer);
+function toggleLayerDisplay(layer, element) {
+  const canvasElements = document.querySelectorAll('.canvas-element');
+  canvasElements.forEach((element) => {
+    if (parseInt(element.dataset.seq) === layer.layer_id) {
+      layer.is_display = !layer.is_display;
+      element.style.display = layer.is_display ? 'block' : 'none';
+    }
+  });
 }
