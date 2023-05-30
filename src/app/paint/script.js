@@ -90,7 +90,6 @@ function handleDraw(canvas) {
         layer.image_data = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
       }
     })
-    console.log(layerContainer);
   });
 }
 
@@ -161,7 +160,7 @@ function changeBrushSize(val) {
 }
 
 // Layer Module
-let layerCount = 1;
+let layerCount = 0;
 const layerContainer = [];
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
@@ -184,20 +183,30 @@ function addNewLayer() {
   // canvasElement. = 'canvas';
 
   handleDraw(canvasElement);
-  const newLayer = new Layer(canvasElement.getContext('2d'), `layer ${layerCount}`, layerCount);
-  layerCount ++;
+  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount-1}`
+  const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount);
   layerContainer.push(newLayer);
   setCurrentLayer(newLayer);
   canvasContainer.appendChild(canvasElement);
   ctx = canvasElement.getContext('2d', { willReadFrequently: true });
-  // ctx.fillStyle = "#f2f2f2";
-  // ctx.fillRect(0, 0, Canvas_Width, Canvas_Height);
+  console.log(layerCount);
+  if (layerCount === 0) {
+    ctx.fillStyle = "#f2f2f2";
+    ctx.fillRect(0, 0, Canvas_Width, Canvas_Height);
+  }
+  layerCount ++;
   updateLayerContainer();
 }
 
 function setCurrentLayer(layer) {
   currentLayer = layer.layer_name;
   currentLayerText.textContent = currentLayer;
+  const test = document.querySelectorAll('.canvas-element');
+  test.forEach(canvas => {
+    if (parseInt(canvas.dataset.seq) === layer.layer_id) {
+      ctx = canvas.getContext('2d', { willReadFrequently: true });
+    }
+  })
   updateLayerContainer();
 }
 
@@ -208,7 +217,7 @@ function updateLayerContainer() {
     const template = `
       <div id="layerSpan">
         <button id="displayLayerBtn">eye</button>
-        <span>${layer.layer_name}</span>
+        <span id="layer-name">${layer.layer_name}</span>
         <button id="deleteLayerBtn">X</button>
         <button id="clearLayerBtn">c</button>
       <div>

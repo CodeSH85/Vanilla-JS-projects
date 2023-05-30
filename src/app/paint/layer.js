@@ -11,6 +11,13 @@ class Layer {
     this.layer_id = id;
     this.is_Active = true;
     this.is_display = true;
+    this.opacity = 100;
+  }
+  toggleDisplay() {
+    this.is_display = !this.is_display;
+  }
+  changeOpacity(value) {
+    this.opacity = value;
   }
   clearLayer() {
     this.image_data = null;
