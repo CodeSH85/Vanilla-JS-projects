@@ -61,3 +61,12 @@ canvas {
   border: 2px solid #fff;
   border-radius: 50%;
 }
+.layer-insert-holder {
+  height: 20px;
+  width: 100%;
+  background-color: #120a6d;
+  z-index: 20;
+}
+.hover-layer-insert {
+  background-color: #918ae1;
+}

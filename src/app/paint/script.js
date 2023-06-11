@@ -1,4 +1,3 @@
-
 import Layer from './layer.js';
 
 // DOM Elements
@@ -180,16 +179,14 @@ function addNewLayer() {
   canvasElement.style.zIndex = layerCount;
   canvasElement.dataset.seq = layerCount;
 
-  // canvasElement. = 'canvas';
-
   handleDraw(canvasElement);
   let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount-1}`
   const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount);
-  layerContainer.push(newLayer);
+  // layerContainer.push(newLayer);
+  layerContainer.unshift(newLayer);
   setCurrentLayer(newLayer);
   canvasContainer.appendChild(canvasElement);
   ctx = canvasElement.getContext('2d', { willReadFrequently: true });
-  console.log(layerCount);
   if (layerCount === 0) {
     ctx.fillStyle = "#f2f2f2";
     ctx.fillRect(0, 0, Canvas_Width, Canvas_Height);
@@ -201,8 +198,8 @@ function addNewLayer() {
 function setCurrentLayer(layer) {
   currentLayer = layer.layer_name;
   currentLayerText.textContent = currentLayer;
-  const test = document.querySelectorAll('.canvas-element');
-  test.forEach(canvas => {
+  const canvasContainer = document.querySelectorAll('.canvas-element');
+  canvasContainer.forEach(canvas => {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
     }
@@ -210,53 +207,109 @@ function setCurrentLayer(layer) {
   updateLayerContainer();
 }
 
+let draggedItem = null;
+
 function updateLayerContainer() {
   layerWrapper.innerHTML = ``;
   if (!layerContainer.length) return;
+
   layerContainer.forEach( layer => {
     const template = `
-      <div id="layerSpan">
+      <div id="layerSpan" class="layer-span">
         <button id="displayLayerBtn">eye</button>
-        <span id="layer-name">${layer.layer_name}</span>
+        <span id="layerName">${layer.layer_name}</span>
         <button id="deleteLayerBtn">X</button>
         <button id="clearLayerBtn">c</button>
       <div>
       `;
+
+    const layerInsert = document.createElement('span');
+    layerInsert.classList.add('layer-insert-holder');
+
+    layerInsert.addEventListener('dragover', e => {
+      e.preventDefault();
+      e.target.classList.add('hover-layer-insert');
+    })
+    layerInsert.addEventListener('dragleave', e => {
+      e.target.classList.remove('hover-layer-insert');
+    })
+    layerInsert.addEventListener('drop', e => {
+      e.preventDefault();
+      if (e.target.classList.contains('hover-layer-insert')) {
+        e.target.classList.remove('hover-layer-insert');
+      }
+      const droppedItem = layerInsert;
+      const fromIndex = Array.from(layerContainer).indexOf(draggedItem);
+      const toIndex = Array.from(layerContainer).indexOf(droppedItem);
+      swap(fromIndex, toIndex);
+      console.log(e.target);
+    })
+
     const child = document.createElement('div');
+    
+    child.draggable = true;
     child.innerHTML = template;
-    child.classList.add('layer-span');
     child.addEventListener('click', e => {
       setCurrentLayer(layer);
     })
+
+    child.addEventListener('dragstart', e => {
+      draggedItem = child;
+      layerWrapper.style.borderWidth = `2px`;
+      layerWrapper.style.borderColor = `#0000ff`;
+      layerWrapper.style.borderStyle = `solid`;
+    })
+    child.addEventListener('dragend', e => {
+      layerWrapper.style.borderWidth = `0px`;
+      layerWrapper.style.borderColor = `#0000ff`;
+      layerWrapper.style.borderStyle = `solid`;
+    })
+
     if (layer.layer_name === currentLayer) {
       child.classList.add('active-layer');
     }
-    layerWrapper.appendChild(child);
 
+    layerWrapper.appendChild(child);
+    layerWrapper.insertBefore(layerInsert, child);
+
+    const layerNameText = child.querySelector('#layerName');
+    layerNameText.addEventListener('dblclick', e => {
+      console.log(e.target);
+    })
     const deleteLayerBtn = child.querySelector('#deleteLayerBtn');
     deleteLayerBtn.addEventListener('click', e => {
+      e.stopPropagation();
       deleteLayer(layer);
     });
     const displayLayerBtn = child.querySelector('#displayLayerBtn');
     displayLayerBtn.addEventListener('click', e => {
+      e.stopPropagation();
       toggleLayerDisplay(layer);
     });
     const clearLayerBtn = child.querySelector('#clearLayerBtn');
-    displayLayerBtn.addEventListener('click', e => {
+    clearLayerBtn.addEventListener('click', e => {
+      e.stopPropagation();
       layer.clearLayer();
     });
   })
+}
+
+function swap(from, to) {
+  const temp = layerContainer[from];
+  layerContainer[from] = layerContainer[to];
+  layerContainer[to] = layerContainer;
 }
 
 function deleteLayer(layer) {
   layer.is_display = layer.is_display;
 }
 
-function toggleLayerDisplay(layer, element) {
+function toggleLayerDisplay(layer) {
   const canvasElements = document.querySelectorAll('.canvas-element');
   canvasElements.forEach((element) => {
     if (parseInt(element.dataset.seq) === layer.layer_id) {
-      layer.is_display = !layer.is_display;
+      layer.is_display = !layer.
+      is_display;
       element.style.display = layer.is_display ? 'block' : 'none';
     }
   });

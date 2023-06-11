@@ -1,5 +1,5 @@
 /*
-  layer module:
+  Layer Module:
   Should expose as a constructor
   allow main function to construct a new layer
   approach: Class?
