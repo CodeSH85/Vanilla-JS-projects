@@ -11,20 +11,20 @@
   width: auto;
   position: relative;
 }
-.container {
-}
 section {
   position: absolute;
   /* margin-top: 20px; */
 }
 table {
+  table-layout: fixed;
   border-collapse: collapse;
-  table-layout: unset;
+  width: 1000px;
 }
 thead {
   position: sticky;
   background-color: #3b3939;
   color: #fff;
+  z-index: 1;
 }
 tbody {
   position: relative;
@@ -46,4 +46,10 @@ td, th{
 }
 .table-header {
   position: fixed;
+}
+.is-odd-row {
+  background-color: #e3eaf2;
+}
+.is-even-row {
+  background-color: #ffffff;
 }
