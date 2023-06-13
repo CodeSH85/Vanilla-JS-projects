@@ -22,6 +22,7 @@ function enableDrag(dragClass, dropSection) {
     }
   })(dragItems);
 
+  //
   function handleDragStart(e) {
     currentItem = e.target;
     currentItem.addEventListener('drag', handleDrag);
@@ -41,6 +42,7 @@ function enableDrag(dragClass, dropSection) {
     currentItem.removeEventListener('dragstart', handleDrag);
     currentItem.removeEventListener('drag', handleDragEnd);
   }
+  //
 
   dropArea.addEventListener('drop', handleDrop);
   dropArea.style.position = 'relative';

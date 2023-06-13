@@ -80,9 +80,9 @@ function getNonMineNeighbors(cell) {
       if(i === row && n === col) {
         continue;
       }
-      const targetCell = 
-      document.querySelector(`[data-col='${n}'][data-row='${i}']`);
+      const targetCell = document.querySelector(`[data-col='${n}'][data-row='${i}']`);
       if (targetCell && !targetCell.classList.contains('mine')) {
+        
         neighbors.push(targetCell);
       }
     }
@@ -100,9 +100,9 @@ function nextToMine(cell) {
       if(i === row && n === col) {
         continue;
       }
-      const targetCell = 
-      document.querySelector(`[data-col='${n}'][data-row='${i}']`);
+      const targetCell = document.querySelector(`[data-col='${n}'][data-row='${i}']`);
       if (targetCell && targetCell.classList.contains('mine')) {
+        cell.textContent = `${counter}`
         counter++;
       }
     }

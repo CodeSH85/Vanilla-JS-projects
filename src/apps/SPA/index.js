@@ -1,3 +1,4 @@
+const useHash = false;
 const mainView = document.querySelector('#mainView');
 
 document.addEventListener('click', e => {
@@ -15,17 +16,17 @@ const routes = {
     template: "/templates/404.html",
     description: "",
   },
-  "/": {    
+  "/src/SPA/": {    
     title: "Home",
     template: "/templates/index.html",
     description: "",
   },
-  "about": {    
+  "/src/SPA/about": {    
     title: "About",
     template: "/templates/about.html",
     description: "",
   },
-  "/": {    
+  "/src/SPA/service": {    
     title: "service",
     template: "/templates/service.html",
     description: "",
@@ -40,7 +41,15 @@ const urlRoute = (event) => {
 }
 
 const urlLocationHandler = async() => {
+  const location = window.location.pathname;
+  if (location.length === 0) {
+    location = "/";
+  }
 
+  const route = routes[location] || routes['404'];
+  const html = await fetch(route.template).then( res => {
+    res.text();
+  })
+  mainView.innerHTML = html;
 }
 
-const useHash = false;

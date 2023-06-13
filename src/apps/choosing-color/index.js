@@ -7,11 +7,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
 })
 
 function generateRandomColor() {
-
   let color = '#';
-
   let colorSets = [];
-  
   // generate three random color and store them into colorSets
   for(let i = 0; i < 3; i++){
     for(let x = 0; x < 6; x++){

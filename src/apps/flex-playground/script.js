@@ -8,7 +8,6 @@ let nextSibling = buttons.nextElementSibling;
 
 boxes.forEach(box => {
   box.childNodes.forEach(node => {
-    // console.log(node);
     if(node.dataset) {
       console.log(node);
     }

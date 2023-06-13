@@ -83,10 +83,10 @@ function cartDisplay() {
           <div class="desc">
             ${product.desc}
           </div>
-        </div>
-        <button class="remove-btn">
+          <button class="remove-btn">
           remove
-        </button>
+          </button>
+        </div>
       </div>
       `
     });

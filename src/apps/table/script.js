@@ -68,7 +68,7 @@ let throttleTimeout;
 
 function handleScroll(e) {
   if (scrollTime) return;
-  setTimeout(() => {
+  throttleTimeout = setTimeout(() => {
     scrollTime = true;
     clearTimeout(throttleTimeout);
 
@@ -87,4 +87,3 @@ function handleScroll(e) {
     })
   }, 150);
 };
-
