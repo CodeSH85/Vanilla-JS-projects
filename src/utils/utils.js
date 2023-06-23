@@ -1,5 +1,7 @@
 import throttle from "./throttle.js";
+import getStyle from "./getStyle.js";
 
-export default {
-  throttle,
+export {
+  getStyle,
+  throttle
 };
