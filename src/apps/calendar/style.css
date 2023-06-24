@@ -106,6 +106,9 @@ main {
 .cell-current-day {
   color: red;
 }
+.cell-empty {
+  background-color: #ceb6b6;
+}
 .cell-empty:hover {
   background-color: #f5f5f5;
 }

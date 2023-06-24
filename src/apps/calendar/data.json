@@ -75,5 +75,19 @@
     "title": "Business at LA",
     "desc": "LA meeting with client.",
     "active": "true"
+  },
+  {
+    "date": "2023/08/01",
+    "type": "work",
+    "title": "Business at Tokyo",
+    "desc": "Tokyo meeting with client.",
+    "active": "true"
+  },
+  {
+    "date": "2023/08/31",
+    "type": "work",
+    "title": "Business at Tokyo",
+    "desc": "Tokyo meeting with client.",
+    "active": "true"
   }
 ]
