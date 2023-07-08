@@ -1,0 +1,26 @@
+[
+  {
+    "type": "button",
+    "action": "save"
+  },
+  {
+    "type": "color_picker",
+    "action": "main_color"
+  },
+  {
+    "type": "color_picker",
+    "action": "second_color"
+  },
+  {
+    "type": "numeric",
+    "action": "brush_size"
+  },
+  {
+    "type": "numeric",
+    "action": "canvas_width"
+  },
+  {
+    "type": "button",
+    "action": "clear_canvas"
+  }
+]

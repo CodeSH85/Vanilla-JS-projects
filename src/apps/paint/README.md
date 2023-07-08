@@ -35,6 +35,8 @@ Advanced:
 - Brush opacity
 - Brush mode
 
+### Zoom tool
+
 ### History Steps
 
 ### Filling Tool
@@ -42,3 +44,4 @@ Advanced:
 ### Shaping tool
 
 ### Eraser tool
+

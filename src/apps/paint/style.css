@@ -15,7 +15,7 @@ main {
   width: 100vw;
   height: 100vh;
   background-color: #d3d3d3;
-  padding: .8em;
+  /* padding: .8em; */
   display: grid;
   grid-template-areas:
   'header header header header header header'
@@ -24,6 +24,7 @@ main {
 }
 .toolbar-container {
   grid-area: header;
+  padding: .6em;
 }
 .toolbar {
   display: flex;
@@ -62,7 +63,7 @@ canvas {
   border-radius: 50%;
 }
 .layer-insert-holder {
-  height: 20px;
+  height: 12px;
   width: 100%;
   background-color: #120a6d;
   z-index: 20;

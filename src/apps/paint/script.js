@@ -1,26 +1,31 @@
 import Layer from './layer.js';
 
 // DOM Elements
+
 // const canvas = document.querySelector('#canvas');
-const canvasContainer = document.querySelector('.canvas-container');
-const brushSizeInput = document.querySelector('#brushSize');
-const mainColorPicker = document.querySelector('#mainColorPicker');
-const secondColorPicker = document.querySelector('#secondColorPicker');
-const clearBtn = document.querySelector('#clearCanvas');
-const canvasWidthInput = document.querySelector('#canvasWidth');
-const canvasHeightInput = document.querySelector('#canvasHeight');
+
+const canvasContainer = document.querySelector('.canvas-container'),
+      brushSizeInput = document.querySelector('#brushSize'),
+      mainColorPicker = document.querySelector('#mainColorPicker'),
+      secondColorPicker = document.querySelector('#secondColorPicker'),
+      clearBtn = document.querySelector('#clearCanvas'),
+      canvasWidthInput = document.querySelector('#canvasWidth'),
+      canvasHeightInput = document.querySelector('#canvasHeight');
 
 // Tool Settings
-let Canvas_Width = 500;
-let Canvas_Height = 500;
-let Main_Color = '#ff0000';
-let Second_Color = '#00ffff';
-let Brush_Size = 3;
+
+let Canvas_Width = 500,
+    Canvas_Height = 500,
+    Main_Color = '#ff0000',
+    Second_Color = '#00ffff',
+    Brush_Size = 3;
+
+const modes = ['draw', 'fill', 'edit', 'select'];
 
 // flag
-let currentMode = 'draw';
-let isMouseDown = false;
-let currentLayer = '';
+let currentMode = 'draw',
+    isMouseDown = false,
+    currentLayer = ''
 
 // init
 document.addEventListener('DOMContentLoaded', () => {
@@ -47,11 +52,11 @@ function changeMode(mode) {
   return currentMode = mode;
 }
 
-let canvasX;
-let canvasY;
-let canvasTop = canvasContainer.offsetTop;
-let canvasLeft = canvasContainer.offsetLeft;
-let ctx;
+let canvasX,
+    canvasY,
+    canvasTop = canvasContainer.offsetTop,
+    canvasLeft = canvasContainer.offsetLeft,
+    ctx;
 // let ctx = canvas.getContext('2d', { willReadFrequently: true });
 
 function handleDraw(canvas) {
@@ -59,7 +64,7 @@ function handleDraw(canvas) {
     throw new Error('Canvas not supported!');
   }
   if (!Layer) {
-    console.log('No, layer module');
+    console.log('No layer module');
   }
   canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
@@ -179,12 +184,18 @@ function addNewLayer() {
   canvasElement.style.zIndex = layerCount;
   canvasElement.dataset.seq = layerCount;
 
+  const layerInsert = document.createElement('span');
+  layerInsert.dataset.seq = layerCount;
+  layerInsert.classList.add('layer-insert-holder');
+
   handleDraw(canvasElement);
   let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount-1}`
   const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount);
-  // layerContainer.push(newLayer);
+
   layerContainer.unshift(newLayer);
+  // layerContainer.push(newLayer);
   setCurrentLayer(newLayer);
+
   canvasContainer.appendChild(canvasElement);
   ctx = canvasElement.getContext('2d', { willReadFrequently: true });
   if (layerCount === 0) {
@@ -196,14 +207,17 @@ function addNewLayer() {
 }
 
 function setCurrentLayer(layer) {
+
   currentLayer = layer.layer_name;
   currentLayerText.textContent = currentLayer;
   const canvasContainer = document.querySelectorAll('.canvas-element');
+
   canvasContainer.forEach(canvas => {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
     }
   })
+
   updateLayerContainer();
 }
 
@@ -213,7 +227,7 @@ function updateLayerContainer() {
   layerWrapper.innerHTML = ``;
   if (!layerContainer.length) return;
 
-  layerContainer.forEach( layer => {
+  layerContainer.forEach((layer, index) => {
     const template = `
       <div id="layerSpan" class="layer-span">
         <button id="displayLayerBtn">eye</button>
@@ -224,7 +238,9 @@ function updateLayerContainer() {
       `;
 
     const layerInsert = document.createElement('span');
+    layerInsert.dataset.seq = index + 1;
     layerInsert.classList.add('layer-insert-holder');
+    
 
     layerInsert.addEventListener('dragover', e => {
       e.preventDefault();
@@ -233,22 +249,30 @@ function updateLayerContainer() {
     layerInsert.addEventListener('dragleave', e => {
       e.target.classList.remove('hover-layer-insert');
     })
+    
     layerInsert.addEventListener('drop', e => {
       e.preventDefault();
+
       if (e.target.classList.contains('hover-layer-insert')) {
         e.target.classList.remove('hover-layer-insert');
       }
-      const droppedItem = layerInsert;
-      const fromIndex = Array.from(layerContainer).indexOf(draggedItem);
-      const toIndex = Array.from(layerContainer).indexOf(droppedItem);
-      swap(fromIndex, toIndex);
-      console.log(e.target);
+
+      const droppedItem = layerInsert.dataset.seq;
+      console.log(draggedItem.dataset.seq);
+      console.log(droppedItem);
+      // const fromIndex = layerContainer.indexOf(draggedItem.dataset.seq);
+      // const toIndex = layerContainer.indexOf(droppedItem);
+      // console.log(layerContainer);
+      // console.log(fromIndex, toIndex);
+      // swap(fromIndex, toIndex);
+      swap(draggedItem.dataset.seq -1, droppedItem-1);
     })
 
     const child = document.createElement('div');
     
     child.draggable = true;
     child.innerHTML = template;
+    child.dataset.seq = index + 1;
     child.addEventListener('click', e => {
       setCurrentLayer(layer);
     })
@@ -276,6 +300,7 @@ function updateLayerContainer() {
     layerNameText.addEventListener('dblclick', e => {
       console.log(e.target);
     })
+
     const deleteLayerBtn = child.querySelector('#deleteLayerBtn');
     deleteLayerBtn.addEventListener('click', e => {
       e.stopPropagation();
@@ -295,9 +320,20 @@ function updateLayerContainer() {
 }
 
 function swap(from, to) {
-  const temp = layerContainer[from];
-  layerContainer[from] = layerContainer[to];
-  layerContainer[to] = layerContainer;
+
+  if (from === to) return;
+  this.splice(to, 0, this.splice(from, 1)[0]);
+  const temp = layerContainer[to];
+  console.log(from, to);
+  console.log(temp);
+  layerContainer[to] = layerContainer[from];
+  for(let i = 0; i < layerContainer.length; i++) {
+    
+  }
+  layerContainer[from] = temp;
+  console.log(layerContainer);
+
+  updateLayerContainer();
 }
 
 function deleteLayer(layer) {
