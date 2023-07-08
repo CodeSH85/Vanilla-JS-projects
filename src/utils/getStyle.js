@@ -3,12 +3,12 @@
 
 */
 
-function getStyle (DOMElement, property, pureNumValue=false) {
-  if (!(DOMElement instanceof Element)) {
+function getStyle (element, property, pureNumValue=false) {
+  if (!(element instanceof Element)) {
     throw new Error('DOM Element expected.');
   }
 
-  let style = window.getComputedStyle(DOMElement).getPropertyValue(property);
+  let style = window.getComputedStyle(element).getPropertyValue(property);
 
   if (!pureNumValue) {
     return style;
