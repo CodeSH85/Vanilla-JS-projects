@@ -1,26 +1,84 @@
-[
-  {
-    "type": "button",
-    "action": "save"
-  },
-  {
-    "type": "color_picker",
-    "action": "main_color"
-  },
-  {
-    "type": "color_picker",
-    "action": "second_color"
-  },
-  {
-    "type": "numeric",
-    "action": "brush_size"
-  },
-  {
-    "type": "numeric",
-    "action": "canvas_width"
-  },
-  {
-    "type": "button",
-    "action": "clear_canvas"
-  }
-]
+{
+  "menu_config": [
+    {
+      "type": "button",
+      "title": "Brush Tool",
+      "dataType": "string",
+      "key": "brushTool"
+    },
+    {
+      "type": "button",
+      "title": "Shape Tool",
+      "dataType": "string",
+      "key": "shapeTool"
+    },
+    {
+      "type": "button",
+      "title": "Save",
+      "dataType": "",
+      "key": "save"
+    },
+    {
+      "type": "button",
+      "title": "Redo",
+      "dataType": "",
+      "key": "redo"
+    },
+    {
+      "type": "button",
+      "title": "Undo",
+      "dataType": "string",
+      "key": "undo"
+    },
+    {
+      "type": "color_picker",
+      "action": "main_color"
+    },
+    {
+      "type": "color_picker",
+      "action": "second_color"
+    },
+    {
+      "type": "numeric",
+      "action": "canvas_width"
+    },
+    {
+      "type": "button",
+      "action": "clear_canvas"
+    }
+  ],
+  "brush_tool_options": [
+    {
+      "type": "input",
+      "title": "Brush Size",
+      "dataType": "numeric",
+      "key": "brushSize"
+    },
+    {
+      "type": "select",
+      "title": "Brush Shape",
+      "dataType": "",
+      "key": "brushShape"
+    }
+  ],
+  "shape_tool_options": [
+    {
+      "type": "select",
+      "title": "Line Shape",
+      "dataType": "",
+      "key": "lineShape"
+    },
+    {
+      "type": "select",
+      "title": "Circle Shape",
+      "dataType": "",
+      "key": "circleShape"
+    },
+    {
+      "type": "select",
+      "title": "Curve Shape",
+      "dataType": "",
+      "key": "curveShape"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
-import Layer from './layer.js';
+import Layer from "./layer.js";
+import toolbar_setting from "./toolbar_setting.json" assert { type: "json" };
 
 // DOM Elements
 
@@ -10,7 +11,10 @@ const canvasContainer = document.querySelector('.canvas-container'),
       secondColorPicker = document.querySelector('#secondColorPicker'),
       clearBtn = document.querySelector('#clearCanvas'),
       canvasWidthInput = document.querySelector('#canvasWidth'),
-      canvasHeightInput = document.querySelector('#canvasHeight');
+      canvasHeightInput = document.querySelector('#canvasHeight'),
+      shapeBtn = document.querySelector('#shapeBtn'),
+      brushBtn = document.querySelector('#brushBtn'),
+      toolbar = document.querySelector('#toolbar');
 
 // Tool Settings
 
@@ -20,10 +24,8 @@ let Canvas_Width = 500,
     Second_Color = '#00ffff',
     Brush_Size = 3;
 
-const modes = ['draw', 'fill', 'edit', 'select'];
-
 // flag
-let currentMode = 'draw',
+let currentMode = 'brush',
     isMouseDown = false,
     currentLayer = ''
 
@@ -32,6 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   fillArea('canvas');
   addNewLayer();
+  setToolbar();
 
   mainColorPicker.value = Main_Color;
   secondColorPicker.value = Second_Color;
@@ -47,10 +50,6 @@ document.addEventListener('mouseover', e => {
     document.body.style.cursor = 'arrow';
   }
 })
-
-function changeMode(mode) {
-  return currentMode = mode;
-}
 
 let canvasX,
     canvasY,
@@ -349,4 +348,37 @@ function toggleLayerDisplay(layer) {
       element.style.display = layer.is_display ? 'block' : 'none';
     }
   });
+}
+
+function changeMode(event) {
+  let value = event.target.dataset.mode;
+  currentMode = value;
+  setToolbar();
+}
+
+const modeBtnContainer = [brushBtn, shapeBtn];
+modeBtnContainer.forEach(btn => {
+  btn.addEventListener('click', changeMode)
+})
+
+function setToolbar() {
+  console.log(currentMode);
+  console.log(toolbar_setting);
+  if (currentMode === "brush") {
+
+    toolbar_setting.brush_tool_options.forEach(opt => {
+      let template = `
+        <li>
+          <label>${opt.title}</label>
+          <template ${opt.dataType}>
+            
+          </template>
+        <li>
+      `
+    })
+    toolbar.innerHTML = 'brush';
+  }
+  if (currentMode === "shape") {
+    toolbar.innerHTML = "shape";
+  }
 }
