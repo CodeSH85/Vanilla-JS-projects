@@ -357,28 +357,37 @@ function changeMode(event) {
 }
 
 const modeBtnContainer = [brushBtn, shapeBtn];
-modeBtnContainer.forEach(btn => {
+modeBtnContainer.forEach( btn => {
   btn.addEventListener('click', changeMode)
 })
 
 function setToolbar() {
-  console.log(currentMode);
-  console.log(toolbar_setting);
-  if (currentMode === "brush") {
+  toolbar.innerHTML = ``;
 
-    toolbar_setting.brush_tool_options.forEach(opt => {
-      let template = `
-        <li>
-          <label>${opt.title}</label>
-          <template ${opt.dataType}>
-            
-          </template>
-        <li>
-      `
-    })
-    toolbar.innerHTML = 'brush';
-  }
-  if (currentMode === "shape") {
-    toolbar.innerHTML = "shape";
+  const frag = document.createDocumentFragment();
+
+  // toolbar_setting.brush_tool_options.forEach( opt => {
+  toolbar_setting[`${currentMode}_tool_options`].forEach( opt => {
+    const li = document.createElement('li');
+    let template = 
+    `
+      <label>${opt.title}</label>
+    `
+    li.innerHTML = template;
+    if (opt.type === 'input') {
+      const input = document.createElement('input');
+      input.type = 'number';
+      li.appendChild(input);
+    }
+    frag.appendChild(li);
+  })
+
+  toolbar.appendChild(frag);
+}
+
+const renderNodes = () => {
+  
+  return node => {
+    return Node;
   }
 }

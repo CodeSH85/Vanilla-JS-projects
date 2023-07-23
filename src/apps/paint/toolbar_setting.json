@@ -31,15 +31,18 @@
       "key": "undo"
     },
     {
-      "type": "color_picker",
+      "type": "input",
+      "dataType": "string",
       "action": "main_color"
     },
     {
-      "type": "color_picker",
+      "type": "input",
+      "dataType": "string",
       "action": "second_color"
     },
     {
-      "type": "numeric",
+      "type": "input",
+      "dataType": "numeric",
       "action": "canvas_width"
     },
     {

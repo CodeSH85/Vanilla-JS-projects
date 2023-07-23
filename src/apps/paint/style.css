@@ -15,12 +15,19 @@ main {
   width: 100vw;
   height: 100vh;
   background-color: #d3d3d3;
-  /* padding: .8em; */
   display: grid;
   grid-template-areas:
   'header header header header header header'
-  'main main main main right right';
+  'main main main main right right'
+  'footer footer footer footer footer';
   grid-template-rows: [header] 100px;
+  /* grid-template-rows: [footer] 100px; */
+}
+footer {
+  grid-area: footer;
+}
+.footer-toolbar {
+  display: flex;
 }
 .toolbar-container {
   grid-area: header;
@@ -45,8 +52,12 @@ canvas {
 }
 .layer-container {
   grid-area: right;
+  padding: .6em;
+  background-color: rgb(178, 177, 177);
+  border: 1px solid red;
 }
 .layer-wrapper {
+  background-color: rgb(218, 218, 218);
   display: flex;
   flex-direction: column;
 }
