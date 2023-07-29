@@ -14,21 +14,16 @@
       
       <button id="shapeBtn" data-mode="shape">Shape</button>
       <button id="brushBtn" data-mode="brush">Brush</button>
-      <ul class="toolbar" id="toolbar">
+
+      <ul style="display: flex;">
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <label for="brushSize">
-            Brush Size
-          </label>
-          <input type="number" id="brushSize" placeholder="brush size">
-        </li>
-        <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <label for="colorPicker">
+          <label for="mainColorPicker">
             Main Color
           </label>
           <input type="color" id="mainColorPicker">
         </li>
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
-          <label for="colorPicker">
+          <label for="secondColorPicker">
             Second Color
           </label>
           <input type="color" id="secondColorPicker">
@@ -43,12 +38,15 @@
           </button>
         </li>
       </ul>
+
+      <ul class="toolbar" id="toolbar">
+      </ul>
     </nav>
     <nav class="section layer-container">
       <!-- <div> -->
         <span>layers</span>
         <div>
-          current layer:
+          <!-- current layer: -->
           <span class="current-layer-text" id="currentLayerText">Test</span>
         <div>
         <button id="addLayerBtn">Add Layer</button>

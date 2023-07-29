@@ -18,8 +18,8 @@ main {
   display: grid;
   grid-template-areas:
   'header header header header header header'
-  'main main main main right right'
-  'footer footer footer footer footer';
+  'main main main main right right';
+  /* 'footer footer footer footer footer'; */
   grid-template-rows: [header] 100px;
   /* grid-template-rows: [footer] 100px; */
 }

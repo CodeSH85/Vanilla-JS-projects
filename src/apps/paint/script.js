@@ -1,12 +1,26 @@
 import Layer from "./layer.js";
 import toolbar_setting from "./toolbar_setting.json" assert { type: "json" };
 
+// init
+document.addEventListener('DOMContentLoaded', () => {
+
+  fillArea('canvas');
+  addNewLayer();
+  setToolbar();
+  
+  mainColorPicker.value = Main_Color;
+  secondColorPicker.value = Second_Color;
+  canvasWidthInput.value = Canvas_Width;
+  canvasHeightInput.value = Canvas_Height;
+  // brushSizeInput.value = ctx.lineWidth = Brush_Size;
+  // brushSizeInput.addEventListener('input', handleBrushSize);
+
+})
+
 // DOM Elements
-
-// const canvas = document.querySelector('#canvas');
-
+let brushSizeInput;
 const canvasContainer = document.querySelector('.canvas-container'),
-      brushSizeInput = document.querySelector('#brushSize'),
+      // brushSizeInput = document.querySelector('#brushSize'),
       mainColorPicker = document.querySelector('#mainColorPicker'),
       secondColorPicker = document.querySelector('#secondColorPicker'),
       clearBtn = document.querySelector('#clearCanvas'),
@@ -17,7 +31,6 @@ const canvasContainer = document.querySelector('.canvas-container'),
       toolbar = document.querySelector('#toolbar');
 
 // Tool Settings
-
 let Canvas_Width = 500,
     Canvas_Height = 500,
     Main_Color = '#ff0000',
@@ -27,29 +40,16 @@ let Canvas_Width = 500,
 // flag
 let currentMode = 'brush',
     isMouseDown = false,
-    currentLayer = ''
+    currentLayer = '';
 
-// init
-document.addEventListener('DOMContentLoaded', () => {
 
-  fillArea('canvas');
-  addNewLayer();
-  setToolbar();
-
-  mainColorPicker.value = Main_Color;
-  secondColorPicker.value = Second_Color;
-  canvasWidthInput.value = Canvas_Width;
-  canvasHeightInput.value = Canvas_Height;
-  brushSizeInput.value = ctx.lineWidth = Brush_Size;
-})
-
-document.addEventListener('mouseover', e => {
-  if (e.target.id === 'canvas') {
-    document.body.style.cursor = 'crosshair';
-  } else {
-    document.body.style.cursor = 'arrow';
-  }
-})
+// document.addEventListener('mouseover', e => {
+//   if (e.target.id === 'canvas') {
+//     document.body.style.cursor = 'crosshair';
+//   } else {
+//     document.body.style.cursor = 'arrow';
+//   }
+// })
 
 let canvasX,
     canvasY,
@@ -88,7 +88,7 @@ function handleDraw(canvas) {
   canvas.addEventListener('mouseup', (e) => {
     isMouseDown = false;
     ctx.closePath();
-    layerContainer.forEach( layer => {
+    layerContainerArr.forEach( layer => {
       if (layer.layer_name === currentLayer) {
         layer.image_data = ctx.getImageData(10, 10, Canvas_Width, Canvas_Height);
       }
@@ -114,7 +114,7 @@ document.addEventListener('keydown', e => {
   }
 })
 
-brushSizeInput.addEventListener('input', handleBrushSize);
+// brushSizeInput.addEventListener('input', handleBrushSize);
 
 function handleBrushSize(e) {
   let val = e.target.value
@@ -163,8 +163,8 @@ function changeBrushSize(val) {
 }
 
 // Layer Module
+const layerContainerArr = [];
 let layerCount = 0;
-const layerContainer = [];
 
 const addLayerBtn = document.querySelector('#addLayerBtn');
 const layerWrapper = document.querySelector('#layerWrapper');
@@ -175,24 +175,23 @@ addLayerBtn.addEventListener('click', e => {
 })
 
 function addNewLayer() {
+
   const canvasElement = document.createElement('canvas');
+
   canvasElement.width = Canvas_Width;
   canvasElement.height = Canvas_Height;
   canvasElement.classList.add('canvas-element');
   canvasElement.style.position = 'absolute';
-  canvasElement.style.zIndex = layerCount;
+  // canvasElement.style.zIndex = layerCount;
+  canvasElement.style.zIndex = 1;
   canvasElement.dataset.seq = layerCount;
 
-  const layerInsert = document.createElement('span');
-  layerInsert.dataset.seq = layerCount;
-  layerInsert.classList.add('layer-insert-holder');
-
   handleDraw(canvasElement);
-  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount-1}`
+
+  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount-1}`;
   const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount);
 
-  layerContainer.unshift(newLayer);
-  // layerContainer.push(newLayer);
+  layerContainerArr.unshift(newLayer);
   setCurrentLayer(newLayer);
 
   canvasContainer.appendChild(canvasElement);
@@ -201,8 +200,9 @@ function addNewLayer() {
     ctx.fillStyle = "#f2f2f2";
     ctx.fillRect(0, 0, Canvas_Width, Canvas_Height);
   }
+
   layerCount ++;
-  updateLayerContainer();
+  updateLayerContainerArr();
 }
 
 function setCurrentLayer(layer) {
@@ -211,35 +211,40 @@ function setCurrentLayer(layer) {
   currentLayerText.textContent = currentLayer;
   const canvasContainer = document.querySelectorAll('.canvas-element');
 
-  canvasContainer.forEach(canvas => {
+  canvasContainer.forEach( canvas => {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
     }
   })
 
-  updateLayerContainer();
+  updateLayerContainerArr();
 }
 
 let draggedItem = null;
 
-function updateLayerContainer() {
-  layerWrapper.innerHTML = ``;
-  if (!layerContainer.length) return;
+function updateLayerContainerArr() {
 
-  layerContainer.forEach((layer, index) => {
+  layerWrapper.innerHTML = '';
+  if (!layerContainerArr.length) return;
+
+  layerContainerArr.forEach((layer, index) => {
+
     const template = `
       <div id="layerSpan" class="layer-span">
         <button id="displayLayerBtn">eye</button>
-        <span id="layerName">${layer.layer_name}</span>
+        <input value="${layer.layer_name}" class="layerName" id="layer${layer.layerName}">
         <button id="deleteLayerBtn">X</button>
         <button id="clearLayerBtn">c</button>
       <div>
-      `;
+    `;
 
+
+    // layer insert span for reorder
     const layerInsert = document.createElement('span');
+    
     layerInsert.dataset.seq = index + 1;
     layerInsert.classList.add('layer-insert-holder');
-    
+  
 
     layerInsert.addEventListener('dragover', e => {
       e.preventDefault();
@@ -255,19 +260,18 @@ function updateLayerContainer() {
       if (e.target.classList.contains('hover-layer-insert')) {
         e.target.classList.remove('hover-layer-insert');
       }
-
-      const droppedItem = layerInsert.dataset.seq;
-      console.log(draggedItem.dataset.seq);
-      console.log(droppedItem);
-      // const fromIndex = layerContainer.indexOf(draggedItem.dataset.seq);
-      // const toIndex = layerContainer.indexOf(droppedItem);
-      // console.log(layerContainer);
-      // console.log(fromIndex, toIndex);
-      // swap(fromIndex, toIndex);
-      swap(draggedItem.dataset.seq -1, droppedItem-1);
+      moveTo(draggedItem.dataset.seq - 1, layerInsert.dataset.seq - 1);
     })
+    //
 
     const child = document.createElement('div');
+
+    // if (index === 0 ) {
+      // const layerInsert = document.createElement('span');
+      layerInsert.dataset.seq = index;
+      layerInsert.classList.add('layer-insert-holder');
+      layerWrapper.appendChild(layerInsert);
+    // }
     
     child.draggable = true;
     child.innerHTML = template;
@@ -291,15 +295,22 @@ function updateLayerContainer() {
     if (layer.layer_name === currentLayer) {
       child.classList.add('active-layer');
     }
-
+    
     layerWrapper.appendChild(child);
     layerWrapper.insertBefore(layerInsert, child);
 
-    const layerNameText = child.querySelector('#layerName');
-    layerNameText.addEventListener('dblclick', e => {
-      console.log(e.target);
-    })
+    if (index === layerCount - 1 ) {
+      const layerInsert = document.createElement('span');
+      layerInsert.dataset.seq = index;
+      layerInsert.classList.add('layer-insert-holder');
+      layerWrapper.appendChild(layerInsert);
+    }
 
+    const layerNameText = child.querySelector('.layerName');
+    layerNameText.addEventListener('dblclick', e => {
+      // rename
+      console.log(e.target);
+    });
     const deleteLayerBtn = child.querySelector('#deleteLayerBtn');
     deleteLayerBtn.addEventListener('click', e => {
       e.stopPropagation();
@@ -318,21 +329,11 @@ function updateLayerContainer() {
   })
 }
 
-function swap(from, to) {
+function moveTo(from, to) {
 
   if (from === to) return;
-  this.splice(to, 0, this.splice(from, 1)[0]);
-  const temp = layerContainer[to];
-  console.log(from, to);
-  console.log(temp);
-  layerContainer[to] = layerContainer[from];
-  for(let i = 0; i < layerContainer.length; i++) {
-    
-  }
-  layerContainer[from] = temp;
-  console.log(layerContainer);
-
-  updateLayerContainer();
+  layerContainerArr.splice(to, layerContainerArr[to], layerContainerArr.splice(from, 1)[0]);
+  updateLayerContainerArr();
 }
 
 function deleteLayer(layer) {
@@ -371,18 +372,29 @@ function setToolbar() {
     const li = document.createElement('li');
     let template = 
     `
-      <label>${opt.title}</label>
+      <label for="${opt.key}">${opt.title}</label>
     `
     li.innerHTML = template;
     if (opt.type === 'input') {
       const input = document.createElement('input');
+      input.id = opt.key;
       input.type = 'number';
       li.appendChild(input);
+      if (opt.key === 'brushSize') {
+        input.value = Brush_Size;
+        input.addEventListener('input', handleBrushSize);
+        brushSizeInput = input;
+      }
+    }
+    if (opt.type === 'select') {
+      const select = document.createElement('select');
+      li.appendChild(select);
     }
     frag.appendChild(li);
   })
 
   toolbar.appendChild(frag);
+
 }
 
 const renderNodes = () => {
