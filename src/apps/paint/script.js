@@ -182,16 +182,15 @@ function addNewLayer() {
   canvasElement.height = Canvas_Height;
   canvasElement.classList.add('canvas-element');
   canvasElement.style.position = 'absolute';
-  // canvasElement.style.zIndex = layerCount;
-  canvasElement.style.zIndex = 1;
   canvasElement.dataset.seq = layerCount;
-
+  
   handleDraw(canvasElement);
-
-  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount-1}`;
+  
+  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount}`;
   const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount);
-
-  layerContainerArr.unshift(newLayer);
+  
+  // layerContainerArr.unshift(newLayer);
+  layerContainerArr.push(newLayer);
   setCurrentLayer(newLayer);
 
   canvasContainer.appendChild(canvasElement);
@@ -200,20 +199,22 @@ function addNewLayer() {
     ctx.fillStyle = "#f2f2f2";
     ctx.fillRect(0, 0, Canvas_Width, Canvas_Height);
   }
-
+  
   layerCount ++;
   updateLayerContainerArr();
+  canvasElement.style.zIndex = layerContainerArr.length;
 }
 
 function setCurrentLayer(layer) {
 
   currentLayer = layer.layer_name;
   currentLayerText.textContent = currentLayer;
-  const canvasContainer = document.querySelectorAll('.canvas-element');
 
+  const canvasContainer = document.querySelectorAll('.canvas-element');
   canvasContainer.forEach( canvas => {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
+      console.log('z-index:', canvas.style.zIndex);
     }
   })
 
@@ -238,40 +239,33 @@ function updateLayerContainerArr() {
       <div>
     `;
 
-
     // layer insert span for reorder
     const layerInsert = document.createElement('span');
     
-    layerInsert.dataset.seq = index + 1;
+    layerInsert.dataset.seq = index;
     layerInsert.classList.add('layer-insert-holder');
   
-
     layerInsert.addEventListener('dragover', e => {
       e.preventDefault();
-      e.target.classList.add('hover-layer-insert');
+      e.target.classList.add('drag-over-layer-insert');
     })
     layerInsert.addEventListener('dragleave', e => {
-      e.target.classList.remove('hover-layer-insert');
+      e.target.classList.remove('drag-over-layer-insert');
     })
-    
     layerInsert.addEventListener('drop', e => {
       e.preventDefault();
-
-      if (e.target.classList.contains('hover-layer-insert')) {
-        e.target.classList.remove('hover-layer-insert');
+      if (e.target.classList.contains('drag-over-layer-insert')) {
+        e.target.classList.remove('drag-over-layer-insert');
       }
-      moveTo(draggedItem.dataset.seq - 1, layerInsert.dataset.seq - 1);
+      moveTo(draggedItem.dataset.seq, layerInsert.dataset.seq);
     })
+    layerInsert.textContent = index;
+    layerInsert.style.color = '#ffffff';
     //
 
-    const child = document.createElement('div');
+    // layerWrapper.appendChild(layerInsert);
 
-    // if (index === 0 ) {
-      // const layerInsert = document.createElement('span');
-      layerInsert.dataset.seq = index;
-      layerInsert.classList.add('layer-insert-holder');
-      layerWrapper.appendChild(layerInsert);
-    // }
+    const child = document.createElement('div');
     
     child.draggable = true;
     child.innerHTML = template;
@@ -301,9 +295,25 @@ function updateLayerContainerArr() {
 
     if (index === layerCount - 1 ) {
       const layerInsert = document.createElement('span');
-      layerInsert.dataset.seq = index;
+      layerInsert.dataset.seq = index + 1;
+      layerInsert.textContent = index + 1;
+      layerInsert.style.color = '#ffffff';
       layerInsert.classList.add('layer-insert-holder');
       layerWrapper.appendChild(layerInsert);
+      layerInsert.addEventListener('dragover', e => {
+        e.preventDefault();
+        e.target.classList.add('drag-over-layer-insert');
+      })
+      layerInsert.addEventListener('dragleave', e => {
+        e.target.classList.remove('drag-over-layer-insert');
+      })
+      layerInsert.addEventListener('drop', e => {
+        e.preventDefault();
+        if (e.target.classList.contains('drag-over-layer-insert')) {
+          e.target.classList.remove('drag-over-layer-insert');
+        }
+        moveTo(draggedItem.dataset.seq, layerInsert.dataset.seq);
+      })
     }
 
     const layerNameText = child.querySelector('.layerName');
@@ -331,8 +341,19 @@ function updateLayerContainerArr() {
 
 function moveTo(from, to) {
 
-  if (from === to) return;
-  layerContainerArr.splice(to, layerContainerArr[to], layerContainerArr.splice(from, 1)[0]);
+  if (parseInt(from - 1) === parseInt(to)) return;
+
+  layerContainerArr.splice(to, layerContainerArr[to], layerContainerArr.splice(from-1, 1)[0]);
+  
+  
+  console.log(layerContainerArr);
+  console.log(canvasContainer.children);
+  
+  // TODO: fix z-index
+  let list = canvasContainer.children;
+  layerContainerArr.forEach((layer, index) => {
+    list[index + 1].style.zIndex = index + 1;
+  })
   updateLayerContainerArr();
 }
 

@@ -59,7 +59,7 @@ canvas {
 .layer-wrapper {
   background-color: rgb(218, 218, 218);
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
 }
 .layer-span {
   border: 1px solid red;
@@ -79,6 +79,6 @@ canvas {
   background-color: #120a6d;
   z-index: 20;
 }
-.hover-layer-insert {
+.drag-over-layer-insert {
   background-color: #918ae1;
 }
