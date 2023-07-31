@@ -14,7 +14,7 @@ ul {
 main {
   width: 100vw;
   height: 100vh;
-  background-color: #d3d3d3;
+  background-color: #cbcbcb;
   display: grid;
   grid-template-areas:
   'header header header header header header'

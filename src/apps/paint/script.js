@@ -192,7 +192,7 @@ function addNewLayer() {
   // layerContainerArr.unshift(newLayer);
   layerContainerArr.push(newLayer);
   setCurrentLayer(newLayer);
-
+  
   canvasContainer.appendChild(canvasElement);
   ctx = canvasElement.getContext('2d', { willReadFrequently: true });
   if (layerCount === 0) {
@@ -202,7 +202,6 @@ function addNewLayer() {
   
   layerCount ++;
   updateLayerContainerArr();
-  canvasElement.style.zIndex = layerContainerArr.length;
 }
 
 function setCurrentLayer(layer) {
@@ -210,33 +209,35 @@ function setCurrentLayer(layer) {
   currentLayer = layer.layer_name;
   currentLayerText.textContent = currentLayer;
 
-  const canvasContainer = document.querySelectorAll('.canvas-element');
-  canvasContainer.forEach( canvas => {
+  let canvasList = Array.from(canvasContainer.children);
+  canvasList.forEach((canvas, index) => {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
       console.log('z-index:', canvas.style.zIndex);
+
     }
   })
-
   updateLayerContainerArr();
 }
 
 let draggedItem = null;
-
 function updateLayerContainerArr() {
+  let zIndexMap = [];
 
   layerWrapper.innerHTML = '';
   if (!layerContainerArr.length) return;
 
   layerContainerArr.forEach((layer, index) => {
 
+    // layer.layer_id = index + 1;
+
     const template = `
       <div id="layerSpan" class="layer-span">
         <button id="displayLayerBtn">eye</button>
-        <input value="${layer.layer_name}" class="layerName" id="layer${layer.layerName}">
+        <input value="${layer.layer_name}" class="layerName" id="layer${layer.layer_name}">
         <button id="deleteLayerBtn">X</button>
         <button id="clearLayerBtn">c</button>
-      <div>
+      </div>
     `;
 
     // layer insert span for reorder
@@ -336,25 +337,32 @@ function updateLayerContainerArr() {
       e.stopPropagation();
       layer.clearLayer();
     });
+    zIndexMap.push(index);
+    
+    // item.style.zIndex = layer.layer_id;
   })
+
+  // set z index
+  let list = canvasContainer.children;
+  let test = Array.from(list);
+  console.log(test);
+
+  layerContainerArr.forEach((layer, index) => {
+    console.log(layer);
+    // test[index].style.zIndex = layer.layer_id;
+  })
+
 }
 
 function moveTo(from, to) {
 
   if (parseInt(from - 1) === parseInt(to)) return;
 
-  layerContainerArr.splice(to, layerContainerArr[to], layerContainerArr.splice(from-1, 1)[0]);
+  // layerContainerArr.splice(to, layerContainerArr[to], layerContainerArr.splice(from-1, 1)[0]);
+  layerContainerArr.splice(to, 0, layerContainerArr.splice(from - 1, 1)[0]);
   
-  
-  console.log(layerContainerArr);
-  console.log(canvasContainer.children);
-  
-  // TODO: fix z-index
-  let list = canvasContainer.children;
-  layerContainerArr.forEach((layer, index) => {
-    list[index + 1].style.zIndex = index + 1;
-  })
   updateLayerContainerArr();
+
 }
 
 function deleteLayer(layer) {
