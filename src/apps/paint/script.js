@@ -387,48 +387,28 @@ function changeMode(event) {
 }
 
 const modeBtnContainer = [brushBtn, shapeBtn];
-modeBtnContainer.forEach( btn => {
+modeBtnContainer.forEach(btn => {
   btn.addEventListener('click', changeMode)
 })
 
 function setToolbar() {
-  toolbar.innerHTML = ``;
+  console.log(currentMode);
+  console.log(toolbar_setting);
+  if (currentMode === "brush") {
 
-  const frag = document.createDocumentFragment();
-
-  // toolbar_setting.brush_tool_options.forEach( opt => {
-  toolbar_setting[`${currentMode}_tool_options`].forEach( opt => {
-    const li = document.createElement('li');
-    let template = 
-    `
-      <label for="${opt.key}">${opt.title}</label>
-    `
-    li.innerHTML = template;
-    if (opt.type === 'input') {
-      const input = document.createElement('input');
-      input.id = opt.key;
-      input.type = 'number';
-      li.appendChild(input);
-      if (opt.key === 'brushSize') {
-        input.value = Brush_Size;
-        input.addEventListener('input', handleBrushSize);
-        brushSizeInput = input;
-      }
-    }
-    if (opt.type === 'select') {
-      const select = document.createElement('select');
-      li.appendChild(select);
-    }
-    frag.appendChild(li);
-  })
-
-  toolbar.appendChild(frag);
-
-}
-
-const renderNodes = () => {
-  
-  return node => {
-    return Node;
+    toolbar_setting.brush_tool_options.forEach(opt => {
+      let template = `
+        <li>
+          <label>${opt.title}</label>
+          <template ${opt.dataType}>
+            
+          </template>
+        <li>
+      `
+    })
+    toolbar.innerHTML = 'brush';
+  }
+  if (currentMode === "shape") {
+    toolbar.innerHTML = "shape";
   }
 }
