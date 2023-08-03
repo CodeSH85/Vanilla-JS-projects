@@ -8,13 +8,12 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <main>
-    <div class="cursor"></div>
+  <header class="section toolbar-container">
     <nav class="section toolbar-container">
       
       <button id="shapeBtn" data-mode="shape">Shape</button>
       <button id="brushBtn" data-mode="brush">Brush</button>
-
+  
       <ul style="display: flex;">
         <li class="py-3 px-3 hover:cursor-pointer hover:bg-slate-400">
           <label for="mainColorPicker">
@@ -38,27 +37,38 @@
           </button>
         </li>
       </ul>
-
+  
       <ul class="toolbar" id="toolbar">
       </ul>
     </nav>
-    <nav class="section layer-container">
-      <span>layers</span>
-      <div>
-        <!-- current layer: -->
-        <span class="current-layer-text" id="currentLayerText">Test</span>
-      <div>
-      <button id="addLayerBtn">Add Layer</button>
-      <ul class="layer-wrapper" id="layerWrapper">
-      </ul>
-    </nav>
-    <section class="section canvas-container">
+  </header>
+  <main>
+    <!-- <div class="cursor"></div> -->
+
+    <section class="section view-section">
+      <div class="canvas-container">
+
+      </div>
       <!-- <canvas id="canvas" width="500" height="500"></canvas> -->
     </section>
+    <nav class="section layer-container" id="layerSecContainer">
+      <div class="layer-menu-top-bar">
+        <span class="menu-title layer-sec-title">Layers</span>
+      </div>
+      <div>
+        <span class="current-layer-text" id="currentLayerText"></span>
+        <button id="addLayerBtn">Add Layer</button>
+        <ul class="layer-wrapper" id="layerWrapper">
+        </ul>
+      </div>
+    </nav>
+
   </main>
   <footer>
-    <ul class="footer-toolbar" id="footerToolbar">
-    </ul>
+    <nav>
+      <ul class="footer-toolbar" id="footerToolbar">
+      </ul>
+    </nav>
   </footer>
   <script src="script.js" type="module"></script>
 </body>

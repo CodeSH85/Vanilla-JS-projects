@@ -75,22 +75,27 @@ function handleDraw(canvas) {
   canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
     ctx.beginPath();
-    canvasX = e.clientX - canvasLeft;
-    canvasY = e.clientY - canvasTop;
+    // canvasX = e.clientX - canvasLeft;
+    // canvasY = e.clientY - canvasTop;
+    canvasX = e.offsetX;
+    canvasY = e.offsetY;
     ctx.moveTo(canvasX, canvasY);
   });
-
+  
   canvas.addEventListener('mousemove', (e) => {
     offsetX = e.offsetX;
     offsetY = e.offsetY;
     setMouseCoordinate();
-
+    
     if (!isMouseDown) {
       e.preventDefault();
       return;
     }
-    canvasX = e.clientX - canvasLeft;
-    canvasY = e.clientY - canvasTop;
+
+    // canvasX = e.clientX - canvasLeft;
+    // canvasY = e.clientY - canvasTop;
+    canvasX = e.offsetX;
+    canvasY = e.offsetY;
     ctx.lineTo(canvasX, canvasY);
     ctx.strokeStyle = Main_Color;
     ctx.stroke();
@@ -225,6 +230,7 @@ function setCurrentLayer(layer) {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
       console.log('z-index:', canvas.style.zIndex);
+      console.log('canvasContainer: ', canvasContainer);
     }
   })
   updateLayerContainerArr();
@@ -353,13 +359,12 @@ function updateLayerContainerArr() {
   })
 
   // set z index
-  let list = canvasContainer.children;
-  let test = Array.from(list);
+  let list = Array.from(canvasContainer.children);
 
-  layerContainerArr.forEach((layer, index) => {
-    // test[index].style.zIndex = layer.layer_id;
+  list.forEach((layer, index) => {
+    
+    layer.style.zIndex = zIndexMap[index];
   })
-
 }
 
 function moveTo(from, to) {
@@ -433,13 +438,6 @@ function setToolbar() {
   toolbar.appendChild(frag);
 }
 
-// document.addEventListener('mousemove', e => {
-// canvasContainer.addEventListener('mousemove', e => {
-//   clientX = e.clientX;
-//   clientY = e.clientY;
-//   setMouseCoordinate();
-// })
-
 function setMouseCoordinate() {
   mouseX.textContent = offsetX;
   mouseY.textContent = offsetY;
@@ -461,4 +459,23 @@ function setFooter() {
   mouseX = footerToolBar.querySelector('#mouseX');
   mouseY = footerToolBar.querySelector('#mouseY');
 }
+
+
+/*
+
+  layer <=> mapping <=> canvas
+
+  canvasData = [
+    {
+
+    }
+  ]
+
+  layerDOM = [
+    {
+      layerSeq: 1
+    }
+  ];
+
+ */
 
