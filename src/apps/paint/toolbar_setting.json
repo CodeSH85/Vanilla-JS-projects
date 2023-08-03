@@ -1,5 +1,5 @@
 {
-  "menu_config": [
+  "top_menu_config": [
     {
       "type": "button",
       "title": "Brush Tool",
@@ -32,18 +32,22 @@
     },
     {
       "type": "color_picker",
+      "dataType": "string",
       "action": "main_color"
     },
     {
       "type": "color_picker",
+      "dataType": "string",
       "action": "second_color"
     },
     {
       "type": "numeric",
+      "dataType": "number",
       "action": "canvas_width"
     },
     {
       "type": "button",
+      "dataType": "number",
       "action": "clear_canvas"
     }
   ],
@@ -79,6 +83,20 @@
       "title": "Curve Shape",
       "dataType": "",
       "key": "curveShape"
+    }
+  ],
+  "footer-tool-config": [
+    {
+      "dataType": "numeric",
+      "title": "Mouse X",
+      "type": "character",
+      "key": "mouseX"
+    },
+    {
+      "dataType": "numeric",
+      "title": "Mouse Y",
+      "type": "character",
+      "key": "mouseY"
     }
   ]
 }

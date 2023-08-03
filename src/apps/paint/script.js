@@ -7,13 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
   fillArea('canvas');
   addNewLayer();
   setToolbar();
-  
+  setFooter();
   mainColorPicker.value = Main_Color;
   secondColorPicker.value = Second_Color;
   canvasWidthInput.value = Canvas_Width;
   canvasHeightInput.value = Canvas_Height;
   // brushSizeInput.value = ctx.lineWidth = Brush_Size;
   // brushSizeInput.addEventListener('input', handleBrushSize);
+  canvasContainer.style.width = Canvas_Width;
+  canvasContainer.style.height = Canvas_Height;
 
 })
 
@@ -21,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 let brushSizeInput;
 const canvasContainer = document.querySelector('.canvas-container'),
       // brushSizeInput = document.querySelector('#brushSize'),
+      footerToolBar = document.querySelector('#footerToolbar'),
       mainColorPicker = document.querySelector('#mainColorPicker'),
       secondColorPicker = document.querySelector('#secondColorPicker'),
       clearBtn = document.querySelector('#clearCanvas'),
@@ -29,6 +32,8 @@ const canvasContainer = document.querySelector('.canvas-container'),
       shapeBtn = document.querySelector('#shapeBtn'),
       brushBtn = document.querySelector('#brushBtn'),
       toolbar = document.querySelector('#toolbar');
+
+let mouseX, mouseY;
 
 // Tool Settings
 let Canvas_Width = 500,
@@ -42,7 +47,6 @@ let currentMode = 'brush',
     isMouseDown = false,
     currentLayer = '';
 
-
 // document.addEventListener('mouseover', e => {
 //   if (e.target.id === 'canvas') {
 //     document.body.style.cursor = 'crosshair';
@@ -53,10 +57,13 @@ let currentMode = 'brush',
 
 let canvasX,
     canvasY,
+    offsetX,
+    offsetY,
     canvasTop = canvasContainer.offsetTop,
     canvasLeft = canvasContainer.offsetLeft,
     ctx;
 // let ctx = canvas.getContext('2d', { willReadFrequently: true });
+
 
 function handleDraw(canvas) {
   if (!canvas) {
@@ -74,6 +81,10 @@ function handleDraw(canvas) {
   });
 
   canvas.addEventListener('mousemove', (e) => {
+    offsetX = e.offsetX;
+    offsetY = e.offsetY;
+    setMouseCoordinate();
+
     if (!isMouseDown) {
       e.preventDefault();
       return;
@@ -214,7 +225,6 @@ function setCurrentLayer(layer) {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
       console.log('z-index:', canvas.style.zIndex);
-
     }
   })
   updateLayerContainerArr();
@@ -345,10 +355,8 @@ function updateLayerContainerArr() {
   // set z index
   let list = canvasContainer.children;
   let test = Array.from(list);
-  console.log(test);
 
   layerContainerArr.forEach((layer, index) => {
-    console.log(layer);
     // test[index].style.zIndex = layer.layer_id;
   })
 
@@ -387,28 +395,70 @@ function changeMode(event) {
 }
 
 const modeBtnContainer = [brushBtn, shapeBtn];
-modeBtnContainer.forEach(btn => {
+modeBtnContainer.forEach( btn => {
   btn.addEventListener('click', changeMode)
 })
 
 function setToolbar() {
-  console.log(currentMode);
-  console.log(toolbar_setting);
-  if (currentMode === "brush") {
+  toolbar.innerHTML = ``;
 
-    toolbar_setting.brush_tool_options.forEach(opt => {
-      let template = `
-        <li>
-          <label>${opt.title}</label>
-          <template ${opt.dataType}>
-            
-          </template>
-        <li>
-      `
-    })
-    toolbar.innerHTML = 'brush';
-  }
-  if (currentMode === "shape") {
-    toolbar.innerHTML = "shape";
-  }
+  const frag = document.createDocumentFragment();
+
+  // toolbar_setting.brush_tool_options.forEach( opt => {
+  toolbar_setting[`${currentMode}_tool_options`].forEach( opt => {
+    const li = document.createElement('li');
+    let template = 
+    `
+      <label for="${opt.key}">${opt.title}</label>
+    `
+    li.innerHTML = template;
+    if (opt.type === 'input') {
+      const input = document.createElement('input');
+      input.id = opt.key;
+      input.type = 'number';
+      li.appendChild(input);
+      if (opt.key === 'brushSize') {
+        input.value = Brush_Size;
+        input.addEventListener('input', handleBrushSize);
+        brushSizeInput = input;
+      }
+    }
+    if (opt.type === 'select') {
+      const select = document.createElement('select');
+      li.appendChild(select);
+    }
+    frag.appendChild(li);
+  })
+
+  toolbar.appendChild(frag);
 }
+
+// document.addEventListener('mousemove', e => {
+// canvasContainer.addEventListener('mousemove', e => {
+//   clientX = e.clientX;
+//   clientY = e.clientY;
+//   setMouseCoordinate();
+// })
+
+function setMouseCoordinate() {
+  mouseX.textContent = offsetX;
+  mouseY.textContent = offsetY;
+}
+
+function setFooter() {
+  toolbar_setting['footer-tool-config'].forEach(opt => {
+    const li = document.createElement('li');
+    let template = 
+    `
+    <span>
+      ${opt.title}:
+      <span id="${opt.key}"> ${0}</span>
+    <span>
+    `
+    li.innerHTML = template;
+    footerToolBar.appendChild(li);
+  })
+  mouseX = footerToolBar.querySelector('#mouseX');
+  mouseY = footerToolBar.querySelector('#mouseY');
+}
+
