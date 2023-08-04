@@ -1,12 +1,9 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 html {
   box-sizing: border-box;
   height: 100%;
+  --primary-color: #821fe5;
+  --main-color: #821fe5;
 }
-
 *,
 *::before,
 *::after {
@@ -14,8 +11,8 @@ html {
   margin: 0;
   padding: 0;
 }
-
 body {
   height: inherit;
   font-display: swap;
+  color: var(--main-color);
 }

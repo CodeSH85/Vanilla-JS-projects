@@ -1,6 +1,6 @@
 # Vanilla-JS-projects
 
-練習原生 Javascript 用。
+Native Javascript practice。
 
 ## tech
 
