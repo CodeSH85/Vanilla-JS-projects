@@ -70,7 +70,7 @@ function handleDraw(canvas) {
     throw new Error('Canvas not supported!');
   }
   if (!Layer) {
-    console.log('No layer module');
+    throw new Error('No layer module');
   }
   canvas.addEventListener('mousedown', (e) => {
     isMouseDown = true;
@@ -133,7 +133,7 @@ document.addEventListener('keydown', e => {
 // brushSizeInput.addEventListener('input', handleBrushSize);
 
 function handleBrushSize(e) {
-  let val = e.target.value
+  let val = e.target.value;
   changeBrushSize(val);
 }
 
@@ -146,7 +146,6 @@ function handleMainColor(e) {
 function handleSecondColor(e) {
   Second_Color = e.target.value;
 }
-
 function switchColor(e) {
   [ Main_Color, Second_Color ] = [ Second_Color, Main_Color];
   mainColorPicker.value = Main_Color;
@@ -191,25 +190,26 @@ addLayerBtn.addEventListener('click', e => {
 })
 
 function addNewLayer() {
-
+  
   const canvasElement = document.createElement('canvas');
+  
+  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount}`;
+  const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount, layerCount+1);
 
+  // canvas
   canvasElement.width = Canvas_Width;
   canvasElement.height = Canvas_Height;
   canvasElement.classList.add('canvas-element');
   canvasElement.style.position = 'absolute';
-  canvasElement.dataset.seq = layerCount;
-  
+  canvasElement.style.zIndex = newLayer.z_index;
+  canvasElement.dataset.seq = newLayer.layer_id;
   handleDraw(canvasElement);
-  
-  let layerName = layerCount === 0 ? 'Background' : `layer ${layerCount}`;
-  const newLayer = new Layer(canvasElement.getContext('2d'), layerName, layerCount);
-  
-  // layerContainerArr.unshift(newLayer);
+  canvasContainer.appendChild(canvasElement);
+
+  // layer
   layerContainerArr.push(newLayer);
   setCurrentLayer(newLayer);
-  
-  canvasContainer.appendChild(canvasElement);
+
   ctx = canvasElement.getContext('2d', { willReadFrequently: true });
   if (layerCount === 0) {
     ctx.fillStyle = "#f2f2f2";
@@ -217,6 +217,7 @@ function addNewLayer() {
   }
   
   layerCount ++;
+
   updateLayerContainerArr();
 }
 
@@ -245,9 +246,8 @@ function updateLayerContainerArr() {
 
   layerContainerArr.forEach((layer, index) => {
 
-    // layer.layer_id = index + 1;
-
-    const template = `
+    const template = 
+    `
       <div id="layerSpan" class="layer-span">
         <button id="displayLayerBtn">eye</button>
         <input value="${layer.layer_name}" class="layerName" id="layer${layer.layer_name}">
@@ -286,7 +286,7 @@ function updateLayerContainerArr() {
     
     child.draggable = true;
     child.innerHTML = template;
-    child.dataset.seq = index + 1;
+    // child.dataset.seq = index + 1;
     child.addEventListener('click', e => {
       setCurrentLayer(layer);
     })
@@ -361,10 +361,6 @@ function updateLayerContainerArr() {
   // set z index
   let list = Array.from(canvasContainer.children);
 
-  list.forEach((layer, index) => {
-    
-    layer.style.zIndex = zIndexMap[index];
-  })
 }
 
 function moveTo(from, to) {
