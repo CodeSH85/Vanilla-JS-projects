@@ -22,10 +22,28 @@ main {
   display: flex;
   background-color: #cdcdcd;
 }
+header {
+  background-color: #d4d4d4;
+}
 ul {
   list-style: none;
 }
-
+.resizer {
+  width: 100%;
+  display: flex;
+}
+.resizer-controller {
+  height: auto;
+  width: 12px;
+  border: 1px solid blue;
+  background-color: #1784c4;
+}
+.resizer-controller:hover {
+  background-color: #c3d7f7;
+}
+.resizer-panel {
+  width: 100%;
+}
 .toolbar-container {
   padding: .6em;
 }
@@ -33,7 +51,6 @@ ul {
   width: 100%;
   height: 100%;
   padding: .8em;
-
   background-color: #979797;
 }
 .footer-toolbar {
@@ -90,7 +107,7 @@ canvas {
   border-radius: 50%;
 }
 .layer-insert-holder {
-  height: 12px;
+  height: 5px;
   width: 100%;
   background-color: #120a6d;
   z-index: 20;

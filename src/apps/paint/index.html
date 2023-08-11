@@ -42,26 +42,34 @@
       </ul>
     </nav>
   </header>
+  <!-- <div class="cursor"></div> -->
   <main>
-    <!-- <div class="cursor"></div> -->
+    <div class="resizer">
 
-    <section class="section view-section">
-      <div class="canvas-container">
+      <div class="resizer-panel left-panel" id="panelLeft">
+        <section class="section view-section">
+          <div class="canvas-container">
+          </div>
+        </section>
+      </div>
+      <div class="resizer-controller" id="resizeControl">
+      </div>
+      <div class="resizer-panel left-panel" id="panelRight">
+        <nav class="section layer-container" id="layerSecContainer">
+          <div class="layer-menu-top-bar">
+            <span class="menu-title layer-sec-title">Layers</span>
+          </div>
+          <div>
+            <span class="current-layer-text" id="currentLayerText"></span>
+            <button id="addLayerBtn">Add Layer</button>
+            <ul class="layer-wrapper" id="layerWrapper">
+            </ul>
+          </div>
+        </nav>
+      </div>
 
-      </div>
-      <!-- <canvas id="canvas" width="500" height="500"></canvas> -->
-    </section>
-    <nav class="section layer-container" id="layerSecContainer">
-      <div class="layer-menu-top-bar">
-        <span class="menu-title layer-sec-title">Layers</span>
-      </div>
-      <div>
-        <span class="current-layer-text" id="currentLayerText"></span>
-        <button id="addLayerBtn">Add Layer</button>
-        <ul class="layer-wrapper" id="layerWrapper">
-        </ul>
-      </div>
-    </nav>
+    </div>
+
 
   </main>
   <footer>
