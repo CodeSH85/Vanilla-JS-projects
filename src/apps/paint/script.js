@@ -241,7 +241,7 @@ function updateLayerContainerArr() {
     const template = 
     `
       <div id="layerSpan" class="layer-span">
-        <button id="displayLayerBtn">eye</button>
+        <button class="layer-opt-btn display-btn" id="displayLayerBtn">eye</button>
         <input value="${layer.layer_name}" class="layerName" id="layer${layer.layer_name}">
         <button id="deleteLayerBtn">X</button>
         <button id="clearLayerBtn">c</button>
@@ -367,21 +367,32 @@ function moveTo(from, to) {
 
 }
 
-function deleteLayer(layer) {
-  layer.is_display = layer.is_display;
-}
-
 function toggleLayerDisplay(layer) {
   const canvasElements = document.querySelectorAll('.canvas-element');
   canvasElements.forEach((element) => {
     if (parseInt(element.dataset.seq) === layer.layer_id) {
-      layer.is_display = !layer.
-      is_display;
+      layer.is_display = !layer.is_display;
       element.style.display = layer.is_display ? 'block' : 'none';
     }
-  });
+  })
 }
 
+function deleteLayer(layer) {
+  const targetIndex = layerContainerArr.findIndex(la => la.layer_id === layer.layer_id);
+  layerContainerArr.splice(targetIndex, 1);
+  updateLayerContainerArr();
+}
+
+function clearLayer(layer) {
+  layerContainerArr.image_data = [];
+  const canvasElements = document.querySelectorAll('.canvas-element');
+  canvasElements.forEach((element) => {
+    if (parseInt(element.dataset.seq) === layer.layer_id) {
+      // element.style
+    }
+  })
+  updateLayerContainerArr();
+}
 
 // mode & toolbar
 function changeMode(event) {
@@ -450,5 +461,23 @@ function setFooter() {
   mouseX = footerToolBar.querySelector('#mouseX');
   mouseY = footerToolBar.querySelector('#mouseY');
 }
-\
+
+// resize module
+const resizeBar = document.querySelector('#resizeControl');
+const leftPanel = document.querySelector('#panelLeft');
+const rightPanel = document.querySelector('#panelRight');
+
+let isResize;
+resizeBar.addEventListener('mousedown', e => {
+  isResize = true;
+  // leftPanel.style.width = '200px';
+})
+resizeBar.addEventListener('mousemove', e => {
+  if (!isResize) return;
+})
+resizeBar.addEventListener('mouseup', e => {
+  leftPanel.style.width = '100%';
+  isResize = false;
+})
+
 
