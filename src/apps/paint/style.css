@@ -107,7 +107,7 @@ canvas {
   border-radius: 50%;
 }
 .layer-insert-holder {
-  height: 5px;
+  height: 8px;
   width: 100%;
   background-color: #120a6d;
   z-index: 20;

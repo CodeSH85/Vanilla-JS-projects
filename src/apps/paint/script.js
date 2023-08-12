@@ -47,14 +47,6 @@ let currentMode = 'brush',
     isMouseDown = false,
     currentLayer = '';
 
-// document.addEventListener('mouseover', e => {
-//   if (e.target.id === 'canvas') {
-//     document.body.style.cursor = 'crosshair';
-//   } else {
-//     document.body.style.cursor = 'arrow';
-//   }
-// })
-
 let canvasX,
     canvasY,
     offsetX,
@@ -63,7 +55,6 @@ let canvasX,
     canvasLeft = canvasContainer.offsetLeft,
     ctx;
 // let ctx = canvas.getContext('2d', { willReadFrequently: true });
-
 
 function handleDraw(canvas) {
   if (!canvas) {
@@ -231,7 +222,7 @@ function setCurrentLayer(layer) {
     if (parseInt(canvas.dataset.seq) === layer.layer_id) {
       ctx = canvas.getContext('2d', { willReadFrequently: true });
       console.log('z-index:', canvas.style.zIndex);
-      console.log('canvasContainer: ', canvasContainer);
+      console.log('layerWrapper', layerWrapper);
     }
   })
   updateLayerContainerArr();
@@ -239,7 +230,8 @@ function setCurrentLayer(layer) {
 
 let draggedItem = null;
 function updateLayerContainerArr() {
-  let zIndexMap = [];
+  const zIndexMap = [];
+  let list = Array.from(canvasContainer.children);
 
   layerWrapper.innerHTML = '';
   if (!layerContainerArr.length) return;
@@ -276,7 +268,7 @@ function updateLayerContainerArr() {
       }
       moveTo(draggedItem.dataset.seq, layerInsert.dataset.seq);
     })
-    layerInsert.textContent = index;
+    // layerInsert.textContent = index;
     layerInsert.style.color = '#ffffff';
     //
 
@@ -286,7 +278,7 @@ function updateLayerContainerArr() {
     
     child.draggable = true;
     child.innerHTML = template;
-    // child.dataset.seq = index + 1;
+    child.dataset.seq = index + 1;
     child.addEventListener('click', e => {
       setCurrentLayer(layer);
     })
@@ -307,13 +299,19 @@ function updateLayerContainerArr() {
       child.classList.add('active-layer');
     }
     
+    list.forEach((canvas, canvasIndex) => {
+      if (parseInt(canvas.dataset.seq) === layer.layer_id) {
+        canvas.style.zIndex = index + 1;
+      }
+    });
+
     layerWrapper.appendChild(child);
     layerWrapper.insertBefore(layerInsert, child);
-
+    
     if (index === layerCount - 1 ) {
       const layerInsert = document.createElement('span');
       layerInsert.dataset.seq = index + 1;
-      layerInsert.textContent = index + 1;
+
       layerInsert.style.color = '#ffffff';
       layerInsert.classList.add('layer-insert-holder');
       layerWrapper.appendChild(layerInsert);
@@ -354,12 +352,7 @@ function updateLayerContainerArr() {
       layer.clearLayer();
     });
     zIndexMap.push(index);
-    
-    // item.style.zIndex = layer.layer_id;
   })
-
-  // set z index
-  let list = Array.from(canvasContainer.children);
 
 }
 
@@ -389,6 +382,8 @@ function toggleLayerDisplay(layer) {
   });
 }
 
+
+// mode & toolbar
 function changeMode(event) {
   let value = event.target.dataset.mode;
   currentMode = value;
@@ -455,23 +450,5 @@ function setFooter() {
   mouseX = footerToolBar.querySelector('#mouseX');
   mouseY = footerToolBar.querySelector('#mouseY');
 }
-
-
-/*
-
-  layer <=> mapping <=> canvas
-
-  canvasData = [
-    {
-
-    }
-  ]
-
-  layerDOM = [
-    {
-      layerSeq: 1
-    }
-  ];
-
- */
+\
 
