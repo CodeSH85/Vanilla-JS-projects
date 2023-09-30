@@ -1,70 +1,94 @@
 {
-  "top_menu_config": [
-    {
-      "type": "button",
-      "title": "Brush Tool",
-      "dataType": "string",
-      "key": "brushTool"
-    },
-    {
-      "type": "button",
-      "title": "Shape Tool",
-      "dataType": "string",
-      "key": "shapeTool"
-    },
-    {
-      "type": "button",
-      "title": "Save",
-      "dataType": "",
-      "key": "save"
-    },
-    {
-      "type": "button",
-      "title": "Redo",
-      "dataType": "",
-      "key": "redo"
-    },
-    {
-      "type": "button",
-      "title": "Undo",
-      "dataType": "string",
-      "key": "undo"
-    },
-    {
-      "type": "color_picker",
-      "dataType": "string",
-      "action": "main_color"
-    },
-    {
-      "type": "color_picker",
-      "dataType": "string",
-      "action": "second_color"
-    },
-    {
-      "type": "numeric",
-      "dataType": "number",
-      "action": "canvas_width"
-    },
-    {
-      "type": "button",
-      "dataType": "number",
-      "action": "clear_canvas"
-    }
-  ],
-  "brush_tool_options": [
-    {
-      "type": "input",
-      "title": "Brush Size",
-      "dataType": "numeric",
-      "key": "brushSize"
-    },
-    {
-      "type": "select",
-      "title": "Brush Shape",
-      "dataType": "",
-      "key": "brushShape"
-    }
-  ],
+  "top_menu_config": {
+    "constantOptions": [
+      {
+        "type": "button",
+        "title": "Save",
+        "dataType": "",
+        "key": "save"
+      },
+      {
+        "type": "button",
+        "title": "Redo",
+        "dataType": "",
+        "icon": "",
+        "key": "redo"
+      },
+      {
+        "type": "button",
+        "title": "Undo",
+        "icon": "",
+        "dataType": "string",
+        "key": "undo"
+      },
+      {
+        "type": "color_picker",
+        "title": "Main Color",
+        "dataType": "string",
+        "key": "mainColor",
+        "action": "main_color"
+      },
+      {
+        "title": "Second Color",
+        "type": "color_picker",
+        "dataType": "string",
+        "key": "secondColor",
+        "action": "second_color"
+      },
+      {
+        "title": "Canvas Width",
+        "type": "numeric",
+        "dataType": "number",
+        "action": "canvas_width"
+      },
+      {
+        "title": "Canvas height",
+        "type": "numeric",
+        "dataType": "number",
+        "action": "canvas_height"
+      },
+      {
+        "title": "Clear Canvas",
+        "type": "button",
+        "dataType": "",
+        "action": "clear_canvas"
+      }
+    ],
+    "toolbarOptions": [
+      {
+        "type": "button",
+        "title": "Brush Tool",
+        "dataType": "string",
+        "icon": "",
+        "key": "brushTool"
+      },
+      {
+        "type": "button",
+        "title": "Shape Tool",
+        "icon": "",
+        "dataType": "string",
+        "key": "shapeTool"
+      }
+    ]
+  },
+  "brush_tool_options": {
+    "title": "Brush Tool",
+    "key": "brush",
+    "options": [
+      {
+        "type": "input",
+        "title": "Brush Size",
+        "dataType": "numeric",
+        "key": "brushSize"
+      },
+      {
+        "type": "select",
+        "title": "Brush Shape",
+        "dataType": "",
+        "key": "brushShape"
+      }
+    ]
+  },
   "shape_tool_options": [
     {
       "type": "select",

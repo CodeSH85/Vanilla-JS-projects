@@ -5,29 +5,57 @@
   approach: Class?
 */
 class Layer {
-  constructor(imageData, layerName, id, zIndex) {
+  #_layerId;
+  #_isActive = true;
+  #_isDisplay = true;
+  opacity = 100;
+  #_imageData;
 
-    this.image_data = imageData;
-
+  constructor(id, imageData, layerName, zIndex) {
     this.layer_name = layerName;
-    this.layer_id = id;
-
-    this.z_index = zIndex;
-    this.is_Active = true;
-
-    this.is_display = true;
-    this.opacity = 100;
-
+    this.#_layerId = id;
+    this.#_imageData = imageData;
+    this.zIndex = zIndex;
+  }
+  draw() {}
+  get LayerId() {
+    return this.#_layerId;
+  }
+  get imageData() {
+    return this._imageData;
   }
   toggleDisplay() {
-    this.is_display = !this.is_display;
+    this.#_isDisplay = !this.#_isDisplay;
+  }
+  toggleActive() {
+    this.#_isActive = !this.#_isActive;
   }
   changeOpacity(value) {
     this.opacity = value;
   }
   clearLayer() {
-    this.image_data = null;
+    this.#_imageData = null;
+  }
+  deleteLayer() {
   }
 }
 
-export default Layer;
+class LayerList {
+  layers = [];
+  constructor() {
+    // items of layer
+  }
+  addLayer(layer) {
+    this.layers.push(layer);
+  }
+  reorderLayer() {
+    this.layers = this.layers.sort((a, b) => {
+      return a.id > b.id;
+    });
+  }
+  deleteLayer(layer) {
+    layer.deleteLayer();
+  }
+}
+
+export { Layer, LayerList };
