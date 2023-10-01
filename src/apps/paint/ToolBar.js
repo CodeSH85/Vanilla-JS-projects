@@ -2,11 +2,12 @@
 class ToolBar {
   #activeToolbar
   constructor(setting) {
-    
-    this.toolSetting = {...setting};
+    this.toolSetting = [...setting];
+  }
+  get toolbar() {
+    return this.toolSetting;
   }
   setActiveToolBar(tool) {
-    
     this.activeToolBar = tool;
   }
   callTool() {
@@ -16,11 +17,3 @@ class ToolBar {
 }
 
 export { ToolBar };
-
-const test = {
-  title: 'brush',
-  key: 'brush',
-  tools: {
-    brushSize
-  }
-}

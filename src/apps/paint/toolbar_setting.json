@@ -1,13 +1,16 @@
 {
-  "top_menu_config": {
+  "topMenuConfig": {
     "constantOptions": [
       {
+        "tag": "button",
         "type": "button",
         "title": "Save",
         "dataType": "",
+        "icon": "",
         "key": "save"
       },
       {
+        "tag": "button",
         "type": "button",
         "title": "Redo",
         "dataType": "",
@@ -15,47 +18,52 @@
         "key": "redo"
       },
       {
+        "tag": "button",
         "type": "button",
         "title": "Undo",
+        "dataType": "",
         "icon": "",
-        "dataType": "string",
         "key": "undo"
       },
       {
-        "type": "color_picker",
+        "tag": "input",
+        "type": "color",
         "title": "Main Color",
         "dataType": "string",
-        "key": "mainColor",
-        "action": "main_color"
+        "key": "mColor"
       },
       {
+        "tag": "input",
         "title": "Second Color",
-        "type": "color_picker",
+        "type": "color",
         "dataType": "string",
-        "key": "secondColor",
-        "action": "second_color"
+        "key": "sColor"
       },
       {
+        "tag": "input",
+        "type": "number",
         "title": "Canvas Width",
-        "type": "numeric",
         "dataType": "number",
-        "action": "canvas_width"
+        "key": "cw"
       },
       {
+        "tag": "input",
         "title": "Canvas height",
-        "type": "numeric",
+        "type": "number",
         "dataType": "number",
-        "action": "canvas_height"
+        "key": "ch"
       },
       {
-        "title": "Clear Canvas",
+        "tag": "button",
         "type": "button",
+        "title": "Clear Canvas",
         "dataType": "",
-        "action": "clear_canvas"
+        "key": "clearCanvas"
       }
     ],
     "toolbarOptions": [
       {
+        "tag": "button",
         "type": "button",
         "title": "Brush Tool",
         "dataType": "string",
@@ -63,6 +71,7 @@
         "key": "brushTool"
       },
       {
+        "tag": "button",
         "type": "button",
         "title": "Shape Tool",
         "icon": "",
@@ -71,45 +80,7 @@
       }
     ]
   },
-  "brush_tool_options": {
-    "title": "Brush Tool",
-    "key": "brush",
-    "options": [
-      {
-        "type": "input",
-        "title": "Brush Size",
-        "dataType": "numeric",
-        "key": "brushSize"
-      },
-      {
-        "type": "select",
-        "title": "Brush Shape",
-        "dataType": "",
-        "key": "brushShape"
-      }
-    ]
-  },
-  "shape_tool_options": [
-    {
-      "type": "select",
-      "title": "Line Shape",
-      "dataType": "",
-      "key": "lineShape"
-    },
-    {
-      "type": "select",
-      "title": "Circle Shape",
-      "dataType": "",
-      "key": "circleShape"
-    },
-    {
-      "type": "select",
-      "title": "Curve Shape",
-      "dataType": "",
-      "key": "curveShape"
-    }
-  ],
-  "footer-tool-config": [
+  "footerConfig": [
     {
       "dataType": "numeric",
       "title": "Mouse X",
@@ -122,5 +93,54 @@
       "type": "character",
       "key": "mouseY"
     }
-  ]
+  ],
+  "toolsConfig": {
+    "brushToolOptions": {
+      "title": "Brush Tool",
+      "key": "brush",
+      "options": [
+        {
+          "tag": "input",
+          "type": "number",
+          "title": "Brush Size",
+          "dataType": "number",
+          "key": "brushSize"
+        },
+        {
+          "tag": "input",
+          "type": "select",
+          "title": "Brush Shape",
+          "dataType": "string",
+          "key": "brushShape"
+        }
+      ]
+    },
+    "shapeToolOptions": {
+      "title": "Shape Tool",
+      "key": "Shape",
+      "options": [
+        {
+          "tag": "select",
+          "type": "select",
+          "title": "Line Shape",
+          "dataType": "",
+          "key": "lineShape"
+        },
+        {
+          "tag": "select",
+          "type": "select",
+          "title": "Circle Shape",
+          "dataType": "",
+          "key": "circleShape"
+        },
+        {
+          "tag": "select",
+          "type": "select",
+          "title": "Curve Shape",
+          "dataType": "",
+          "key": "curveShape"
+        }
+      ]
+    }
+  }  
 }

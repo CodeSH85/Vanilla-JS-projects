@@ -48,16 +48,19 @@
 
       <div class="resizer-panel left-panel" id="panelLeft">
         <section class="section view-section">
-          <div class="canvas-container">
+          <div class="canvas-container" id="canvasContainer">
           </div>
         </section>
       </div>
-      <div class="resizer-controller" id="resizeControl">
+      <div class="resizer-controller" id="resizeControl" draggable="true">
       </div>
       <div class="resizer-panel left-panel" id="panelRight">
+
         <nav class="section layer-container" id="layerSecContainer">
           <div class="layer-menu-top-bar">
-            <span class="menu-title layer-sec-title">Layers</span>
+            <span class="menu-title layer-sec-title">
+              Layers
+            </span>
           </div>
           <div>
             <span class="current-layer-text" id="currentLayerText"></span>
@@ -67,6 +70,7 @@
             </ul>
           </div>
         </nav>
+
       </div>
 
     </div>

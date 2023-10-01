@@ -1,4 +1,4 @@
-import Layer from "./layer.js";
+import Layer from "./Layer.js";
 import toolbar_setting from "./toolbar_setting.json" assert { type: "json" };
 
 // init

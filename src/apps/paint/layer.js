@@ -4,46 +4,65 @@
   allow main function to construct a new layer
   approach: Class?
 */
+import { qs } from "../../utils/qs.js";
 class Layer {
-  #_layerId;
-  #_isActive = true;
-  #_isDisplay = true;
-  opacity = 100;
-  #_imageData;
+  #layerId;
+  #imageData;
+  #isDisplay = true;
+  #isActive = true;
+  #opacity = 100;
+  #layerName;
+  zIndex;
 
-  constructor(id, imageData, layerName, zIndex) {
-    this.layer_name = layerName;
-    this.#_layerId = id;
-    this.#_imageData = imageData;
+  constructor(imageData, layerName, zIndex) {
+    this.#layerId = this.#generateUID();
+    this.#imageData = imageData;
+    this.#layerName = layerName;
     this.zIndex = zIndex;
   }
-  draw() {}
-  get LayerId() {
-    return this.#_layerId;
+
+  get layerId() {
+    return this.#layerId;
   }
-  get imageData() {
-    return this._imageData;
+  get layerName() {
+    return this.#layerName;
   }
+  set layerName(newName) {
+    this.#layerName = newName;
+  }
+  get opacity() {
+    return this.#opacity;
+  }
+  set opacity(newOpacity) {
+    if (newOpacity >= 0 && newOpacity <= 100) {
+      this.#opacity = newOpacity;
+    } else {
+      console.error('Opacity must be between 0 and 100.');
+    }
+  }
+
   toggleDisplay() {
-    this.#_isDisplay = !this.#_isDisplay;
+    this.#isDisplay = !this.#isDisplay;
   }
   toggleActive() {
-    this.#_isActive = !this.#_isActive;
-  }
-  changeOpacity(value) {
-    this.opacity = value;
+    this.#isActive = !this.#isActive;
   }
   clearLayer() {
-    this.#_imageData = null;
+    this.#imageData = null;
   }
-  deleteLayer() {
+  #generateUID() {
+     const timestampPrefix = Date.now().toString(36);
+     const randomString = Math.random().toString(36).substring(2, 10);
+     const uid = `${timestampPrefix}-${randomString}`;
+     return uid;
   }
 }
 
+
 class LayerList {
-  layers = [];
+  layers = []; // items of layer
   constructor() {
-    // items of layer
+    this.layerSection = qs('#layerSecContainer');
   }
   addLayer(layer) {
     this.layers.push(layer);
