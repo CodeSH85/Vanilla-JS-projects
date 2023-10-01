@@ -34,7 +34,7 @@ ul {
 }
 .resizer-controller {
   height: auto;
-  width: 12px;
+  width: 24px;
   border: 1px solid blue;
   background-color: #1784c4;
 }

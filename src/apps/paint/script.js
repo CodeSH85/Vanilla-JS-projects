@@ -45,37 +45,39 @@ function addLayer(layer) {
 const resizeController = qs('#resizeControl');
 const resizeLPanel = qs('#panelLeft');
 const resizeRPanel = qs('#panelRight');
-resizeController.addEventListener('mousedown', handleResize);
-resizeController.addEventListener('mousemove', handleResize);
-resizeController.addEventListener('mouseup', handleResize);
+resizeController.addEventListener('mousedown', handleMousedown);
+resizeController.addEventListener('mousemove', handleMousemove);
+document.addEventListener('mouseup', handleMouseup);
 // resizeController.addEventListener('drop', handleResize);
 
 let isDragging = false;
-function handleResize(e) {
-  let startX = 0;
-  let currentX = 0;
-  if (e.type === 'mousedown') {
+let startX;
+let currentX;
+function handleMousedown(e) {
+  isDragging = true;
+  startX = e.clientX;
+}
+function handleMousemove(e) {
+  if (!isDragging) return;
+  const lw = getStyle(resizeLPanel, 'width', true);
+  const rw = getStyle(resizeRPanel, 'width', true);
 
-    isDragging = true;
-    startX = e.clientX;
+  currentX = e.clientX;
+  let movement = currentX - startX;
+  console.log(movement);
 
-  } else if (e.type === 'mousemove') {
-
-    if (!isDragging) return;
-
-    const lw = getStyle(resizeLPanel, 'width', true);
-    const rw = getStyle(resizeRPanel, 'width', true);
-    console.log(lw, rw);
-    currentX = e.clientX;
-    let movement = currentX - startX;
-    console.log(movement);
-    if (movement > 0) {
-      // r
-      resizeLPanel.style.width = `${lw + movement}px`;
-    } else {
-
-    }
-  } else if (e.type === 'mouseup'){
-    isDragging = false;
+  if (movement > 0) {
+    // R
+    console.log('R')
+    resizeLPanel.style.width = `${lw - Math.abs(movement)}px`;
+    // resizeRPanel.style.width = `${rw - movement}px`;
+  } else {
+    // L
+    console.log('L');
+    // resizeLPanel.style.width = `${lw - movement}px`;
+    resizeRPanel.style.width = `${rw - Math.abs(movement)}px`;
   }
+}
+function handleMouseup(e) {
+  isDragging = false;
 }
