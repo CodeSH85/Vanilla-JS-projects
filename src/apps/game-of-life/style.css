@@ -1,0 +1,13 @@
+.title {
+  display: flex;
+  align-items: center;
+}
+
+body {
+  background-color: #000000;
+  color: #ffffff;
+}
+
+#canvas {
+  background-color: #0f0f0f;
+}
