@@ -4,10 +4,18 @@
 }
 
 body {
+  position: relative;
   background-color: #000000;
   color: #ffffff;
 }
 
-#canvas {
-  background-color: #0f0f0f;
+.canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 12px;
+}
+
+#grid {
+  pointer-events: none;
 }
