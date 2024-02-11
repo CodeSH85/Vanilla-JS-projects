@@ -27,6 +27,7 @@ function Cell(state, coordX, coordY) {
 
 document.addEventListener('DOMContentLoaded', () => {
   createCanvas();
+  render(ctx);
 })
 
 const canvas = document.querySelector('#canvas');
@@ -71,7 +72,7 @@ function render(ctx) {
     for (let r = 0; r < GRID_ROWS; r++) {
       const x = r * CELL_WIDTH;
       const y = c * CELL_HEIGHT;
-      // grid[r][c].state = checkState(grid[r][c]);
+      start ? grid[r][c].state = checkState(grid[r][c]) : '' ;
       ctx.fillStyle = grid[r][c].color();
       ctx.fillRect(x, y, CELL_WIDTH - 2, CELL_HEIGHT - 2);
     }
@@ -117,7 +118,22 @@ runBtn.addEventListener('click', () => {
   runStart();
 })
 
+let start = false;
+let timeout;
+
 function runStart() {
-  render();
+  if (!start) {
+    timeout = setInterval(() => {
+      render(ctx);
+    }, 500)
+    start = true;
+  } else {
+    clearInterval(timeout);
+    start = false;
+  }
 }
+
+
+
+
 
