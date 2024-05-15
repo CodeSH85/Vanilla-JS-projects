@@ -1,56 +1,63 @@
-/*
-  Layer Module:
-  Should expose as a constructor
-  allow main function to construct a new layer
-  approach: Class?
-*/
-import { qs } from "../../utils/qs.js";
 class Layer {
-  #layerId;
+  #layerId = this.#getUID();
   #imageData;
   #isDisplay = true;
-  #isActive = true;
+  #active = true;
   #opacity = 100;
   #layerName;
-  zIndex;
-
-  constructor(imageData, layerName, zIndex) {
-    this.#layerId = this.#generateUID();
-    this.#imageData = imageData;
-    this.#layerName = layerName;
-    this.zIndex = zIndex;
+  #zIndex = 1;
+  constructor({imageData, layerName}) {
+    if (imageData) this.#imageData = imageData;
+    if (layerName) this.#layerName = layerName;
   }
 
   get layerId() {
     return this.#layerId;
   }
+
   get layerName() {
     return this.#layerName;
   }
   set layerName(newName) {
     this.#layerName = newName;
   }
+
+  get zIndex() {
+    return this.#zIndex;
+  }
+  set zIndex(value) {
+    this.#zIndex = value;
+  }
+
   get opacity() {
     return this.#opacity;
   }
-  set opacity(newOpacity) {
-    if (newOpacity >= 0 && newOpacity <= 100) {
-      this.#opacity = newOpacity;
+  set opacity(value) {
+    if (
+      typeof value === 'number' &&
+      value >= 0 &&
+      value <= 100
+    ) {
+      this.#opacity = value;
     } else {
-      console.error('Opacity must be between 0 and 100.');
+      throw new Error('Opacity must be between 0 and 100.');
     }
+  }
+
+  get active() {
+    return this.#active;
+  }
+  set active(value) {
+    this.#active = value;
   }
 
   toggleDisplay() {
     this.#isDisplay = !this.#isDisplay;
   }
-  toggleActive() {
-    this.#isActive = !this.#isActive;
-  }
   clearLayer() {
     this.#imageData = null;
   }
-  #generateUID() {
+  #getUID() {
      const timestampPrefix = Date.now().toString(36);
      const randomString = Math.random().toString(36).substring(2, 10);
      const uid = `${timestampPrefix}-${randomString}`;
@@ -58,11 +65,9 @@ class Layer {
   }
 }
 
-
 class LayerList {
   layers = []; // items of layer
   constructor() {
-    this.layerSection = qs('#layerSecContainer');
   }
   addLayer(layer) {
     this.layers.push(layer);
