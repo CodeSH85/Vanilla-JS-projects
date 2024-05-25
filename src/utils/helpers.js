@@ -36,9 +36,40 @@ export function getAllEle(selector, parent=document) {
   return elementList;
 }
 
-export function createEle(tag) {
-  const element = document.createElement(tag);
+/**
+ * 
+ * @param {string} tag - element's tag name, default div.
+ * @param {object} [attrs] - optional, element's attributes.
+ * @returns 
+ */
+export function createEle(tag='div', attrs) {
+  const element = assignAttrs(
+    document.createElement(tag),
+    attrs
+  );
   return element;
+}
+function assignAttrs(element, attrs) {
+  if (!attrs) return element;
+  if (!element instanceof HTMLElement) throw new TypeError('Invalid HTML Element.');
+  if (!isObject(attrs)) throw new TypeError('Attrs must be an object.');
+
+  for (const [ key, value ] of Object.entries(attrs)) {
+    if (isValidAttr(element, key)) {
+      if (key === 'class') {
+        element.classList = value;
+      } else if (key === 'style') {
+        element.style.cssText = value;
+      } else {
+        element.setAttributes(value);
+      }
+    }
+  }
+  return element;
+}
+
+function isValidAttr(element, attr) {
+  return attr in element || element.hasAttribute(attr);
 }
 
 export function deleteEle(element) {
