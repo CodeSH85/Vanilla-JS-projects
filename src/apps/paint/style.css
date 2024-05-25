@@ -33,16 +33,17 @@ ul {
   display: flex;
 }
 .resizer-controller {
-  height: auto;
-  width: 24px;
-  border: 1px solid blue;
-  background-color: #1784c4;
+  height: 100%;
+  width: 16px;
+  background-color: #003452;
+  cursor: col-resize;
 }
 .resizer-controller:hover {
-  background-color: #c3d7f7;
+  background-color: #477cd1;
 }
 .resizer-panel {
   width: 100%;
+  min-width: 20vw;
 }
 .toolbar-container {
   padding: .6em;
@@ -56,7 +57,6 @@ ul {
 .footer-toolbar {
   width: inherit;
   padding: .5em;
-  width: 100%;
   background-color: #cacaca;
   display: flex;
 }
@@ -94,7 +94,7 @@ canvas {
   padding: .6em;
   flex-direction: column-reverse;
 }
-.layer-span {
+.layer-item {
   border: 1px solid red;
 }
 .active-layer {
@@ -116,23 +116,23 @@ canvas {
   background-color: #918ae1;
 }
 .test {
-  width: 100%;
-  color: #fff;
-  position: relative;
-  background-color: #1c6ef1;
+  /* width: 100%; */
+  /* color: #fff; */
+  /* position: relative; */
+  /* background-color: #1c6ef1; */
 }
 .test::before {
-  content: 'hello';
-  vertical-align: middle;
-  position: absolute; 
-  width: 50px;
-  height: 12px;
-  background-color: #bb5656;
+  /* content: 'hello'; */
+  /* vertical-align: middle; */
+  /* position: absolute;  */
+  /* width: 50px; */
+  /* height: 12px; */
+  /* background-color: #bb5656; */
 }
 .test::after {
-  position: absolute; 
-  vertical-align: middle;
-  content: none;
+  /* position: absolute;  */
+  /* vertical-align: middle; */
+  /* content: none; */
   /* width: 100%; */
   /* height: 50%; */
   /* background-color: #bb5656; */

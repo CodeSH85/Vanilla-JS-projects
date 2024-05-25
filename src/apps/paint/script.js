@@ -1,18 +1,14 @@
-import { Layer, LayerList } from "./Layer.js";
+import { LayerItem, LayerList } from "./Layer/LayerModel.js";
 import { ToolBar } from "./ToolBar.js";
-import { qs } from "../../utils/qs.js";
-import getStyle from "../../utils/getStyle.js";
-import toolbarConfig from "./toolbar_setting.json" assert { type: "json" };
+import { getEle } from "../../utils/helpers.js";
+import toolbarConfig from "./toolbar_setting.json" with { type: "json" };
+import LayerController from "./Layer/LayerController.js";
+import LayerView from "./Layer/LayerView.js";
 
-
-
-const layer = new Layer('aaa', 's', 1);
-const layerList = new LayerList();
-layerList.addLayer(layer);
-
+const Layer = new LayerController(new LayerView(), new LayerList());
 const toolbar = new ToolBar(toolbarConfig.toolsConfig.brushToolOptions.options);
 
-const toolbarView = qs('#toolbar');
+const toolbarView = getEle('#toolbar');
 toolbar.toolbar.forEach(tool => {
   const item = document.createElement('li');
 
@@ -29,9 +25,7 @@ function renderDOM(tool, child) {
   return element;
 }
 
-const layerSection = qs('#layerSecContainer');
-
-console.log(layerSection);
+const layerSection = getEle('#layerSecContainer');
 
 function renderLayerSection() {
   layerSection.innerHTML = '';
@@ -39,45 +33,26 @@ function renderLayerSection() {
 
 function addLayer(layer) {
   layerList.addLayer(layer);
+}
+
+const resizeController = getEle('#resizeControl');
+const resizeLPanel = getEle('#panelLeft');
+const resizeRPanel = getEle('#panelRight');
+resizeController.addEventListener('mousedown', reSizer);
+function reSizer(e) {
+  document.addEventListener('mousemove', mousemove);
+  document.addEventListener('mouseup', mouseup);
   
-}
-
-const resizeController = qs('#resizeControl');
-const resizeLPanel = qs('#panelLeft');
-const resizeRPanel = qs('#panelRight');
-resizeController.addEventListener('mousedown', handleMousedown);
-resizeController.addEventListener('mousemove', handleMousemove);
-document.addEventListener('mouseup', handleMouseup);
-// resizeController.addEventListener('drop', handleResize);
-
-let isDragging = false;
-let startX;
-let currentX;
-function handleMousedown(e) {
-  isDragging = true;
-  startX = e.clientX;
-}
-function handleMousemove(e) {
-  if (!isDragging) return;
-  const lw = getStyle(resizeLPanel, 'width', true);
-  const rw = getStyle(resizeRPanel, 'width', true);
-
-  currentX = e.clientX;
-  let movement = currentX - startX;
-  console.log(movement);
-
-  if (movement > 0) {
-    // R
-    console.log('R')
-    resizeLPanel.style.width = `${lw - Math.abs(movement)}px`;
-    // resizeRPanel.style.width = `${rw - movement}px`;
-  } else {
-    // L
-    console.log('L');
-    // resizeLPanel.style.width = `${lw - movement}px`;
-    resizeRPanel.style.width = `${rw - Math.abs(movement)}px`;
+  let prevX = e.x;
+  const leftPanel = resizeLPanel.getBoundingClientRect();
+  
+  function mousemove(e) {
+    let newX = prevX - e.x;
+    resizeLPanel.style.width = leftPanel.width - newX - 16 + "px";
   }
-}
-function handleMouseup(e) {
-  isDragging = false;
+  
+  function mouseup() {
+    document.removeEventListener('mousemove', mousemove);
+    document.removeEventListener('mouseup', mouseup); 
+  }
 }
