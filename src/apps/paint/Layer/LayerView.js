@@ -20,7 +20,6 @@ export default class LayerView {
   bindAddLayer(handler) {
     this.addLayerBtn.addEventListener('click', e => {
       const result = handler();
-      
     });
   }
   bindDeleteLayer(handler) {
