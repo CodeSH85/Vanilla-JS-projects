@@ -4,16 +4,14 @@
   padding: 0;
   line-height: 1.5;
 }
-.table-wrapper {
-  margin: 1.2em;
-  overflow: scroll;
-  max-height: 80vh;
-  width: auto;
-  position: relative;
+main {
+  margin: 1.3em;
 }
-section {
-  position: absolute;
-  /* margin-top: 20px; */
+.table-wrapper {
+  overflow: scroll;
+  height: 80vh;
+  width: auto;
+  /* position: relative; */
 }
 table {
   table-layout: fixed;
@@ -21,23 +19,26 @@ table {
   width: 1000px;
 }
 thead {
-  position: sticky;
+  /* position: sticky; */
   background-color: #3b3939;
   color: #fff;
   z-index: 1;
 }
-tbody {
-  position: relative;
-}
 tbody > tr {
-  position: relative;
+  /* position: relative; */
   border: 1px solid black;
 }
 tbody > td {
-  position: absolute;
+  /* position: absolute; */
 }
 td, th{
   width: 200px;
+  overflow: hidden;
+  overflow-wrap: unset;
+  text-overflow: ellipsis;
+}
+.top-tool-bar {
+  margin: 1em 0;
 }
 .select-box {
   position: absolute;
@@ -45,11 +46,11 @@ td, th{
   background-color: rgba(255, 255, 255, .2);
 }
 .table-header {
-  position: fixed;
+  /* position: fixed; */
 }
-.is-odd-row {
+.odd-row {
   background-color: #e3eaf2;
 }
-.is-even-row {
+.even-row {
   background-color: #ffffff;
 }

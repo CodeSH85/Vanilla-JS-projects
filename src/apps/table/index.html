@@ -9,18 +9,20 @@
 </head>
 <body>
   <main>
-    <div class="table-wrapper" id="tableWrapper">
-      <div class="container" id="scrollExpander">
-        <table>
-          <thead class="table-header" id="header">
-          </thead>
-        </table>
-        <section>
-          <table id="table" style="table-layout: fixed;">
-            <tbody id="tableBody"></tbody>
-          </table>
-        </section>
+    <div class="top-tool-bar">
+      <div class="">
+        <label for="dataCountControl">Number of data:</label>
+        <input id="dataCountControl" type="number">
+        <button>Commit Data</button>
       </div>
+    </div>
+    <div class="table-wrapper" id="tableWrapper">
+      <table>
+        <thead class="table-header" id="header">
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+      </table>
     </div>
   </main>
   <script src="./script.js" type="module"></script>
