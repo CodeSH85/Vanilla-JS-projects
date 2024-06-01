@@ -8,15 +8,17 @@ main {
   margin: 1.3em;
 }
 .table-wrapper {
+  position: relative;
   overflow: scroll;
   height: 80vh;
-  width: auto;
-  /* position: relative; */
 }
 table {
   table-layout: fixed;
   border-collapse: collapse;
-  width: 1000px;
+  width: 100%;
+}
+.table-body {
+  position: relative;
 }
 thead {
   /* position: sticky; */
@@ -25,28 +27,16 @@ thead {
   z-index: 1;
 }
 tbody > tr {
-  /* position: relative; */
+  position: absolute;
   border: 1px solid black;
 }
-tbody > td {
-  /* position: absolute; */
-}
-td, th{
-  width: 200px;
+td, th {
   overflow: hidden;
   overflow-wrap: unset;
   text-overflow: ellipsis;
 }
 .top-tool-bar {
   margin: 1em 0;
-}
-.select-box {
-  position: absolute;
-  border: 2px solid red;
-  background-color: rgba(255, 255, 255, .2);
-}
-.table-header {
-  /* position: fixed; */
 }
 .odd-row {
   background-color: #e3eaf2;
