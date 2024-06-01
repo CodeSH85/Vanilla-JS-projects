@@ -1,6 +1,7 @@
+import { getEle } from "./utils/helpers.js";
+
 import NavBar from "./components/navbar/navbar.js";
 import Footer from "./components/footer/footer.js";
-
 
 customElements.define('nav-bar', NavBar);
 customElements.define('footer-comp', Footer);
@@ -18,16 +19,16 @@ const urlList = [
     title: 'drag-drop',
     link: './src/apps/drag-drop-select/index.html'
   },
-]
+  {
+    title: 'virtual scroll',
+    link: './src/apps/virtual-table/index.html'
+  }
+];
 
-const list = document.querySelector('#projectList');
-
-urlList.forEach(url => {
-  const li = document.createElement('li');
-  const template = `
-    <a href="${url.link}">${url.title}</a>
-  `
-  li.innerHTML = template;
-  list.appendChild(li);
-})
+function buildLink({ title, link }) {
+  urlList.push({
+    title,
+    link
+  });
+}
 
