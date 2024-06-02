@@ -7,40 +7,44 @@
 main {
   margin: 1.3em;
 }
+.top-tool-bar {
+  margin: 1em 0;
+}
 .table-wrapper {
-  position: relative;
   overflow: scroll;
   height: 80vh;
 }
 table {
-  table-layout: fixed;
+  display: table;
   border-collapse: collapse;
   width: 100%;
 }
-.table-body {
-  position: relative;
+tr {
+  unicode-bidi: isolate;
+  width: 100%;
+  display: flex;
+  vertical-align: inherit;
 }
 thead {
-  /* position: sticky; */
+  display: table-header-group;
+  vertical-align: middle;
   background-color: #3b3939;
   color: #fff;
-  z-index: 1;
+}
+tbody {
+  width: 100%;
+  display: block;
+  position: relative;
+  contain: size layout;
 }
 tbody > tr {
   position: absolute;
   border: 1px solid black;
 }
 td, th {
+  width: 100%;
+  display: flex;
   overflow: hidden;
   overflow-wrap: unset;
   text-overflow: ellipsis;
-}
-.top-tool-bar {
-  margin: 1em 0;
-}
-.odd-row {
-  background-color: #e3eaf2;
-}
-.even-row {
-  background-color: #ffffff;
 }
