@@ -10,17 +10,13 @@ main {
 .top-tool-bar {
   margin: 1em 0;
 }
-.table-wrapper {
-  overflow: scroll;
-  height: 80vh;
-}
 table {
   display: table;
   border-collapse: collapse;
   width: 100%;
+  border-bottom: 1px solid black;
 }
 tr {
-  unicode-bidi: isolate;
   width: 100%;
   display: flex;
   vertical-align: inherit;
@@ -36,10 +32,11 @@ tbody {
   display: block;
   position: relative;
   contain: size layout;
+  overflow: auto;
+  height: 600px;
 }
 tbody > tr {
-  position: absolute;
-  border: 1px solid black;
+  border-bottom: 1px solid black;
 }
 td, th {
   width: 100%;

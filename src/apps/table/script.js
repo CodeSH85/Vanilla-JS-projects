@@ -17,7 +17,6 @@ const headers = [
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
-  calcContainerHeight();
   renderColumns({ columns: headers });
   displayRows(startIndex, DISPLAY_ROWS);
 })
@@ -47,14 +46,16 @@ function renderColumns({ columns }) {
 // body
 const tableBody = getEle('#tableBody');
 
-function calcContainerHeight() {
-  table.style.height = (table_data.length * rowHeight + 24) + 'px';
+function getContainerHeight() {
+  return (table_data.length * rowHeight);
 }
-
+console.log(getContainerHeight());
 function renderRows({rows, columns}) {
   tableBody.innerHTML = '';
   for (let r = 0; r < rows.length; r++) {
     const tr = createEle('tr');
+    tr.style.position = 'absolute';
+    tr.style.boxSizing = 'border-box';
     tr.style.transform = `translate(0px, ${(r + startIndex) * rowHeight}px)`;
     tr.style.top = '0px';
     for (let c = 0; c < columns.length; c++) {
@@ -64,10 +65,21 @@ function renderRows({rows, columns}) {
     }
     tableBody.appendChild(tr);
   }
+  const expender = createEle('div');
+  expender.style = `
+    position: absolute;
+    margin: -2px 0px 0px;
+    padding: 0px;
+    visibility: hidden;
+    font-size: 2px;
+    transform: translate(0px, ${getContainerHeight()}px)
+  `;
+  expender.innerHTML = '&nbsp';
+  tableBody.appendChild(expender);
 }
 
 // core
-tableWrapper.addEventListener('scroll', handleScroll);
+tableBody.addEventListener('scroll', handleScroll);
 function handleScroll(e) {
   scrollTop = e.target.scrollTop;
   startIndex = Math.floor(scrollTop / rowHeight);
@@ -77,4 +89,11 @@ function handleScroll(e) {
 function displayRows(start, end) {
   const rows = table_data.slice(start, end);
   renderRows({ rows, columns: headers });
+}
+
+function Virtualize({
+  target,
+  item
+}) {
+  
 }
