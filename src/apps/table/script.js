@@ -1,10 +1,16 @@
+
 import table_data from './data.json' with {type: "json"};
-import { getEle, debounce, createEle } from '../../utils/helpers.js';
+import { debounce } from '../../utils/helpers.js';
+import { getEle, createEle } from '../../utils/dom.js';
 
 const headers = [
   {
     key: 'id',
     title: 'ID'
+  },
+  {
+    key: 'first_name',
+    title: 'First Name'
   },
   {
     key: 'last_name',
@@ -15,6 +21,17 @@ const headers = [
     title: 'Email'
   }
 ];
+
+const count = 10000;
+const data = buildData(table_data, 10);
+
+function buildData(target, count) {
+  let res = [];
+  for (let i = 0; i < count; i++) {
+    res = res.concat(target);
+  }
+  return res;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   renderColumns({ columns: headers });
@@ -47,24 +64,9 @@ function renderColumns({ columns }) {
 const tableBody = getEle('#tableBody');
 
 function getContainerHeight() {
-  return (table_data.length * rowHeight);
+  return data.length * rowHeight;
 }
-console.log(getContainerHeight());
-function renderRows({rows, columns}) {
-  tableBody.innerHTML = '';
-  for (let r = 0; r < rows.length; r++) {
-    const tr = createEle('tr');
-    tr.style.position = 'absolute';
-    tr.style.boxSizing = 'border-box';
-    tr.style.transform = `translate(0px, ${(r + startIndex) * rowHeight}px)`;
-    tr.style.top = '0px';
-    for (let c = 0; c < columns.length; c++) {
-      const td = createEle('td');
-      td.innerHTML = rows[r][columns[c].key];
-      tr.appendChild(td);
-    }
-    tableBody.appendChild(tr);
-  }
+function createExpender() {
   const expender = createEle('div');
   expender.style = `
     position: absolute;
@@ -77,6 +79,26 @@ function renderRows({rows, columns}) {
   expender.innerHTML = '&nbsp';
   tableBody.appendChild(expender);
 }
+function renderRows({rows, columns}) {
+  tableBody.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+  for (let r = 0; r < rows.length; r++) {
+    const tr = createEle('tr');
+    tr.style.position = 'absolute';
+    tr.style.boxSizing = 'border-box';
+    tr.style.transform = `translate(0px, ${(r + startIndex) * rowHeight}px)`;
+    tr.style.top = '0px';
+    for (let c = 0; c < columns.length; c++) {
+      const td = createEle('td');
+      td.innerHTML = rows[r][columns[c].key];
+      tr.appendChild(td);
+    }
+    fragment.appendChild(tr);  
+  }
+  // tableBody.appendChild(tr);
+  tableBody.appendChild(fragment);
+  createExpender();
+}
 
 // core
 tableBody.addEventListener('scroll', handleScroll);
@@ -87,13 +109,14 @@ function handleScroll(e) {
 };
 
 function displayRows(start, end) {
-  const rows = table_data.slice(start, end);
+  const rows = data.slice(start, end);
   renderRows({ rows, columns: headers });
 }
 
-function Virtualize({
-  target,
-  item
-}) {
-  
+
+function Virtualize({ container, items }) {
+  const containerEle = null;
+  // if (!container) containerEle = 
+  const { height: containerHeight } = container.getBoundingClientRect();
+  return;
 }
