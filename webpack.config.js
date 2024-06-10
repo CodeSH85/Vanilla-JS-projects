@@ -4,23 +4,19 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   mode: 'development',
   entry: './src/main.js',
-  // entry: {
-  //   app: "./src/main.js",
-  // },
-  // context: path.resolve(__dirname, 'src'),
   devtool: "inline-source-map",
   devServer: {
+    liveReload: true,
     static: {
-      directory: path.join(__dirname, 'public'),
+      directory: path.join(__dirname, 'src'),
     },
     compress: true,
     port: 8080,
-    hot: true
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Hot Module Replacement",
-      template: './public/index.html',
+      title: "Vanilla JS Projects",
+      template: './src/index.html',
     }),
   ],
   output: {
@@ -30,13 +26,13 @@ module.exports = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
+      // {
+      //   test: /\.js$/,
+      //   exclude: /node_modules/,
+      //   use: {
+      //     loader: 'babel-loader',
+      //   },
+      // },
     ],
-  },
+  }
 };
